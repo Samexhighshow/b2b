@@ -19,10 +19,15 @@ import deploymentAbi from "./abi.json";
 import { client, ganacheChain } from "./thirdwebClient.js";
 
 const DEPLOYED_ADDRESS = contractAddressData?.CassavaSupplyChain;
+const IS_PLACEHOLDER_ADDRESS =
+  !DEPLOYED_ADDRESS ||
+  DEPLOYED_ADDRESS === "0x0000000000000000000000000000000000000000" ||
+  DEPLOYED_ADDRESS === "0xYourContractAddress";
+
 const CONTRACT_ADDRESS =
-  DEPLOYED_ADDRESS ||
-  import.meta.env.VITE_CONTRACT_ADDRESS ||
-  "0xYourContractAddress";
+  DEPLOYED_ADDRESS && !IS_PLACEHOLDER_ADDRESS
+    ? DEPLOYED_ADDRESS
+    : import.meta.env.VITE_CONTRACT_ADDRESS || "0xYourContractAddress";
 const IS_PLACEHOLDER = CONTRACT_ADDRESS === "0xYourContractAddress";
 
 const STATUS_LABELS = ["CREATED", "PROCESSED", "IN_TRANSIT", "DELIVERED"];
@@ -65,13 +70,16 @@ export default function App() {
   };
 
   const contract = useMemo(() => {
+    if (!CONTRACT_ADDRESS || IS_PLACEHOLDER) {
+      return null;
+    }
     return getContract({
       client,
       chain: ganacheChain,
       address: CONTRACT_ADDRESS,
       abi: deploymentAbi,
     });
-  }, []);
+  }, [CONTRACT_ADDRESS, IS_PLACEHOLDER]);
 
   const connectWallet = async () => {
     try {
@@ -87,7 +95,7 @@ export default function App() {
       });
       setMessage(
         IS_PLACEHOLDER
-          ? "Wallet connected. Deploy to generate ui/src/contract-address.json or set VITE_CONTRACT_ADDRESS."
+          ? "⚠️ Run deploy script first: node scripts/deploy.js with GANACHE_PRIVATE_KEY set."
           : "Wallet connected."
       );
     } catch (error) {
@@ -99,6 +107,10 @@ export default function App() {
 
   const handleCreateBatch = async (event) => {
     event.preventDefault();
+    if (!contract) {
+      setMessage("❌ Deploy contract first (run: node scripts/deploy.js with GANACHE_PRIVATE_KEY)");
+      return;
+    }
     try {
       setIsBusy(true);
       const transaction = prepareContractCall({
@@ -124,6 +136,10 @@ export default function App() {
 
   const handleTransferOwnership = async (event) => {
     event.preventDefault();
+    if (!contract) {
+      setMessage("❌ Deploy contract first (run: node scripts/deploy.js with GANACHE_PRIVATE_KEY)");
+      return;
+    }
     try {
       setIsBusy(true);
       const transaction = prepareContractCall({
@@ -143,6 +159,10 @@ export default function App() {
   };
 
   const handleUpdateStatus = async (statusIndex) => {
+    if (!contract) {
+      setMessage("❌ Deploy contract first (run: node scripts/deploy.js with GANACHE_PRIVATE_KEY)");
+      return;
+    }
     try {
       setIsBusy(true);
       const transaction = prepareContractCall({
@@ -161,6 +181,10 @@ export default function App() {
 
   const handleSearchBatch = async (event) => {
     event.preventDefault();
+    if (!contract) {
+      setMessage("❌ Deploy contract first (run: node scripts/deploy.js with GANACHE_PRIVATE_KEY)");
+      return;
+    }
     try {
       setIsBusy(true);
       const data = await readContract({
@@ -189,6 +213,7 @@ export default function App() {
   };
 
   const fetchBatchEvents = async (batchId) => {
+    if (!contract) return;
     const numericBatchId = BigInt(batchId);
     const [created, status, transfers] = await Promise.all([
       getContractEvents({
@@ -252,72 +277,90 @@ export default function App() {
 
   return (
     <div className="app">
-      <header className="hero">
-        <div>
-          <p className="eyebrow">Cassava Traceability</p>
-          <h1>Supply Chain Control Deck</h1>
-          <p className="subtitle">
-            Track cassava batches end-to-end with a clean, local-only workflow on
-            Ganache.
-          </p>
+      <nav className="navbar">
+        <div className="navbar-brand">
+          <h1>🌿 Cassava Supply Chain</h1>
+          <p className="navbar-subtitle">Blockchain Traceability Dashboard</p>
         </div>
-        <div className="hero-card">
-          <div className="status-row">
+
+        <div className="navbar-spacer" />
+
+        <div className="navbar-status">
+          <div className="network-badge">
             <span className="dot" />
-            <span>Local Ganache</span>
+            <span>Ganache</span>
           </div>
-          <p className="label">Contract</p>
-          <p className="mono">
-            {IS_PLACEHOLDER
-              ? "Set VITE_CONTRACT_ADDRESS"
-              : CONTRACT_ADDRESS}
-          </p>
-          <div className="wallet-shell">
-            <button
-              className="wallet-trigger"
-              type="button"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <span className="wallet-icon" />
-              <span className="wallet-label">
-                {activeAccount ? "Wallet Connected" : "Connect Wallet"}
-              </span>
+        </div>
+
+        <div className="navbar-wallet">
+          <div className="wallet-avatar-shell">
+            <button className="wallet-avatar" type="button" aria-haspopup="true">
+              {activeAccount ? (
+                <div className="avatar-content">
+                  <span className="avatar-circle">{formatAddress(activeAccount.address).charAt(0).toUpperCase()}</span>
+                  <span className="avatar-label">Connected</span>
+                </div>
+              ) : (
+                <div className="avatar-content">
+                  <span className="avatar-circle">W</span>
+                  <span className="avatar-label">Wallet</span>
+                </div>
+              )}
             </button>
-            <div className="wallet-menu">
-              <p className="menu-title">Wallet Actions</p>
+
+            <div className="wallet-dropdown">
+              <div className="dropdown-header">
+                {activeAccount ? (
+                  <>
+                    <p className="dropdown-title">Wallet Connected</p>
+                    <p className="dropdown-address">{formatAddress(activeAccount.address)}</p>
+                  </>
+                ) : (
+                  <p className="dropdown-title">Connect Your Wallet</p>
+                )}
+              </div>
+
               <button
-                className="menu-item"
-                type="button"
+                className="dropdown-button primary"
                 onClick={connectWallet}
                 disabled={isWorking}
               >
-                Connect MetaMask
+                {activeAccount ? "Switch Network" : "🦊 MetaMask"}
               </button>
-              <button
-                className="menu-item ghost"
-                type="button"
-                onClick={disconnect}
-                disabled={isWorking || !activeAccount}
-              >
-                Disconnect
-              </button>
-              <p className="menu-meta">
-                {activeAccount
-                  ? `Active: ${formatAddress(activeAccount.address)}`
-                  : "No wallet connected"}
+
+              {activeAccount && (
+                <button
+                  className="dropdown-button ghost"
+                  onClick={disconnect}
+                  disabled={isWorking}
+                >
+                  Disconnect
+                </button>
+              )}
+
+              <p className="dropdown-footer">
+                {activeChain ? `Chain: ${activeChain.name} (${activeChain.id})` : "No network"}
               </p>
             </div>
           </div>
-          <p className="meta">
-            {activeChain
-              ? `${activeChain.name} (chain ${activeChain.id})`
-              : "Awaiting connection"}
-          </p>
         </div>
-      </header>
+      </nav>
 
       <main className="grid">
+        {IS_PLACEHOLDER && (
+          <section className="panel wide alert-panel">
+            <div className="alert-content">
+              <p className="alert-icon">⚠️</p>
+              <div>
+                <h3>Contract Not Ready</h3>
+                <p>Run the deploy script to initialize the contract:</p>
+                <code style={{ background: "#f0f0f0", padding: "8px 12px", borderRadius: "6px", display: "block", marginTop: "8px" }}>
+                  $env:GANACHE_PRIVATE_KEY="your_key"; node scripts/deploy.js
+                </code>
+              </div>
+            </div>
+          </section>
+        )}
         <section className="panel">
           <h2>Create Batch</h2>
           <form onSubmit={handleCreateBatch} className="form">

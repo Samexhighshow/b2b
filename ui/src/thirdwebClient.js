@@ -7,6 +7,12 @@ export const ganacheChain = defineChain({
   nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
 });
 
+const clientId = import.meta.env.VITE_THIRDWEB_CLIENT_ID;
+
+if (!clientId || clientId === "YOUR_THIRDWEB_CLIENT_ID") {
+  console.warn("⚠️ VITE_THIRDWEB_CLIENT_ID is not set. Get one from https://thirdweb.com/dashboard");
+}
+
 export const client = createThirdwebClient({
-  clientId: import.meta.env.VITE_THIRDWEB_CLIENT_ID || "YOUR_THIRDWEB_CLIENT_ID",
+  clientId: clientId || "test_client",
 });
