@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   getContract,
   prepareContractCall,
@@ -51,6 +51,8 @@ export default function App() {
   const [searchBatchId, setSearchBatchId] = useState("");
   const [batchDetails, setBatchDetails] = useState(null);
   const [batchEvents, setBatchEvents] = useState([]);
+  const [isWalletMenuOpen, setIsWalletMenuOpen] = useState(false);
+  const walletMenuRef = useRef(null);
 
   const activeAccount = useActiveAccount();
   const activeChain = useActiveWalletChain();
@@ -58,6 +60,9 @@ export default function App() {
   const { disconnect } = useDisconnect();
   const { mutateAsync: sendTransaction, isPending } = useSendTransaction();
   const isWorking = isBusy || isConnecting || isPending;
+  const chainLabel = activeChain?.id
+    ? `Chain: ${activeChain.name ?? "Unknown"} (${activeChain.id})`
+    : "No network";
   const hasClientId =
     import.meta.env.VITE_THIRDWEB_CLIENT_ID &&
     import.meta.env.VITE_THIRDWEB_CLIENT_ID !== "YOUR_THIRDWEB_CLIENT_ID";
@@ -68,6 +73,18 @@ export default function App() {
       setTimeout(() => setStatusMessage(""), 6000);
     }
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!walletMenuRef.current) return;
+      if (!walletMenuRef.current.contains(event.target)) {
+        setIsWalletMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const contract = useMemo(() => {
     if (!CONTRACT_ADDRESS || IS_PLACEHOLDER) {
@@ -88,17 +105,22 @@ export default function App() {
         return;
       }
       setIsBusy(true);
-      await connect({
-        client,
-        wallet: createWallet("io.metamask"),
-        chain: ganacheChain,
+      await connect(async () => {
+        const wallet = createWallet("io.metamask");
+        await wallet.connect({
+          client,
+          chain: ganacheChain,
+        });
+        return wallet;
       });
+      setIsWalletMenuOpen(false);
       setMessage(
         IS_PLACEHOLDER
           ? "⚠️ Run deploy script first: node scripts/deploy.js with GANACHE_PRIVATE_KEY set."
-          : "Wallet connected."
+          : "✅ Wallet connected!"
       );
     } catch (error) {
+      console.error("Connect error:", error);
       setMessage(error.message || "Failed to connect wallet.");
     } finally {
       setIsBusy(false);
@@ -293,8 +315,17 @@ export default function App() {
         </div>
 
         <div className="navbar-wallet">
-          <div className="wallet-avatar-shell">
-            <button className="wallet-avatar" type="button" aria-haspopup="true">
+          <div
+            className={`wallet-avatar-shell${isWalletMenuOpen ? " open" : ""}`}
+            ref={walletMenuRef}
+          >
+            <button
+              className="wallet-avatar"
+              type="button"
+              aria-haspopup="true"
+              aria-expanded={isWalletMenuOpen}
+              onClick={() => setIsWalletMenuOpen((prev) => !prev)}
+            >
               {activeAccount ? (
                 <div className="avatar-content">
                   <span className="avatar-circle">{formatAddress(activeAccount.address).charAt(0).toUpperCase()}</span>
@@ -331,16 +362,17 @@ export default function App() {
               {activeAccount && (
                 <button
                   className="dropdown-button ghost"
-                  onClick={disconnect}
+                  onClick={() => {
+                    disconnect();
+                    setIsWalletMenuOpen(false);
+                  }}
                   disabled={isWorking}
                 >
                   Disconnect
                 </button>
               )}
 
-              <p className="dropdown-footer">
-                {activeChain ? `Chain: ${activeChain.name} (${activeChain.id})` : "No network"}
-              </p>
+              <p className="dropdown-footer">{chainLabel}</p>
             </div>
           </div>
         </div>
