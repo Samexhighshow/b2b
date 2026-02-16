@@ -14,11 +14,15 @@ import {
   useSendTransaction,
 } from "thirdweb/react";
 import { createWallet } from "thirdweb/wallets";
-import abi from "./abi/CassavaSupplyChain.json";
+import contractAddressData from "./contract-address.json";
+import deploymentAbi from "./abi.json";
 import { client, ganacheChain } from "./thirdwebClient.js";
 
+const DEPLOYED_ADDRESS = contractAddressData?.CassavaSupplyChain;
 const CONTRACT_ADDRESS =
-  import.meta.env.VITE_CONTRACT_ADDRESS || "0xYourContractAddress";
+  DEPLOYED_ADDRESS ||
+  import.meta.env.VITE_CONTRACT_ADDRESS ||
+  "0xYourContractAddress";
 const IS_PLACEHOLDER = CONTRACT_ADDRESS === "0xYourContractAddress";
 
 const STATUS_LABELS = ["CREATED", "PROCESSED", "IN_TRANSIT", "DELIVERED"];
@@ -65,7 +69,7 @@ export default function App() {
       client,
       chain: ganacheChain,
       address: CONTRACT_ADDRESS,
-      abi,
+      abi: deploymentAbi,
     });
   }, []);
 
@@ -83,7 +87,7 @@ export default function App() {
       });
       setMessage(
         IS_PLACEHOLDER
-          ? "Wallet connected. Set VITE_CONTRACT_ADDRESS and restart the UI."
+          ? "Wallet connected. Deploy to generate ui/src/contract-address.json or set VITE_CONTRACT_ADDRESS."
           : "Wallet connected."
       );
     } catch (error) {
@@ -268,19 +272,43 @@ export default function App() {
               ? "Set VITE_CONTRACT_ADDRESS"
               : CONTRACT_ADDRESS}
           </p>
-          {activeAccount ? (
-            <button className="primary" onClick={disconnect} disabled={isWorking}>
-              Connected {formatAddress(activeAccount.address)}
-            </button>
-          ) : (
+          <div className="wallet-shell">
             <button
-              className="primary"
-              onClick={connectWallet}
-              disabled={isWorking}
+              className="wallet-trigger"
+              type="button"
+              aria-haspopup="true"
+              aria-expanded="false"
             >
-              Connect Wallet
+              <span className="wallet-icon" />
+              <span className="wallet-label">
+                {activeAccount ? "Wallet Connected" : "Connect Wallet"}
+              </span>
             </button>
-          )}
+            <div className="wallet-menu">
+              <p className="menu-title">Wallet Actions</p>
+              <button
+                className="menu-item"
+                type="button"
+                onClick={connectWallet}
+                disabled={isWorking}
+              >
+                Connect MetaMask
+              </button>
+              <button
+                className="menu-item ghost"
+                type="button"
+                onClick={disconnect}
+                disabled={isWorking || !activeAccount}
+              >
+                Disconnect
+              </button>
+              <p className="menu-meta">
+                {activeAccount
+                  ? `Active: ${formatAddress(activeAccount.address)}`
+                  : "No wallet connected"}
+              </p>
+            </div>
+          </div>
           <p className="meta">
             {activeChain
               ? `${activeChain.name} (chain ${activeChain.id})`
