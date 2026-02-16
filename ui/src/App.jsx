@@ -1,9 +1,25 @@
 import { useMemo, useState } from "react";
-import { ethers } from "ethers";
+import {
+  getContract,
+  prepareContractCall,
+  readContract,
+  getContractEvents,
+  prepareEvent,
+} from "thirdweb";
+import {
+  useActiveAccount,
+  useActiveWalletChain,
+  useConnect,
+  useDisconnect,
+  useSendTransaction,
+} from "thirdweb/react";
+import { createWallet } from "thirdweb/wallets";
 import abi from "./abi/CassavaSupplyChain.json";
+import { client, ganacheChain } from "./thirdwebClient.js";
 
 const CONTRACT_ADDRESS =
   import.meta.env.VITE_CONTRACT_ADDRESS || "0xYourContractAddress";
+const IS_PLACEHOLDER = CONTRACT_ADDRESS === "0xYourContractAddress";
 
 const STATUS_LABELS = ["CREATED", "PROCESSED", "IN_TRANSIT", "DELIVERED"];
 
@@ -11,8 +27,6 @@ const formatAddress = (address) =>
   address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "";
 
 export default function App() {
-  const [account, setAccount] = useState("");
-  const [networkName, setNetworkName] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
   const [isBusy, setIsBusy] = useState(false);
 
@@ -29,12 +43,15 @@ export default function App() {
   const [batchDetails, setBatchDetails] = useState(null);
   const [batchEvents, setBatchEvents] = useState([]);
 
-  const hasProvider = typeof window !== "undefined" && window.ethereum;
-
-  const provider = useMemo(() => {
-    if (!hasProvider) return null;
-    return new ethers.BrowserProvider(window.ethereum);
-  }, [hasProvider]);
+  const activeAccount = useActiveAccount();
+  const activeChain = useActiveWalletChain();
+  const { connect, isConnecting } = useConnect();
+  const { disconnect } = useDisconnect();
+  const { mutateAsync: sendTransaction, isPending } = useSendTransaction();
+  const isWorking = isBusy || isConnecting || isPending;
+  const hasClientId =
+    import.meta.env.VITE_THIRDWEB_CLIENT_ID &&
+    import.meta.env.VITE_THIRDWEB_CLIENT_ID !== "YOUR_THIRDWEB_CLIENT_ID";
 
   const setMessage = (message) => {
     setStatusMessage(message);
@@ -43,25 +60,32 @@ export default function App() {
     }
   };
 
-  const getSignerContract = async () => {
-    if (!provider) throw new Error("MetaMask not detected.");
-    const signer = await provider.getSigner();
-    return new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
-  };
+  const contract = useMemo(() => {
+    return getContract({
+      client,
+      chain: ganacheChain,
+      address: CONTRACT_ADDRESS,
+      abi,
+    });
+  }, []);
 
   const connectWallet = async () => {
     try {
-      if (!provider) {
-        setMessage("MetaMask not detected. Install the extension first.");
+      if (!hasClientId) {
+        setMessage("Set VITE_THIRDWEB_CLIENT_ID and restart the UI.");
         return;
       }
       setIsBusy(true);
-      await provider.send("eth_requestAccounts", []);
-      const signer = await provider.getSigner();
-      const network = await provider.getNetwork();
-      setAccount(await signer.getAddress());
-      setNetworkName(`${network.name} (chain ${network.chainId})`);
-      setMessage("Wallet connected.");
+      await connect({
+        client,
+        wallet: createWallet("io.metamask"),
+        chain: ganacheChain,
+      });
+      setMessage(
+        IS_PLACEHOLDER
+          ? "Wallet connected. Set VITE_CONTRACT_ADDRESS and restart the UI."
+          : "Wallet connected."
+      );
     } catch (error) {
       setMessage(error.message || "Failed to connect wallet.");
     } finally {
@@ -73,13 +97,16 @@ export default function App() {
     event.preventDefault();
     try {
       setIsBusy(true);
-      const contract = await getSignerContract();
-      const tx = await contract.createBatch(
-        BigInt(createBatchId),
-        createOrigin.trim(),
-        BigInt(createQuantity)
-      );
-      await tx.wait();
+      const transaction = prepareContractCall({
+        contract,
+        method: "createBatch",
+        params: [
+          BigInt(createBatchId),
+          createOrigin.trim(),
+          BigInt(createQuantity),
+        ],
+      });
+      await sendTransaction({ transaction });
       setMessage("Batch created successfully.");
       setCreateBatchId("");
       setCreateOrigin("");
@@ -95,12 +122,12 @@ export default function App() {
     event.preventDefault();
     try {
       setIsBusy(true);
-      const contract = await getSignerContract();
-      const tx = await contract.transferOwnership(
-        BigInt(transferBatchId),
-        transferOwner.trim()
-      );
-      await tx.wait();
+      const transaction = prepareContractCall({
+        contract,
+        method: "transferOwnership",
+        params: [BigInt(transferBatchId), transferOwner.trim()],
+      });
+      await sendTransaction({ transaction });
       setMessage("Ownership transferred.");
       setTransferBatchId("");
       setTransferOwner("");
@@ -114,9 +141,12 @@ export default function App() {
   const handleUpdateStatus = async (statusIndex) => {
     try {
       setIsBusy(true);
-      const contract = await getSignerContract();
-      const tx = await contract.updateStatus(BigInt(statusBatchId), statusIndex);
-      await tx.wait();
+      const transaction = prepareContractCall({
+        contract,
+        method: "updateStatus",
+        params: [BigInt(statusBatchId), statusIndex],
+      });
+      await sendTransaction({ transaction });
       setMessage("Status updated.");
     } catch (error) {
       setMessage(error.reason || error.message || "Status update failed.");
@@ -129,8 +159,11 @@ export default function App() {
     event.preventDefault();
     try {
       setIsBusy(true);
-      const contract = await getSignerContract();
-      const data = await contract.getBatch(BigInt(searchBatchId));
+      const data = await readContract({
+        contract,
+        method: "getBatch",
+        params: [BigInt(searchBatchId)],
+      });
       const details = {
         batchId: data[0].toString(),
         originLocation: data[1],
@@ -141,7 +174,7 @@ export default function App() {
         exists: data[6],
       };
       setBatchDetails(details);
-      await fetchBatchEvents(contract, searchBatchId);
+      await fetchBatchEvents(searchBatchId);
     } catch (error) {
       setBatchDetails(null);
       setBatchEvents([]);
@@ -151,16 +184,42 @@ export default function App() {
     }
   };
 
-  const fetchBatchEvents = async (contract, batchId) => {
+  const fetchBatchEvents = async (batchId) => {
     const numericBatchId = BigInt(batchId);
-    const createdFilter = contract.filters.BatchCreated(numericBatchId);
-    const statusFilter = contract.filters.StatusUpdated(numericBatchId);
-    const transferFilter = contract.filters.OwnershipTransferred(numericBatchId);
-
     const [created, status, transfers] = await Promise.all([
-      contract.queryFilter(createdFilter, 0, "latest"),
-      contract.queryFilter(statusFilter, 0, "latest"),
-      contract.queryFilter(transferFilter, 0, "latest"),
+      getContractEvents({
+        contract,
+        events: [
+          prepareEvent({
+            signature: "event BatchCreated(uint256 indexed batchId,address indexed owner)",
+          }),
+        ],
+        filters: { batchId: numericBatchId },
+        fromBlock: 0n,
+        toBlock: "latest",
+      }),
+      getContractEvents({
+        contract,
+        events: [
+          prepareEvent({
+            signature: "event StatusUpdated(uint256 indexed batchId,uint8 newStatus)",
+          }),
+        ],
+        filters: { batchId: numericBatchId },
+        fromBlock: 0n,
+        toBlock: "latest",
+      }),
+      getContractEvents({
+        contract,
+        events: [
+          prepareEvent({
+            signature: "event OwnershipTransferred(uint256 indexed batchId,address indexed from,address indexed to)",
+          }),
+        ],
+        filters: { batchId: numericBatchId },
+        fromBlock: 0n,
+        toBlock: "latest",
+      }),
     ]);
 
     const mapped = [
@@ -204,15 +263,29 @@ export default function App() {
             <span>Local Ganache</span>
           </div>
           <p className="label">Contract</p>
-          <p className="mono">{CONTRACT_ADDRESS}</p>
-          <button
-            className="primary"
-            onClick={connectWallet}
-            disabled={isBusy}
-          >
-            {account ? `Connected ${formatAddress(account)}` : "Connect Wallet"}
-          </button>
-          <p className="meta">{networkName || "Awaiting connection"}</p>
+          <p className="mono">
+            {IS_PLACEHOLDER
+              ? "Set VITE_CONTRACT_ADDRESS"
+              : CONTRACT_ADDRESS}
+          </p>
+          {activeAccount ? (
+            <button className="primary" onClick={disconnect} disabled={isWorking}>
+              Connected {formatAddress(activeAccount.address)}
+            </button>
+          ) : (
+            <button
+              className="primary"
+              onClick={connectWallet}
+              disabled={isWorking}
+            >
+              Connect Wallet
+            </button>
+          )}
+          <p className="meta">
+            {activeChain
+              ? `${activeChain.name} (chain ${activeChain.id})`
+              : "Awaiting connection"}
+          </p>
         </div>
       </header>
 
@@ -247,7 +320,7 @@ export default function App() {
                 required
               />
             </label>
-            <button className="primary" type="submit" disabled={isBusy}>
+            <button className="primary" type="submit" disabled={isWorking}>
               Create Batch
             </button>
           </form>
@@ -274,7 +347,7 @@ export default function App() {
                 required
               />
             </label>
-            <button className="primary" type="submit" disabled={isBusy}>
+            <button className="primary" type="submit" disabled={isWorking}>
               Transfer
             </button>
           </form>
@@ -299,7 +372,7 @@ export default function App() {
                   type="button"
                   key={label}
                   onClick={() => handleUpdateStatus(index)}
-                  disabled={isBusy || !statusBatchId}
+                  disabled={isWorking || !statusBatchId}
                 >
                   {label.replace("_", " ")}
                 </button>
@@ -321,7 +394,7 @@ export default function App() {
                 placeholder="Batch ID"
                 required
               />
-              <button className="primary" type="submit" disabled={isBusy}>
+              <button className="primary" type="submit" disabled={isWorking}>
                 Search
               </button>
             </form>
