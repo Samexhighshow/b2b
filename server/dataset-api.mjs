@@ -3,6 +3,13 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+// Auto-fallback port strategy:
+// 1. Try configured DATASET_API_PORT (default 3030)
+// 2. If busy but our API already running there, exit success
+// 3. If busy with other app, auto-try next ports (3031, 3032, ...)
+// 4. Automatically update ui/.env VITE_DATASET_API_URL to match actual port
+// Result: UI is always synchronized with API endpoint
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, "..");
@@ -14,7 +21,91 @@ const datasetPath = path.join(
 );
 
 const host = process.env.DATASET_API_HOST || "127.0.0.1";
-const port = Number(process.env.DATASET_API_PORT || 3030);
+let port = Number(process.env.DATASET_API_PORT || 3030);
+const uiEnvPath = path.join(repoRoot, "ui", ".env");
+
+async function isDatasetApiRunning(targetHost, targetPort) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 1200);
+
+  try {
+    const response = await fetch(`http://${targetHost}:${targetPort}/health`, {
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      return false;
+    }
+
+    const payload = await response.json();
+    return payload?.service === "cassava-dataset-api";
+  } catch {
+    return false;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+async function findAvailablePort(startPort, maxAttempts = 5) {
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    const candidatePort = startPort + attempt;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 800);
+
+    try {
+      const response = await fetch(`http://${host}:${candidatePort}/health`, {
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+
+      if (response.ok) {
+        const payload = await response.json();
+        if (payload?.service === "cassava-dataset-api") {
+          return { port: candidatePort, status: "already-running" };
+        }
+      }
+    } catch {
+      clearTimeout(timeoutId);
+    }
+
+    const { createConnection } = await import("node:net");
+    try {
+      return await new Promise((resolve, reject) => {
+        const socket = createConnection(candidatePort, host);
+        socket.on("connect", () => {
+          socket.destroy();
+          reject(new Error("port-in-use"));
+        });
+        socket.on("error", () => {
+          resolve({ port: candidatePort, status: "available" });
+        });
+        setTimeout(() => {
+          socket.destroy();
+          reject(new Error("timeout"));
+        }, 300);
+      });
+    } catch (error) {
+      if (error?.message === "port-in-use") continue;
+      continue;
+    }
+  }
+
+  return null;
+}
+
+async function updateUiEnvApiUrl(newPort) {
+  try {
+    let envContent = await readFile(uiEnvPath, "utf8");
+    const newUrl = `http://127.0.0.1:${newPort}`;
+    envContent = envContent.replace(
+      /VITE_DATASET_API_URL=.+/,
+      `VITE_DATASET_API_URL=${newUrl}`,
+    );
+    await import("node:fs/promises")
+      .then((m) => m.writeFile(uiEnvPath, envContent, "utf8"))
+      .catch(() => {});
+  } catch {}
+}
 
 async function loadDataset() {
   const fileText = await readFile(datasetPath, "utf8");
@@ -129,7 +220,57 @@ const server = createServer(async (request, response) => {
   }
 });
 
+server.on("error", async (error) => {
+  if (error?.code !== "EADDRINUSE") {
+    console.error("[dataset-api] failed to start:", error);
+    process.exit(1);
+    return;
+  }
+
+  const alreadyRunning = await isDatasetApiRunning(host, port);
+  if (alreadyRunning) {
+    console.log(`[dataset-api] already running on http://${host}:${port}`);
+    console.log("[dataset-api] startup check: successful");
+    process.exit(0);
+    return;
+  }
+
+  console.log(
+    `[dataset-api] port ${port} is in use, searching for available port...`,
+  );
+  const result = await findAvailablePort(port, 5);
+
+  if (!result) {
+    console.error(
+      `[dataset-api] no available ports found (tried ${port}–${port + 4}). ` +
+        "Kill blocking process or set DATASET_API_PORT.",
+    );
+    process.exit(1);
+    return;
+  }
+
+  if (result.status === "already-running") {
+    console.log(
+      `[dataset-api] our service already running on http://${host}:${result.port}`,
+    );
+    console.log("[dataset-api] startup check: successful");
+    process.exit(0);
+    return;
+  }
+
+  port = result.port;
+  await updateUiEnvApiUrl(port);
+  console.log(
+    `[dataset-api] using fallback port ${port}. Updated ui/.env VITE_DATASET_API_URL.`,
+  );
+  server.listen(port, host);
+});
+
 server.listen(port, host, () => {
+  updateUiEnvApiUrl(port);
   console.log(`[dataset-api] listening on http://${host}:${port}`);
   console.log(`[dataset-api] source file: ${datasetPath}`);
+  console.log(
+    `[dataset-api] ui/.env updated with VITE_DATASET_API_URL=http://${host}:${port}`,
+  );
 });
