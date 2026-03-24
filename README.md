@@ -9,6 +9,7 @@ A full-stack blockchain application for tracing cassava batches through the supp
 | Smart contract | Solidity 0.8.20, Hardhat 3 Beta |
 | Deploy script | Node.js + ethers.js v6 |
 | Frontend | React 18, Vite, thirdweb v5 |
+| Off-chain data layer | Node.js dataset pipeline + local dataset API |
 | Local blockchain | Ganache (chainId 1337) |
 
 ### Contract: `CassavaSupplyChain.sol`
@@ -63,6 +64,32 @@ npm install
 npm run dev                   # starts Vite dev server at http://localhost:5173
 ```
 
+### 5. Build off-chain dataset (Objective iv)
+
+```bash
+npm run dataset:build
+```
+
+This generates:
+
+- `data/raw/cassava-dataset.csv`
+- `data/processed/cassava-dataset.json`
+
+### 6. Start dataset API
+
+```bash
+npm run api:dataset
+```
+
+API endpoints:
+
+- `GET /health`
+- `GET /api/dataset/summary`
+- `GET /api/dataset/records?limit=20`
+- `GET /api/dataset/challenges`
+
+The Reports page merges this dataset API output with on-chain metrics.
+
 ---
 
 ## Project structure
@@ -73,6 +100,14 @@ npm run dev                   # starts Vite dev server at http://localhost:5173
 │   └── CassavaSupplyChain.sol   # Solidity smart contract
 ├── scripts/
 │   └── deploy.js                # Deploys contract & writes UI config files
+│   └── dataset-pipeline.mjs     # Fetches/preprocesses cassava dataset
+├── server/
+│   └── dataset-api.mjs          # Serves processed dataset endpoints
+├── data/
+│   ├── raw/
+│   │   └── cassava-dataset.csv
+│   └── processed/
+│       └── cassava-dataset.json
 ├── hardhat.config.ts            # Hardhat configuration
 ├── ui/
 │   ├── src/
@@ -93,6 +128,7 @@ npm run dev                   # starts Vite dev server at http://localhost:5173
 |---|---|---|
 | `VITE_THIRDWEB_CLIENT_ID` | Yes | ThirdWeb Client ID for wallet connectivity |
 | `VITE_CONTRACT_ADDRESS` | No | Overrides the address from `contract-address.json` |
+| `VITE_DATASET_API_URL` | No | Dataset API base URL (default: `http://127.0.0.1:8080`) |
 
 > **Never commit your `.env` file.** It is listed in `.gitignore`. Use `.env.example` as a template.
 

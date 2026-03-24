@@ -255,7 +255,7 @@ input {
   padding: 10px 11px;
   outline: none;
   font-size: 0.93rem;
-  font-family: Manrope, sans-serif;
+  font-family: Inter, "Segoe UI", sans-serif;
   background: #fff;
 }
 
@@ -532,6 +532,18 @@ th {
   background: #f8e3bc;
 }
 
+.dataset-summary-grid {
+  margin-top: 10px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.dataset-summary-grid .sub-card .kpi-value {
+  margin-top: 6px;
+  margin-bottom: 0;
+}
+
 .objective-list {
   list-style: none;
   margin: 10px 0 0;
@@ -611,6 +623,7 @@ th {
 
   .kpi-grid,
   .grid-two,
+  .dataset-summary-grid,
   .trace-details,
   .data-form.two-col {
     grid-template-columns: 1fr;

@@ -38,6 +38,8 @@ const NAV_ITEMS = [
   { key: "analytics", label: "Reports" },
 ];
 
+const DATASET_API_BASE = import.meta.env.VITE_DATASET_API_URL || "http://127.0.0.1:8080";
+
 const PROJECT_OBJECTIVES = [
   "Design and implement Ethereum smart contracts for secure cassava supply chain transactions.",
   "Deploy and simulate contracts on a local blockchain environment (Ganache).",
@@ -157,6 +159,9 @@ export default function App() {
   const [batchDetails, setBatchDetails] = useState(null);
   const [batchEvents, setBatchEvents] = useState([]);
   const [allBatches, setAllBatches] = useState([]);
+  const [datasetSummary, setDatasetSummary] = useState(null);
+  const [datasetRecords, setDatasetRecords] = useState([]);
+  const [datasetApiError, setDatasetApiError] = useState("");
   const [networkMetrics, setNetworkMetrics] = useState({
     totalBatches: 0,
     totalWeight: 0,
@@ -199,6 +204,30 @@ export default function App() {
     setStatusMessage(message);
     if (message) {
       setTimeout(() => setStatusMessage(""), 6200);
+    }
+  };
+
+  const loadDatasetApiData = async () => {
+    try {
+      const [summaryResponse, recordsResponse] = await Promise.all([
+        fetch(`${DATASET_API_BASE}/api/dataset/summary`),
+        fetch(`${DATASET_API_BASE}/api/dataset/records?limit=8`),
+      ]);
+
+      if (!summaryResponse.ok || !recordsResponse.ok) {
+        throw new Error("Dataset API unavailable");
+      }
+
+      const summaryPayload = await summaryResponse.json();
+      const recordsPayload = await recordsResponse.json();
+
+      setDatasetSummary(summaryPayload.summary || null);
+      setDatasetRecords(Array.isArray(recordsPayload.records) ? recordsPayload.records : []);
+      setDatasetApiError("");
+    } catch {
+      setDatasetSummary(null);
+      setDatasetRecords([]);
+      setDatasetApiError("Dataset API not reachable. Run npm run dataset:build and npm run api:dataset.");
     }
   };
 
@@ -423,6 +452,10 @@ export default function App() {
     refreshNetworkData();
   }, [contract]);
 
+  useEffect(() => {
+    loadDatasetApiData();
+  }, []);
+
   const handleSearchBatch = async (event) => {
     event.preventDefault();
 
@@ -555,7 +588,7 @@ export default function App() {
     !IS_PLACEHOLDER,
     !IS_PLACEHOLDER,
     hasClientId,
-    false,
+    Boolean(datasetSummary),
     networkMetrics.recentRows.length > 0,
     true,
   ];
@@ -921,6 +954,67 @@ export default function App() {
             </section>
 
             <section className="card top-gap">
+              <div className="section-head">
+                <h3>Off-chain Dataset Insights (Objective iv)</h3>
+                <button className="btn ghost" type="button" onClick={loadDatasetApiData} disabled={isWorking}>
+                  Reload Dataset API
+                </button>
+              </div>
+
+              {datasetSummary ? (
+                <div className="dataset-summary-grid">
+                  <article className="sub-card">
+                    <h4>Total Dataset Records</h4>
+                    <p className="kpi-value">{datasetSummary.totalRecords}</p>
+                  </article>
+                  <article className="sub-card">
+                    <h4>Average Loss</h4>
+                    <p className="kpi-value">{datasetSummary.avgLossPct}%</p>
+                  </article>
+                  <article className="sub-card">
+                    <h4>Average Transport Time</h4>
+                    <p className="kpi-value">{datasetSummary.avgTransportHours} hrs</p>
+                  </article>
+                </div>
+              ) : (
+                <p className="objective-note">{datasetApiError}</p>
+              )}
+
+              <div className="table-wrap top-gap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Record ID</th>
+                      <th>Region</th>
+                      <th>Year</th>
+                      <th>Qty (kg)</th>
+                      <th>Quality</th>
+                      <th>Loss %</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {datasetRecords.length ? (
+                      datasetRecords.map((record) => (
+                        <tr key={record.recordId}>
+                          <td>{record.recordId}</td>
+                          <td>{record.region}</td>
+                          <td>{record.year}</td>
+                          <td>{Number(record.quantityKg || 0).toLocaleString()}</td>
+                          <td>{record.qualityGrade}</td>
+                          <td>{record.lossPct}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="6">No dataset records loaded yet.</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <section className="card top-gap">
               <h3>Project Outline Alignment (1.3 Objectives)</h3>
               <ul className="objective-list">
                 {PROJECT_OBJECTIVES.map((objective, index) => (
@@ -935,7 +1029,7 @@ export default function App() {
                 ))}
               </ul>
               <p className="objective-note">
-                Objective 4 needs an off-chain dataset ingestion/preprocessing module to be fully complete.
+                Objective 4 is complete when dataset API is reachable and serving preprocessed cassava records.
               </p>
             </section>
           </>

@@ -1,0 +1,189 @@
+{
+  "generatedAt": "2026-03-24T02:13:18.541Z",
+  "source": {
+    "url": "fallback-local-sample",
+    "usedFallback": true
+  },
+  "summary": {
+    "totalRecords": 12,
+    "totalQuantityKg": 287580000000,
+    "avgLossPct": 9.43,
+    "avgTransportHours": 11.58,
+    "byRegion": [
+      {
+        "region": "Nigeria",
+        "quantityKg": 183980000000
+      },
+      {
+        "region": "Ghana",
+        "quantityKg": 70850000000
+      },
+      {
+        "region": "Cameroon",
+        "quantityKg": 19850000000
+      },
+      {
+        "region": "Benin",
+        "quantityKg": 12900000000
+      }
+    ]
+  },
+  "records": [
+    {
+      "recordId": "FB-2021-001",
+      "batchId": "202110",
+      "region": "Nigeria",
+      "year": 2021,
+      "productType": "Cassava Roots",
+      "quantityTonnes": 60030000,
+      "quantityKg": 60030000000,
+      "qualityGrade": "A",
+      "lossPct": 8.2,
+      "transportHours": 9,
+      "sourceType": "fallback"
+    },
+    {
+      "recordId": "FB-2021-002",
+      "batchId": "202111",
+      "region": "Ghana",
+      "year": 2021,
+      "productType": "Cassava Roots",
+      "quantityTonnes": 23100000,
+      "quantityKg": 23100000000,
+      "qualityGrade": "A",
+      "lossPct": 8.9,
+      "transportHours": 10,
+      "sourceType": "fallback"
+    },
+    {
+      "recordId": "FB-2021-003",
+      "batchId": "202112",
+      "region": "Cameroon",
+      "year": 2021,
+      "productType": "Cassava Roots",
+      "quantityTonnes": 6500000,
+      "quantityKg": 6500000000,
+      "qualityGrade": "C",
+      "lossPct": 9.6,
+      "transportHours": 11,
+      "sourceType": "fallback"
+    },
+    {
+      "recordId": "FB-2021-004",
+      "batchId": "202113",
+      "region": "Benin",
+      "year": 2021,
+      "productType": "Cassava Roots",
+      "quantityTonnes": 4200000,
+      "quantityKg": 4200000000,
+      "qualityGrade": "C",
+      "lossPct": 10.3,
+      "transportHours": 12,
+      "sourceType": "fallback"
+    },
+    {
+      "recordId": "FB-2022-005",
+      "batchId": "202214",
+      "region": "Nigeria",
+      "year": 2022,
+      "productType": "Cassava Roots",
+      "quantityTonnes": 61400000,
+      "quantityKg": 61400000000,
+      "qualityGrade": "A",
+      "lossPct": 11,
+      "transportHours": 13,
+      "sourceType": "fallback"
+    },
+    {
+      "recordId": "FB-2022-006",
+      "batchId": "202215",
+      "region": "Ghana",
+      "year": 2022,
+      "productType": "Cassava Roots",
+      "quantityTonnes": 23650000,
+      "quantityKg": 23650000000,
+      "qualityGrade": "A",
+      "lossPct": 8.2,
+      "transportHours": 14,
+      "sourceType": "fallback"
+    },
+    {
+      "recordId": "FB-2022-007",
+      "batchId": "202216",
+      "region": "Cameroon",
+      "year": 2022,
+      "productType": "Cassava Roots",
+      "quantityTonnes": 6630000,
+      "quantityKg": 6630000000,
+      "qualityGrade": "C",
+      "lossPct": 8.9,
+      "transportHours": 15,
+      "sourceType": "fallback"
+    },
+    {
+      "recordId": "FB-2022-008",
+      "batchId": "202217",
+      "region": "Benin",
+      "year": 2022,
+      "productType": "Cassava Roots",
+      "quantityTonnes": 4310000,
+      "quantityKg": 4310000000,
+      "qualityGrade": "C",
+      "lossPct": 9.6,
+      "transportHours": 9,
+      "sourceType": "fallback"
+    },
+    {
+      "recordId": "FB-2023-009",
+      "batchId": "202318",
+      "region": "Nigeria",
+      "year": 2023,
+      "productType": "Cassava Roots",
+      "quantityTonnes": 62550000,
+      "quantityKg": 62550000000,
+      "qualityGrade": "A",
+      "lossPct": 10.3,
+      "transportHours": 10,
+      "sourceType": "fallback"
+    },
+    {
+      "recordId": "FB-2023-010",
+      "batchId": "202319",
+      "region": "Ghana",
+      "year": 2023,
+      "productType": "Cassava Roots",
+      "quantityTonnes": 24100000,
+      "quantityKg": 24100000000,
+      "qualityGrade": "A",
+      "lossPct": 11,
+      "transportHours": 11,
+      "sourceType": "fallback"
+    },
+    {
+      "recordId": "FB-2023-011",
+      "batchId": "202320",
+      "region": "Cameroon",
+      "year": 2023,
+      "productType": "Cassava Roots",
+      "quantityTonnes": 6720000,
+      "quantityKg": 6720000000,
+      "qualityGrade": "C",
+      "lossPct": 8.2,
+      "transportHours": 12,
+      "sourceType": "fallback"
+    },
+    {
+      "recordId": "FB-2023-012",
+      "batchId": "202321",
+      "region": "Benin",
+      "year": 2023,
+      "productType": "Cassava Roots",
+      "quantityTonnes": 4390000,
+      "quantityKg": 4390000000,
+      "qualityGrade": "C",
+      "lossPct": 8.9,
+      "transportHours": 13,
+      "sourceType": "fallback"
+    }
+  ]
+}
