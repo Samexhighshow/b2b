@@ -6,7 +6,12 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, "..");
-const datasetPath = path.join(repoRoot, "data", "processed", "cassava-dataset.json");
+const datasetPath = path.join(
+  repoRoot,
+  "data",
+  "processed",
+  "cassava-dataset.json",
+);
 
 const host = process.env.DATASET_API_HOST || "127.0.0.1";
 const port = Number(process.env.DATASET_API_PORT || 8080);
@@ -74,12 +79,19 @@ const server = createServer(async (request, response) => {
     }
 
     if (url.pathname === "/api/dataset/records") {
-      const limit = Math.max(1, Math.min(200, Number(url.searchParams.get("limit") || 20)));
-      const regionFilter = (url.searchParams.get("region") || "").trim().toLowerCase();
+      const limit = Math.max(
+        1,
+        Math.min(200, Number(url.searchParams.get("limit") || 20)),
+      );
+      const regionFilter = (url.searchParams.get("region") || "")
+        .trim()
+        .toLowerCase();
 
       let records = dataset.records || [];
       if (regionFilter) {
-        records = records.filter((record) => String(record.region).toLowerCase().includes(regionFilter));
+        records = records.filter((record) =>
+          String(record.region).toLowerCase().includes(regionFilter),
+        );
       }
 
       sendJson(response, 200, {
@@ -93,7 +105,9 @@ const server = createServer(async (request, response) => {
 
     if (url.pathname === "/api/dataset/challenges") {
       const summary = dataset.summary || {};
-      const totalQtyTons = Number((summary.totalQuantityKg || 0) / 1000).toLocaleString();
+      const totalQtyTons = Number(
+        (summary.totalQuantityKg || 0) / 1000,
+      ).toLocaleString();
 
       sendJson(response, 200, {
         generatedAt: dataset.generatedAt,

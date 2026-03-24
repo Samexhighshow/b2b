@@ -108,7 +108,9 @@ function normalizeRows(rows) {
       row[headerMap.quantity] ||
       null;
 
-    const numericValue = Number.parseFloat(String(valueRaw || "").replace(/,/g, ""));
+    const numericValue = Number.parseFloat(
+      String(valueRaw || "").replace(/,/g, ""),
+    );
 
     if (!region || !Number.isFinite(year) || !Number.isFinite(numericValue)) {
       return;
@@ -116,7 +118,8 @@ function normalizeRows(rows) {
 
     const quantityTonnes = numericValue;
     const quantityKg = Math.max(0, Math.round(quantityTonnes * 1000));
-    const qualityGrade = quantityTonnes > 20000000 ? "A" : quantityTonnes > 7000000 ? "B" : "C";
+    const qualityGrade =
+      quantityTonnes > 20000000 ? "A" : quantityTonnes > 7000000 ? "B" : "C";
     const lossPct = Number((8 + ((year + index) % 6) * 0.9).toFixed(1));
     const transportHours = 10 + ((index + year) % 8);
 
@@ -141,7 +144,12 @@ function normalizeRows(rows) {
 function normalizeFallbackRows(rows) {
   return rows.map((row, index) => {
     const quantityKg = Math.round(row.quantityTonnes * 1000);
-    const qualityGrade = row.quantityTonnes > 20000000 ? "A" : row.quantityTonnes > 7000000 ? "B" : "C";
+    const qualityGrade =
+      row.quantityTonnes > 20000000
+        ? "A"
+        : row.quantityTonnes > 7000000
+          ? "B"
+          : "C";
     const lossPct = Number((8.2 + (index % 5) * 0.7).toFixed(1));
     const transportHours = 9 + (index % 7);
 
@@ -165,17 +173,28 @@ function summarize(records) {
   const totalRecords = records.length;
   const totalQuantityKg = records.reduce((acc, row) => acc + row.quantityKg, 0);
   const avgLossPct =
-    totalRecords > 0 ? Number((records.reduce((acc, row) => acc + row.lossPct, 0) / totalRecords).toFixed(2)) : 0;
+    totalRecords > 0
+      ? Number(
+          (
+            records.reduce((acc, row) => acc + row.lossPct, 0) / totalRecords
+          ).toFixed(2),
+        )
+      : 0;
   const avgTransportHours =
     totalRecords > 0
-      ? Number((records.reduce((acc, row) => acc + row.transportHours, 0) / totalRecords).toFixed(2))
+      ? Number(
+          (
+            records.reduce((acc, row) => acc + row.transportHours, 0) /
+            totalRecords
+          ).toFixed(2),
+        )
       : 0;
 
   const byRegion = Object.entries(
     records.reduce((acc, row) => {
       acc[row.region] = (acc[row.region] || 0) + row.quantityKg;
       return acc;
-    }, {})
+    }, {}),
   )
     .map(([region, quantityKg]) => ({ region, quantityKg }))
     .sort((a, b) => b.quantityKg - a.quantityKg);
@@ -207,7 +226,12 @@ async function fetchOnlineRows() {
       const normalized = normalizeRows(parsed);
 
       if (normalized.length > 0) {
-        return { records: normalized, rawCsv: text, sourceUrl: url, usedFallback: false };
+        return {
+          records: normalized,
+          rawCsv: text,
+          sourceUrl: url,
+          usedFallback: false,
+        };
       }
     } catch {
       // Try next source URL.
@@ -215,7 +239,12 @@ async function fetchOnlineRows() {
   }
 
   const fallbackRecords = normalizeFallbackRows(FALLBACK_ROWS);
-  const fallbackCsv = ["region,year,quantityTonnes", ...FALLBACK_ROWS.map((row) => `${row.region},${row.year},${row.quantityTonnes}`)].join("\n");
+  const fallbackCsv = [
+    "region,year,quantityTonnes",
+    ...FALLBACK_ROWS.map(
+      (row) => `${row.region},${row.year},${row.quantityTonnes}`,
+    ),
+  ].join("\n");
 
   return {
     records: fallbackRecords,
@@ -242,8 +271,16 @@ async function run() {
     records: fetched.records,
   };
 
-  await writeFile(path.join(rawDir, "cassava-dataset.csv"), fetched.rawCsv, "utf8");
-  await writeFile(path.join(processedDir, "cassava-dataset.json"), JSON.stringify(payload, null, 2), "utf8");
+  await writeFile(
+    path.join(rawDir, "cassava-dataset.csv"),
+    fetched.rawCsv,
+    "utf8",
+  );
+  await writeFile(
+    path.join(processedDir, "cassava-dataset.json"),
+    JSON.stringify(payload, null, 2),
+    "utf8",
+  );
 
   console.log(`[dataset-pipeline] records: ${payload.summary.totalRecords}`);
   console.log(`[dataset-pipeline] source: ${payload.source.url}`);

@@ -4,13 +4,13 @@ A full-stack blockchain application for tracing cassava batches through the supp
 
 ## What's included
 
-| Layer | Stack |
-|---|---|
-| Smart contract | Solidity 0.8.20, Hardhat 3 Beta |
-| Deploy script | Node.js + ethers.js v6 |
-| Frontend | React 18, Vite, thirdweb v5 |
+| Layer                | Stack                                        |
+| -------------------- | -------------------------------------------- |
+| Smart contract       | Solidity 0.8.20, Hardhat 3 Beta              |
+| Deploy script        | Node.js + ethers.js v6                       |
+| Frontend             | React 18, Vite, thirdweb v5                  |
 | Off-chain data layer | Node.js dataset pipeline + local dataset API |
-| Local blockchain | Ganache (chainId 1337) |
+| Local blockchain     | Ganache (chainId 1337)                       |
 
 ### Contract: `CassavaSupplyChain.sol`
 
@@ -124,11 +124,10 @@ The Reports page merges this dataset API output with on-chain metrics.
 
 ## Environment variables (`ui/.env`)
 
-| Variable | Required | Description |
-|---|---|---|
-| `VITE_THIRDWEB_CLIENT_ID` | Yes | ThirdWeb Client ID for wallet connectivity |
-| `VITE_CONTRACT_ADDRESS` | No | Overrides the address from `contract-address.json` |
-| `VITE_DATASET_API_URL` | No | Dataset API base URL (default: `http://127.0.0.1:8080`) |
+| Variable                  | Required | Description                                             |
+| ------------------------- | -------- | ------------------------------------------------------- |
+| `VITE_THIRDWEB_CLIENT_ID` | Yes      | ThirdWeb Client ID for wallet connectivity              |
+| `VITE_CONTRACT_ADDRESS`   | No       | Overrides the address from `contract-address.json`      |
+| `VITE_DATASET_API_URL`    | No       | Dataset API base URL (default: `http://127.0.0.1:8080`) |
 
 > **Never commit your `.env` file.** It is listed in `.gitignore`. Use `.env.example` as a template.
-
