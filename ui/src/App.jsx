@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   getContract,
-  prepareContractCall,
-  readContract,
   getContractEvents,
+  prepareContractCall,
   prepareEvent,
+  readContract,
 } from "thirdweb";
 import {
   useActiveAccount,
@@ -14,8 +14,8 @@ import {
   useSendTransaction,
 } from "thirdweb/react";
 import { createWallet } from "thirdweb/wallets";
-import contractAddressData from "./contract-address.json";
 import deploymentAbi from "./abi.json";
+import contractAddressData from "./contract-address.json";
 import { client, ganacheChain } from "./thirdwebClient.js";
 
 const DEPLOYED_ADDRESS = contractAddressData?.CassavaSupplyChain;
@@ -28,30 +28,141 @@ const CONTRACT_ADDRESS =
   DEPLOYED_ADDRESS && !IS_PLACEHOLDER_ADDRESS
     ? DEPLOYED_ADDRESS
     : import.meta.env.VITE_CONTRACT_ADDRESS || "0xYourContractAddress";
-const IS_PLACEHOLDER = CONTRACT_ADDRESS === "0xYourContractAddress";
 
+const IS_PLACEHOLDER = CONTRACT_ADDRESS === "0xYourContractAddress";
 const STATUS_LABELS = ["CREATED", "PROCESSED", "IN_TRANSIT", "DELIVERED"];
 
-const formatAddress = (address) =>
-  address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "";
+const NAV_ITEMS = [
+  { key: "dashboard", label: "Dashboard" },
+  { key: "trace", label: "Traceability" },
+  { key: "analytics", label: "Reports" },
+];
+
+const DATASET_API_BASE = import.meta.env.VITE_DATASET_API_URL || "http://127.0.0.1:3030";
+
+const formatAddress = (address) => (address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "");
+
+const parseNumericInput = (value, fieldLabel) => {
+  const trimmed = value.trim();
+  if (!trimmed) throw new Error(`${fieldLabel} is required.`);
+  if (!/^\d+$/.test(trimmed)) throw new Error(`${fieldLabel} must be a whole number.`);
+  return BigInt(trimmed);
+};
+
+const parseAppError = (error) => {
+  const base = error?.reason || error?.shortMessage || error?.message || "Transaction failed.";
+
+  if (base.includes("Invalid role")) {
+    return "Wallet role is not FARMER. Assign FARMER role to this wallet first.";
+  }
+
+  if (base.includes("Batch exists")) {
+    return "Batch ID already exists. Use another batch ID.";
+  }
+
+  if (base.includes("Batch not found")) {
+    return "Batch not found on-chain. Confirm the batch ID.";
+  }
+
+  return base;
+};
+
+const buildChartSeries = (events) => {
+  const points = 8;
+  if (!events.length) {
+    return {
+      speed: [0, 0, 0, 0, 0, 0, 0, 0],
+      cost: [0, 0, 0, 0, 0, 0, 0, 0],
+    };
+  }
+
+  const chunkSize = Math.max(1, Math.ceil(events.length / points));
+  const chunks = [];
+
+  for (let start = 0; start < events.length; start += chunkSize) {
+    chunks.push(events.slice(start, start + chunkSize));
+  }
+
+  while (chunks.length < points) {
+    chunks.unshift([]);
+  }
+
+  const normalized = chunks.slice(-points);
+
+  const speed = normalized.map((chunk) => chunk.length * 12);
+  const cost = normalized.map((chunk) => {
+    const statusUpdates = chunk.filter((eventItem) => eventItem.type === "StatusUpdated").length;
+    const transfers = chunk.filter((eventItem) => eventItem.type === "OwnershipTransferred").length;
+    return statusUpdates * 7 + transfers * 5;
+  });
+
+  return { speed, cost };
+};
+
+const toSvgPoints = (values, height = 190, widthStep = 56, multiplier = 2.2) =>
+  values
+    .map((value, index) => {
+      const x = index * widthStep;
+      const y = Math.max(10, height - value * multiplier);
+      return `${x},${y}`;
+    })
+    .join(" ");
+
+const BrandMark = ({ className = "brand-logo", size = 34 }) => (
+  <svg
+    className={className}
+    width={size}
+    height={size}
+    viewBox="0 0 34 34"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <rect x="1" y="1" width="32" height="32" rx="9" fill="url(#markBg)" />
+    <rect x="1" y="1" width="32" height="32" rx="9" stroke="rgba(186,255,220,0.42)" strokeWidth="1.2" />
+    <path d="M11 11.8h8.2a3.1 3.1 0 0 1 0 6.2h-4.4a3.1 3.1 0 0 0 0 6.2H23" stroke="#E8FFF3" strokeWidth="2.3" strokeLinecap="round" />
+    <circle cx="10.5" cy="11.8" r="1.55" fill="#9CFFD1" />
+    <circle cx="23.5" cy="24.2" r="1.55" fill="#9CFFD1" />
+    <defs>
+      <linearGradient id="markBg" x1="3" y1="2" x2="29" y2="31" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#31C575" />
+        <stop offset="1" stopColor="#0D6A3E" />
+      </linearGradient>
+    </defs>
+  </svg>
+);
 
 export default function App() {
+  const [activePage, setActivePage] = useState("dashboard");
   const [statusMessage, setStatusMessage] = useState("");
   const [isBusy, setIsBusy] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isWalletMenuOpen, setIsWalletMenuOpen] = useState(false);
 
   const [createBatchId, setCreateBatchId] = useState("");
   const [createOrigin, setCreateOrigin] = useState("");
   const [createQuantity, setCreateQuantity] = useState("");
-
   const [transferBatchId, setTransferBatchId] = useState("");
   const [transferOwner, setTransferOwner] = useState("");
-
   const [statusBatchId, setStatusBatchId] = useState("");
-
   const [searchBatchId, setSearchBatchId] = useState("");
+
   const [batchDetails, setBatchDetails] = useState(null);
   const [batchEvents, setBatchEvents] = useState([]);
-  const [isWalletMenuOpen, setIsWalletMenuOpen] = useState(false);
+  const [allBatches, setAllBatches] = useState([]);
+  const [datasetSummary, setDatasetSummary] = useState(null);
+  const [datasetRecords, setDatasetRecords] = useState([]);
+  const [datasetApiError, setDatasetApiError] = useState("");
+  const [networkMetrics, setNetworkMetrics] = useState({
+    totalBatches: 0,
+    totalWeight: 0,
+    statusCounts: [0, 0, 0, 0],
+    recentRows: [],
+    speedSeries: [0, 0, 0, 0, 0, 0, 0, 0],
+    costSeries: [0, 0, 0, 0, 0, 0, 0, 0],
+    lastUpdated: null,
+  });
+
   const walletMenuRef = useRef(null);
 
   const activeAccount = useActiveAccount();
@@ -59,25 +170,61 @@ export default function App() {
   const { connect, isConnecting } = useConnect();
   const { disconnect } = useDisconnect();
   const { mutateAsync: sendTransaction, isPending } = useSendTransaction();
-  const isWorking = isBusy || isConnecting || isPending;
-  const chainLabel = activeChain?.id
-    ? `Chain: ${activeChain.name ?? "Unknown"} (${activeChain.id})`
-    : "No network";
+
   const hasClientId =
     import.meta.env.VITE_THIRDWEB_CLIENT_ID &&
     import.meta.env.VITE_THIRDWEB_CLIENT_ID !== "YOUR_THIRDWEB_CLIENT_ID";
 
+  const chainLabel = activeChain?.id
+    ? `${activeChain.name ?? "Unknown"} (${activeChain.id})`
+    : `${ganacheChain.name} (${ganacheChain.id})`;
+
+  const isWorking = isBusy || isConnecting || isPending || isRefreshing;
+
+  const contract = useMemo(() => {
+    if (!CONTRACT_ADDRESS || IS_PLACEHOLDER) return null;
+    return getContract({
+      client,
+      chain: ganacheChain,
+      address: CONTRACT_ADDRESS,
+      abi: deploymentAbi,
+    });
+  }, []);
+
   const setMessage = (message) => {
     setStatusMessage(message);
     if (message) {
-      setTimeout(() => setStatusMessage(""), 6000);
+      setTimeout(() => setStatusMessage(""), 6200);
+    }
+  };
+
+  const loadDatasetApiData = async () => {
+    try {
+      const [summaryResponse, recordsResponse] = await Promise.all([
+        fetch(`${DATASET_API_BASE}/api/dataset/summary`),
+        fetch(`${DATASET_API_BASE}/api/dataset/records?limit=8`),
+      ]);
+
+      if (!summaryResponse.ok || !recordsResponse.ok) {
+        throw new Error("Dataset API unavailable");
+      }
+
+      const summaryPayload = await summaryResponse.json();
+      const recordsPayload = await recordsResponse.json();
+
+      setDatasetSummary(summaryPayload.summary || null);
+      setDatasetRecords(Array.isArray(recordsPayload.records) ? recordsPayload.records : []);
+      setDatasetApiError("");
+    } catch {
+      setDatasetSummary(null);
+      setDatasetRecords([]);
+      setDatasetApiError("Dataset API not reachable. Run npm run dataset:build and npm run api:dataset.");
     }
   };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (!walletMenuRef.current) return;
-      if (!walletMenuRef.current.contains(event.target)) {
+      if (walletMenuRef.current && !walletMenuRef.current.contains(event.target)) {
         setIsWalletMenuOpen(false);
       }
     };
@@ -86,157 +233,32 @@ export default function App() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const contract = useMemo(() => {
-    if (!CONTRACT_ADDRESS || IS_PLACEHOLDER) {
-      return null;
-    }
-    return getContract({
-      client,
-      chain: ganacheChain,
-      address: CONTRACT_ADDRESS,
-      abi: deploymentAbi,
-    });
-  }, [CONTRACT_ADDRESS, IS_PLACEHOLDER]);
-
   const connectWallet = async () => {
     try {
       if (!hasClientId) {
-        setMessage("Set VITE_THIRDWEB_CLIENT_ID and restart the UI.");
+        setMessage("Set VITE_THIRDWEB_CLIENT_ID in ui/.env and restart the app.");
         return;
       }
+
       setIsBusy(true);
       await connect(async () => {
         const wallet = createWallet("io.metamask");
-        await wallet.connect({
-          client,
-          chain: ganacheChain,
-        });
+        await wallet.connect({ client, chain: ganacheChain });
         return wallet;
       });
+
       setIsWalletMenuOpen(false);
-      setMessage(
-        IS_PLACEHOLDER
-          ? "⚠️ Run deploy script first: node scripts/deploy.js with GANACHE_PRIVATE_KEY set."
-          : "✅ Wallet connected!"
-      );
+      setMessage("Wallet connected.");
     } catch (error) {
-      console.error("Connect error:", error);
-      setMessage(error.message || "Failed to connect wallet.");
+      setMessage(parseAppError(error));
     } finally {
       setIsBusy(false);
     }
   };
 
-  const handleCreateBatch = async (event) => {
-    event.preventDefault();
-    if (!contract) {
-      setMessage("❌ Deploy contract first (run: node scripts/deploy.js with GANACHE_PRIVATE_KEY)");
-      return;
-    }
-    try {
-      setIsBusy(true);
-      const transaction = prepareContractCall({
-        contract,
-        method: "createBatch",
-        params: [
-          BigInt(createBatchId),
-          createOrigin.trim(),
-          BigInt(createQuantity),
-        ],
-      });
-      await sendTransaction({ transaction });
-      setMessage("Batch created successfully.");
-      setCreateBatchId("");
-      setCreateOrigin("");
-      setCreateQuantity("");
-    } catch (error) {
-      setMessage(error.reason || error.message || "Create batch failed.");
-    } finally {
-      setIsBusy(false);
-    }
-  };
-
-  const handleTransferOwnership = async (event) => {
-    event.preventDefault();
-    if (!contract) {
-      setMessage("❌ Deploy contract first (run: node scripts/deploy.js with GANACHE_PRIVATE_KEY)");
-      return;
-    }
-    try {
-      setIsBusy(true);
-      const transaction = prepareContractCall({
-        contract,
-        method: "transferOwnership",
-        params: [BigInt(transferBatchId), transferOwner.trim()],
-      });
-      await sendTransaction({ transaction });
-      setMessage("Ownership transferred.");
-      setTransferBatchId("");
-      setTransferOwner("");
-    } catch (error) {
-      setMessage(error.reason || error.message || "Transfer failed.");
-    } finally {
-      setIsBusy(false);
-    }
-  };
-
-  const handleUpdateStatus = async (statusIndex) => {
-    if (!contract) {
-      setMessage("❌ Deploy contract first (run: node scripts/deploy.js with GANACHE_PRIVATE_KEY)");
-      return;
-    }
-    try {
-      setIsBusy(true);
-      const transaction = prepareContractCall({
-        contract,
-        method: "updateStatus",
-        params: [BigInt(statusBatchId), statusIndex],
-      });
-      await sendTransaction({ transaction });
-      setMessage("Status updated.");
-    } catch (error) {
-      setMessage(error.reason || error.message || "Status update failed.");
-    } finally {
-      setIsBusy(false);
-    }
-  };
-
-  const handleSearchBatch = async (event) => {
-    event.preventDefault();
-    if (!contract) {
-      setMessage("❌ Deploy contract first (run: node scripts/deploy.js with GANACHE_PRIVATE_KEY)");
-      return;
-    }
-    try {
-      setIsBusy(true);
-      const data = await readContract({
-        contract,
-        method: "getBatch",
-        params: [BigInt(searchBatchId)],
-      });
-      const details = {
-        batchId: data[0].toString(),
-        originLocation: data[1],
-        quantityKg: data[2].toString(),
-        createdAt: new Date(Number(data[3]) * 1000).toLocaleString(),
-        currentOwner: data[4],
-        status: STATUS_LABELS[Number(data[5])],
-        exists: data[6],
-      };
-      setBatchDetails(details);
-      await fetchBatchEvents(searchBatchId);
-    } catch (error) {
-      setBatchDetails(null);
-      setBatchEvents([]);
-      setMessage(error.reason || error.message || "Batch not found.");
-    } finally {
-      setIsBusy(false);
-    }
-  };
-
-  const fetchBatchEvents = async (batchId) => {
+  const loadBatchEvents = async (batchId) => {
     if (!contract) return;
-    const numericBatchId = BigInt(batchId);
+
     const [created, status, transfers] = await Promise.all([
       getContractEvents({
         contract,
@@ -245,7 +267,7 @@ export default function App() {
             signature: "event BatchCreated(uint256 indexed batchId,address indexed owner)",
           }),
         ],
-        filters: { batchId: numericBatchId },
+        filters: { batchId },
         fromBlock: 0n,
         toBlock: "latest",
       }),
@@ -256,7 +278,7 @@ export default function App() {
             signature: "event StatusUpdated(uint256 indexed batchId,uint8 newStatus)",
           }),
         ],
-        filters: { batchId: numericBatchId },
+        filters: { batchId },
         fromBlock: 0n,
         toBlock: "latest",
       }),
@@ -264,296 +286,761 @@ export default function App() {
         contract,
         events: [
           prepareEvent({
-            signature: "event OwnershipTransferred(uint256 indexed batchId,address indexed from,address indexed to)",
+            signature:
+              "event OwnershipTransferred(uint256 indexed batchId,address indexed from,address indexed to)",
           }),
         ],
-        filters: { batchId: numericBatchId },
+        filters: { batchId },
         fromBlock: 0n,
         toBlock: "latest",
       }),
     ]);
 
-    const mapped = [
-      ...created.map((event) => ({
+    const merged = [
+      ...created.map((eventItem) => ({
         type: "BatchCreated",
-        blockNumber: event.blockNumber,
-        txHash: event.transactionHash,
-        detail: `Owner ${event.args.owner}`,
+        blockNumber: eventItem.blockNumber,
+        txHash: eventItem.transactionHash,
+        detail: `Owner ${formatAddress(eventItem.args.owner)}`,
       })),
-      ...status.map((event) => ({
+      ...status.map((eventItem) => ({
         type: "StatusUpdated",
-        blockNumber: event.blockNumber,
-        txHash: event.transactionHash,
-        detail: `Status ${STATUS_LABELS[Number(event.args.newStatus)]}`,
+        blockNumber: eventItem.blockNumber,
+        txHash: eventItem.transactionHash,
+        detail: `Status ${STATUS_LABELS[Number(eventItem.args.newStatus)]}`,
       })),
-      ...transfers.map((event) => ({
+      ...transfers.map((eventItem) => ({
         type: "OwnershipTransferred",
-        blockNumber: event.blockNumber,
-        txHash: event.transactionHash,
-        detail: `${formatAddress(event.args.from)} -> ${formatAddress(event.args.to)}`,
+        blockNumber: eventItem.blockNumber,
+        txHash: eventItem.transactionHash,
+        detail: `${formatAddress(eventItem.args.from)} -> ${formatAddress(eventItem.args.to)}`,
       })),
-    ].sort((a, b) => a.blockNumber - b.blockNumber);
+    ].sort((left, right) => Number(left.blockNumber) - Number(right.blockNumber));
 
-    setBatchEvents(mapped);
+    setBatchEvents(merged);
   };
 
+  const refreshNetworkData = async () => {
+    if (!contract) return;
+
+    try {
+      setIsRefreshing(true);
+
+      const [created, status, transfers] = await Promise.all([
+        getContractEvents({
+          contract,
+          events: [
+            prepareEvent({
+              signature: "event BatchCreated(uint256 indexed batchId,address indexed owner)",
+            }),
+          ],
+          fromBlock: 0n,
+          toBlock: "latest",
+        }),
+        getContractEvents({
+          contract,
+          events: [
+            prepareEvent({
+              signature: "event StatusUpdated(uint256 indexed batchId,uint8 newStatus)",
+            }),
+          ],
+          fromBlock: 0n,
+          toBlock: "latest",
+        }),
+        getContractEvents({
+          contract,
+          events: [
+            prepareEvent({
+              signature:
+                "event OwnershipTransferred(uint256 indexed batchId,address indexed from,address indexed to)",
+            }),
+          ],
+          fromBlock: 0n,
+          toBlock: "latest",
+        }),
+      ]);
+
+      const allEvents = [
+        ...created.map((eventItem) => ({
+          type: "BatchCreated",
+          blockNumber: eventItem.blockNumber,
+          txHash: eventItem.transactionHash,
+        })),
+        ...status.map((eventItem) => ({
+          type: "StatusUpdated",
+          blockNumber: eventItem.blockNumber,
+          txHash: eventItem.transactionHash,
+        })),
+        ...transfers.map((eventItem) => ({
+          type: "OwnershipTransferred",
+          blockNumber: eventItem.blockNumber,
+          txHash: eventItem.transactionHash,
+        })),
+      ].sort((left, right) => Number(left.blockNumber) - Number(right.blockNumber));
+
+      const batchIds = [...new Set(created.map((eventItem) => eventItem.args.batchId.toString()))];
+
+      const fetchedBatches = await Promise.all(
+        batchIds.map(async (batchIdText) => {
+          const data = await readContract({
+            contract,
+            method: "getBatch",
+            params: [BigInt(batchIdText)],
+          });
+
+          return {
+            batchId: data[0].toString(),
+            originLocation: data[1],
+            quantityKg: Number(data[2]),
+            createdAt: new Date(Number(data[3]) * 1000).toLocaleString(),
+            currentOwner: data[4],
+            statusIndex: Number(data[5]),
+            status: STATUS_LABELS[Number(data[5])],
+          };
+        })
+      );
+
+      const statusCounts = [0, 0, 0, 0];
+      let totalWeight = 0;
+
+      fetchedBatches.forEach((batchItem) => {
+        statusCounts[batchItem.statusIndex] += 1;
+        totalWeight += batchItem.quantityKg;
+      });
+
+      const recentRows = allEvents
+        .slice(-6)
+        .reverse()
+        .map((eventItem) => ({
+          block: `0x${eventItem.blockNumber.toString(16)}`,
+          blockNumber: eventItem.blockNumber.toString(),
+          event: eventItem.type,
+          status: eventItem.type === "StatusUpdated" ? "Pending" : "Verified",
+          txHash: eventItem.txHash,
+        }));
+
+      const series = buildChartSeries(allEvents);
+
+      setAllBatches(fetchedBatches.sort((left, right) => Number(right.batchId) - Number(left.batchId)));
+      setNetworkMetrics({
+        totalBatches: fetchedBatches.length,
+        totalWeight,
+        statusCounts,
+        recentRows,
+        speedSeries: series.speed,
+        costSeries: series.cost,
+        lastUpdated: new Date().toLocaleTimeString(),
+      });
+    } catch (error) {
+      setMessage(parseAppError(error));
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!contract) return;
+    refreshNetworkData();
+  }, [contract]);
+
+  useEffect(() => {
+    loadDatasetApiData();
+  }, []);
+
+  const handleSearchBatch = async (event) => {
+    event.preventDefault();
+
+    if (!contract) {
+      setMessage("Deploy contract first: node scripts/deploy.js");
+      return;
+    }
+
+    try {
+      setIsBusy(true);
+      const batchId = parseNumericInput(searchBatchId, "Batch ID");
+      const data = await readContract({
+        contract,
+        method: "getBatch",
+        params: [batchId],
+      });
+
+      setBatchDetails({
+        batchId: data[0].toString(),
+        originLocation: data[1],
+        quantityKg: data[2].toString(),
+        createdAt: new Date(Number(data[3]) * 1000).toLocaleString(),
+        currentOwner: data[4],
+        status: STATUS_LABELS[Number(data[5])],
+        statusIndex: Number(data[5]),
+      });
+
+      await loadBatchEvents(batchId);
+      setMessage(`Loaded batch ${data[0].toString()} from blockchain data.`);
+    } catch (error) {
+      setBatchDetails(null);
+      setBatchEvents([]);
+      setMessage(parseAppError(error));
+    } finally {
+      setIsBusy(false);
+    }
+  };
+
+  const handleCreateBatch = async (event) => {
+    event.preventDefault();
+
+    if (!contract) {
+      setMessage("Deploy contract first: node scripts/deploy.js");
+      return;
+    }
+
+    try {
+      setIsBusy(true);
+      const batchId = parseNumericInput(createBatchId, "Batch ID");
+      const quantity = parseNumericInput(createQuantity, "Quantity");
+      const transaction = prepareContractCall({
+        contract,
+        method: "createBatch",
+        params: [batchId, createOrigin.trim(), quantity],
+      });
+
+      await sendTransaction({ transaction });
+      setCreateBatchId("");
+      setCreateOrigin("");
+      setCreateQuantity("");
+      setSearchBatchId(batchId.toString());
+      setMessage("Batch created successfully.");
+      await refreshNetworkData();
+    } catch (error) {
+      setMessage(parseAppError(error));
+    } finally {
+      setIsBusy(false);
+    }
+  };
+
+  const handleTransferOwnership = async (event) => {
+    event.preventDefault();
+
+    if (!contract) {
+      setMessage("Deploy contract first: node scripts/deploy.js");
+      return;
+    }
+
+    try {
+      setIsBusy(true);
+      const batchId = parseNumericInput(transferBatchId, "Batch ID");
+      const transaction = prepareContractCall({
+        contract,
+        method: "transferOwnership",
+        params: [batchId, transferOwner.trim()],
+      });
+
+      await sendTransaction({ transaction });
+      setTransferBatchId("");
+      setTransferOwner("");
+      setMessage("Ownership transferred.");
+      await refreshNetworkData();
+    } catch (error) {
+      setMessage(parseAppError(error));
+    } finally {
+      setIsBusy(false);
+    }
+  };
+
+  const handleUpdateStatus = async (statusIndex) => {
+    if (!contract) {
+      setMessage("Deploy contract first: node scripts/deploy.js");
+      return;
+    }
+
+    try {
+      setIsBusy(true);
+      const batchId = parseNumericInput(statusBatchId, "Batch ID");
+      const transaction = prepareContractCall({
+        contract,
+        method: "updateStatus",
+        params: [batchId, statusIndex],
+      });
+
+      await sendTransaction({ transaction });
+      setMessage(`Status changed to ${STATUS_LABELS[statusIndex].replace("_", " ")}.`);
+      await refreshNetworkData();
+    } catch (error) {
+      setMessage(parseAppError(error));
+    } finally {
+      setIsBusy(false);
+    }
+  };
+
+  const statusPercent = batchDetails
+    ? Math.round((batchDetails.statusIndex / (STATUS_LABELS.length - 1)) * 100)
+    : 0;
+
+  const completedBatches = networkMetrics.statusCounts[3] || 0;
+  const traceabilityCoverage = networkMetrics.totalBatches
+    ? Math.round((completedBatches / networkMetrics.totalBatches) * 100)
+    : 0;
+
+  const verifiedRows = networkMetrics.recentRows.filter((row) => row.status === "Verified").length;
+  const integrityScore = networkMetrics.recentRows.length
+    ? Math.round((verifiedRows / networkMetrics.recentRows.length) * 100)
+    : 0;
+
+  const avgActivity =
+    networkMetrics.speedSeries.reduce((acc, value) => acc + value, 0) /
+    Math.max(1, networkMetrics.speedSeries.length);
+  const avgCost =
+    networkMetrics.costSeries.reduce((acc, value) => acc + value, 0) /
+    Math.max(1, networkMetrics.costSeries.length);
+  const efficiencyScore = avgActivity
+    ? Math.max(0, Math.min(100, Math.round((avgActivity / (avgActivity + avgCost)) * 100)))
+    : 0;
+
   return (
-    <div className="app">
-      <nav className="navbar">
-        <div className="navbar-brand">
-          <h1>🌿 Cassava Supply Chain</h1>
-          <p className="navbar-subtitle">Blockchain Traceability Dashboard</p>
-        </div>
-
-        <div className="navbar-spacer" />
-
-        <div className="navbar-status">
-          <div className="network-badge">
-            <span className="dot" />
-            <span>Ganache</span>
+    <div className="app-root">
+      <header className="main-navbar">
+        <div className="nav-brand">
+          <BrandMark />
+          <div>
+            <strong>CassavaTrace</strong>
+            <small>Blockchain Supply Chain Management</small>
           </div>
         </div>
 
-        <div className="navbar-wallet">
-          <div
-            className={`wallet-avatar-shell${isWalletMenuOpen ? " open" : ""}`}
-            ref={walletMenuRef}
-          >
+        <nav className="main-nav-links">
+          {NAV_ITEMS.map((item) => (
             <button
-              className="wallet-avatar"
+              key={item.key}
               type="button"
-              aria-haspopup="true"
-              aria-expanded={isWalletMenuOpen}
-              onClick={() => setIsWalletMenuOpen((prev) => !prev)}
+              className={activePage === item.key ? "active" : ""}
+              onClick={() => setActivePage(item.key)}
             >
-              {activeAccount ? (
-                <div className="avatar-content">
-                  <span className="avatar-circle">{formatAddress(activeAccount.address).charAt(0).toUpperCase()}</span>
-                  <span className="avatar-label">Connected</span>
+              {item.label}
+            </button>
+          ))}
+        </nav>
+
+        <div className="wallet-shell" ref={walletMenuRef}>
+          <button
+            className="wallet-trigger"
+            type="button"
+            onClick={() => setIsWalletMenuOpen((current) => !current)}
+          >
+            <span className="wallet-led" />
+            {activeAccount ? formatAddress(activeAccount.address) : "Connect Wallet"}
+          </button>
+
+          <div className={`wallet-menu ${isWalletMenuOpen ? "open" : ""}`}>
+            <p className="menu-title">
+              {activeAccount ? `Connected: ${formatAddress(activeAccount.address)}` : "Wallet not connected"}
+            </p>
+            <p className="menu-subtitle">Network: {chainLabel}</p>
+            <button className="btn primary" type="button" onClick={connectWallet} disabled={isWorking}>
+              {activeAccount ? "Switch / Reconnect" : "Connect MetaMask"}
+            </button>
+            {activeAccount ? (
+              <button
+                className="btn ghost"
+                type="button"
+                disabled={isWorking}
+                onClick={() => {
+                  disconnect();
+                  setIsWalletMenuOpen(false);
+                  setMessage("Wallet disconnected.");
+                }}
+              >
+                Disconnect
+              </button>
+            ) : null}
+          </div>
+        </div>
+      </header>
+
+      <main className="page-wrap">
+        {IS_PLACEHOLDER ? (
+          <section className="notice-card">
+            Contract is not ready. Deploy with node scripts/deploy.js, then refresh.
+          </section>
+        ) : null}
+
+        {activePage === "dashboard" ? (
+          <>
+            <section className="kpi-grid">
+              <article className="card">
+                <h3>Active Batches</h3>
+                <p className="kpi-value">{networkMetrics.totalBatches}</p>
+                <small>On-chain records tracked</small>
+              </article>
+
+              <article className="card">
+                <h3>Total Cassava Weight</h3>
+                <p className="kpi-value">{networkMetrics.totalWeight.toLocaleString()} kg</p>
+                <small>Aggregated from blockchain batch records</small>
+              </article>
+
+              <article className="card">
+                <h3>Data Integrity</h3>
+                <p className="kpi-value">{networkMetrics.recentRows.length ? "Verified" : "Waiting"}</p>
+                <small>{networkMetrics.lastUpdated ? `Updated ${networkMetrics.lastUpdated}` : "No updates yet"}</small>
+              </article>
+            </section>
+
+            <section className="grid-two">
+              <article className="card">
+                <h3>Log New Batch</h3>
+                <form className="data-form two-col" onSubmit={handleCreateBatch}>
+                  <label>
+                    Batch ID
+                    <input
+                      value={createBatchId}
+                      onChange={(event) => setCreateBatchId(event.target.value)}
+                      placeholder="20240001"
+                      required
+                    />
+                  </label>
+                  <label>
+                    Quantity (kg)
+                    <input
+                      value={createQuantity}
+                      onChange={(event) => setCreateQuantity(event.target.value)}
+                      placeholder="2500"
+                      required
+                    />
+                  </label>
+                  <label className="span-2">
+                    Origin
+                    <input
+                      value={createOrigin}
+                      onChange={(event) => setCreateOrigin(event.target.value)}
+                      placeholder="Ibadan, Nigeria"
+                      required
+                    />
+                  </label>
+                  <button className="btn primary span-2" type="submit" disabled={isWorking || IS_PLACEHOLDER}>
+                    Submit Transaction
+                  </button>
+                </form>
+              </article>
+
+              <article className="card">
+                <h3>Ownership & Status</h3>
+                <form className="data-form" onSubmit={handleTransferOwnership}>
+                  <label>
+                    Batch ID (transfer)
+                    <input
+                      value={transferBatchId}
+                      onChange={(event) => setTransferBatchId(event.target.value)}
+                      required
+                    />
+                  </label>
+                  <label>
+                    New Owner Address
+                    <input
+                      value={transferOwner}
+                      onChange={(event) => setTransferOwner(event.target.value)}
+                      required
+                    />
+                  </label>
+                  <button className="btn primary" type="submit" disabled={isWorking || IS_PLACEHOLDER}>
+                    Transfer Ownership
+                  </button>
+                </form>
+
+                <form className="data-form top-gap" onSubmit={(event) => event.preventDefault()}>
+                  <label>
+                    Batch ID (status)
+                    <input
+                      value={statusBatchId}
+                      onChange={(event) => setStatusBatchId(event.target.value)}
+                      required
+                    />
+                  </label>
+                  <div className="status-grid">
+                    {STATUS_LABELS.map((label, index) => (
+                      <button
+                        key={label}
+                        className="btn ghost"
+                        type="button"
+                        onClick={() => handleUpdateStatus(index)}
+                        disabled={isWorking || !statusBatchId || IS_PLACEHOLDER}
+                      >
+                        {label.replace("_", " ")}
+                      </button>
+                    ))}
+                  </div>
+                </form>
+              </article>
+            </section>
+
+            <section className="card top-gap">
+              <div className="section-head">
+                <h3>Recent Batches (On-chain)</h3>
+                <button className="btn ghost" type="button" onClick={refreshNetworkData} disabled={isWorking || IS_PLACEHOLDER}>
+                  Refresh Data
+                </button>
+              </div>
+
+              <div className="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Batch ID</th>
+                      <th>Origin</th>
+                      <th>Weight</th>
+                      <th>Status</th>
+                      <th>Owner</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allBatches.length ? (
+                      allBatches.slice(0, 8).map((batchItem) => (
+                        <tr key={batchItem.batchId}>
+                          <td>{batchItem.batchId}</td>
+                          <td>{batchItem.originLocation}</td>
+                          <td>{batchItem.quantityKg.toLocaleString()} kg</td>
+                          <td>{batchItem.status.replace("_", " ")}</td>
+                          <td>{formatAddress(batchItem.currentOwner)}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="5">No batches available on-chain yet.</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </>
+        ) : null}
+
+        {activePage === "trace" ? (
+          <>
+            <section className="card">
+              <div className="section-head">
+                <h3>Supply Chain Traceability View</h3>
+                <form className="inline-form" onSubmit={handleSearchBatch}>
+                  <input
+                    value={searchBatchId}
+                    onChange={(event) => setSearchBatchId(event.target.value)}
+                    placeholder="Enter batch ID"
+                    required
+                  />
+                  <button className="btn primary" type="submit" disabled={isWorking || IS_PLACEHOLDER}>
+                    Search
+                  </button>
+                </form>
+              </div>
+
+              {batchDetails ? (
+                <div className="trace-details">
+                  <article className="sub-card">
+                    <h4>Batch Overview</h4>
+                    <p><strong>Batch ID:</strong> {batchDetails.batchId}</p>
+                    <p><strong>Origin:</strong> {batchDetails.originLocation}</p>
+                    <p><strong>Quantity:</strong> {batchDetails.quantityKg} kg</p>
+                    <p><strong>Owner:</strong> {formatAddress(batchDetails.currentOwner)}</p>
+                    <p><strong>Status:</strong> {batchDetails.status.replace("_", " ")}</p>
+                    <p><strong>Created:</strong> {batchDetails.createdAt}</p>
+                    <div className="progress-wrap">
+                      <span>Traceability Progress</span>
+                      <div className="progress-bar">
+                        <div style={{ width: `${statusPercent}%` }} />
+                      </div>
+                    </div>
+                  </article>
+
+                  <article className="sub-card">
+                    <h4>Blockchain Journey</h4>
+                    <ul className="timeline-list">
+                      {batchEvents.length ? (
+                        batchEvents.map((eventItem) => (
+                          <li key={`${eventItem.txHash}-${eventItem.type}`}>
+                            <span className="event-pill">{eventItem.type}</span>
+                            <p>{eventItem.detail}</p>
+                            <small>
+                              Block {eventItem.blockNumber.toString()} · {formatAddress(eventItem.txHash)}
+                            </small>
+                          </li>
+                        ))
+                      ) : (
+                        <li>
+                          <p>No events found for this batch yet.</p>
+                        </li>
+                      )}
+                    </ul>
+                  </article>
                 </div>
               ) : (
-                <div className="avatar-content">
-                  <span className="avatar-circle">W</span>
-                  <span className="avatar-label">Wallet</span>
+                <p className="empty-state">Search for a batch to view traceability details from blockchain records.</p>
+              )}
+            </section>
+          </>
+        ) : null}
+
+        {activePage === "analytics" ? (
+          <>
+            <section className="grid-two">
+              <article className="card">
+                <h3>Transaction Efficiency (From Blockchain Events)</h3>
+                <div className="line-chart">
+                  <svg viewBox="0 0 392 190" preserveAspectRatio="none" role="img" aria-label="Efficiency chart">
+                    <polyline points={toSvgPoints(networkMetrics.speedSeries)} className="line speed" />
+                    <polyline points={toSvgPoints(networkMetrics.costSeries, 190, 56, 2.6)} className="line cost" />
+                  </svg>
                 </div>
-              )}
-            </button>
+                <div className="legend-row">
+                  <span><i className="dot speed" />Activity</span>
+                  <span><i className="dot cost" />Status/Transfer Weight</span>
+                </div>
+              </article>
 
-            <div className="wallet-dropdown">
-              <div className="dropdown-header">
-                {activeAccount ? (
-                  <>
-                    <p className="dropdown-title">Wallet Connected</p>
-                    <p className="dropdown-address">{formatAddress(activeAccount.address)}</p>
-                  </>
-                ) : (
-                  <p className="dropdown-title">Connect Your Wallet</p>
-                )}
-              </div>
-
-              <button
-                className="dropdown-button primary"
-                onClick={connectWallet}
-                disabled={isWorking}
-              >
-                {activeAccount ? "Switch Network" : "🦊 MetaMask"}
-              </button>
-
-              {activeAccount && (
-                <button
-                  className="dropdown-button ghost"
-                  onClick={() => {
-                    disconnect();
-                    setIsWalletMenuOpen(false);
-                  }}
-                  disabled={isWorking}
-                >
-                  Disconnect
-                </button>
-              )}
-
-              <p className="dropdown-footer">{chainLabel}</p>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      <main className="grid">
-        {IS_PLACEHOLDER && (
-          <section className="panel wide alert-panel">
-            <div className="alert-content">
-              <p className="alert-icon">⚠️</p>
-              <div>
-                <h3>Contract Not Ready</h3>
-                <p>Run the deploy script to initialize the contract:</p>
-                <code style={{ background: "#f0f0f0", padding: "8px 12px", borderRadius: "6px", display: "block", marginTop: "8px" }}>
-                  $env:GANACHE_PRIVATE_KEY="your_key"; node scripts/deploy.js
-                </code>
-              </div>
-            </div>
-          </section>
-        )}
-        <section className="panel">
-          <h2>Create Batch</h2>
-          <form onSubmit={handleCreateBatch} className="form">
-            <label>
-              Batch ID
-              <input
-                value={createBatchId}
-                onChange={(event) => setCreateBatchId(event.target.value)}
-                placeholder="e.g. 101"
-                required
-              />
-            </label>
-            <label>
-              Origin Location
-              <input
-                value={createOrigin}
-                onChange={(event) => setCreateOrigin(event.target.value)}
-                placeholder="e.g. Oyo State"
-                required
-              />
-            </label>
-            <label>
-              Quantity (kg)
-              <input
-                value={createQuantity}
-                onChange={(event) => setCreateQuantity(event.target.value)}
-                placeholder="e.g. 250"
-                required
-              />
-            </label>
-            <button className="primary" type="submit" disabled={isWorking}>
-              Create Batch
-            </button>
-          </form>
-        </section>
-
-        <section className="panel">
-          <h2>Transfer Ownership</h2>
-          <form onSubmit={handleTransferOwnership} className="form">
-            <label>
-              Batch ID
-              <input
-                value={transferBatchId}
-                onChange={(event) => setTransferBatchId(event.target.value)}
-                placeholder="e.g. 101"
-                required
-              />
-            </label>
-            <label>
-              New Owner Address
-              <input
-                value={transferOwner}
-                onChange={(event) => setTransferOwner(event.target.value)}
-                placeholder="0x..."
-                required
-              />
-            </label>
-            <button className="primary" type="submit" disabled={isWorking}>
-              Transfer
-            </button>
-          </form>
-        </section>
-
-        <section className="panel">
-          <h2>Update Status</h2>
-          <form className="form" onSubmit={(event) => event.preventDefault()}>
-            <label>
-              Batch ID
-              <input
-                value={statusBatchId}
-                onChange={(event) => setStatusBatchId(event.target.value)}
-                placeholder="e.g. 101"
-                required
-              />
-            </label>
-            <div className="status-buttons">
-              {STATUS_LABELS.map((label, index) => (
-                <button
-                  className="ghost"
-                  type="button"
-                  key={label}
-                  onClick={() => handleUpdateStatus(index)}
-                  disabled={isWorking || !statusBatchId}
-                >
-                  {label.replace("_", " ")}
-                </button>
-              ))}
-            </div>
-          </form>
-        </section>
-
-        <section className="panel wide">
-          <div className="panel-header">
-            <div>
-              <h2>Search Batch</h2>
-              <p className="muted">Pull a batch record plus its on-chain history.</p>
-            </div>
-            <form onSubmit={handleSearchBatch} className="inline-form">
-              <input
-                value={searchBatchId}
-                onChange={(event) => setSearchBatchId(event.target.value)}
-                placeholder="Batch ID"
-                required
-              />
-              <button className="primary" type="submit" disabled={isWorking}>
-                Search
-              </button>
-            </form>
-          </div>
-
-          {batchDetails ? (
-            <div className="details">
-              <div>
-                <p className="label">Batch ID</p>
-                <p className="value">{batchDetails.batchId}</p>
-              </div>
-              <div>
-                <p className="label">Origin</p>
-                <p className="value">{batchDetails.originLocation}</p>
-              </div>
-              <div>
-                <p className="label">Quantity</p>
-                <p className="value">{batchDetails.quantityKg} kg</p>
-              </div>
-              <div>
-                <p className="label">Created</p>
-                <p className="value">{batchDetails.createdAt}</p>
-              </div>
-              <div>
-                <p className="label">Owner</p>
-                <p className="value mono">{batchDetails.currentOwner}</p>
-              </div>
-              <div>
-                <p className="label">Status</p>
-                <p className="value chip">{batchDetails.status}</p>
-              </div>
-            </div>
-          ) : (
-            <p className="muted">No batch loaded yet.</p>
-          )}
-
-          <div className="history">
-            <h3>History</h3>
-            {batchEvents.length === 0 ? (
-              <p className="muted">No events for this batch yet.</p>
-            ) : (
-              <ul>
-                {batchEvents.map((event) => (
-                  <li key={`${event.txHash}-${event.type}`}>
-                    <div>
-                      <span className="pill">{event.type}</span>
-                      <span className="meta">Block {event.blockNumber}</span>
+              <article className="card">
+                <h3>Tracked Batches by Status</h3>
+                <div className="bar-grid">
+                  {STATUS_LABELS.map((label, index) => (
+                    <div key={label} className="bar-card">
+                      <div className="bar-label">{label.replace("_", " ")}</div>
+                      <div className="bar-track">
+                        <div
+                          className="bar-fill"
+                          style={{
+                            width: `${
+                              networkMetrics.totalBatches
+                                ? Math.round((networkMetrics.statusCounts[index] / networkMetrics.totalBatches) * 100)
+                                : 0
+                            }%`,
+                          }}
+                        />
+                      </div>
+                      <strong>{networkMetrics.statusCounts[index]}</strong>
                     </div>
-                    <p>{event.detail}</p>
-                    <p className="mono small">{event.txHash}</p>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </section>
+                  ))}
+                </div>
+              </article>
+            </section>
+
+            <section className="card top-gap">
+              <h3>Data Integrity - Recent Blocks</h3>
+              <div className="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Block ID</th>
+                      <th>Block Number</th>
+                      <th>Event Type</th>
+                      <th>Status</th>
+                      <th>Transaction</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {networkMetrics.recentRows.length ? (
+                      networkMetrics.recentRows.map((row) => (
+                        <tr key={`${row.block}-${row.txHash}`}>
+                          <td>{row.block}</td>
+                          <td>{row.blockNumber}</td>
+                          <td>{row.event}</td>
+                          <td>
+                            <span className={`tag ${row.status === "Verified" ? "ok" : "pending"}`}>{row.status}</span>
+                          </td>
+                          <td>{formatAddress(row.txHash)}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="5">No blockchain events yet.</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <section className="card top-gap">
+              <h3>System Evaluation</h3>
+              <div className="evaluation-grid">
+                <article className="sub-card">
+                  <h4>Traceability Coverage</h4>
+                  <p className="kpi-value">{traceabilityCoverage}%</p>
+                  <small>{completedBatches} of {networkMetrics.totalBatches} batches reached DELIVERED</small>
+                </article>
+                <article className="sub-card">
+                  <h4>Data Integrity Score</h4>
+                  <p className="kpi-value">{integrityScore}%</p>
+                  <small>Based on recent on-chain event verification checks</small>
+                </article>
+                <article className="sub-card">
+                  <h4>Transaction Efficiency</h4>
+                  <p className="kpi-value">{efficiencyScore}%</p>
+                  <small>Computed from activity versus status/transfer overhead</small>
+                </article>
+              </div>
+              <p className="dataset-note">
+                This section evaluates traceability, data integrity, and transaction efficiency directly from blockchain activity.
+              </p>
+            </section>
+
+            <section className="card top-gap">
+              <div className="section-head">
+                <h3>Dataset Insights</h3>
+                <button className="btn ghost" type="button" onClick={loadDatasetApiData} disabled={isWorking}>
+                  Reload Data
+                </button>
+              </div>
+
+              {datasetSummary ? (
+                <div className="dataset-summary-grid">
+                  <article className="sub-card">
+                    <h4>Total Dataset Records</h4>
+                    <p className="kpi-value">{datasetSummary.totalRecords}</p>
+                  </article>
+                  <article className="sub-card">
+                    <h4>Average Loss</h4>
+                    <p className="kpi-value">{datasetSummary.avgLossPct}%</p>
+                  </article>
+                  <article className="sub-card">
+                    <h4>Average Transport Time</h4>
+                    <p className="kpi-value">{datasetSummary.avgTransportHours} hrs</p>
+                  </article>
+                </div>
+              ) : (
+                <p className="dataset-note">{datasetApiError}</p>
+              )}
+
+              <div className="table-wrap top-gap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Record ID</th>
+                      <th>Region</th>
+                      <th>Year</th>
+                      <th>Qty (kg)</th>
+                      <th>Quality</th>
+                      <th>Loss %</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {datasetRecords.length ? (
+                      datasetRecords.map((record) => (
+                        <tr key={record.recordId}>
+                          <td>{record.recordId}</td>
+                          <td>{record.region}</td>
+                          <td>{record.year}</td>
+                          <td>{Number(record.quantityKg || 0).toLocaleString()}</td>
+                          <td>{record.qualityGrade}</td>
+                          <td>{record.lossPct}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="6">No dataset records loaded yet.</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </>
+        ) : null}
       </main>
 
       {statusMessage ? <div className="toast">{statusMessage}</div> : null}
