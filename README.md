@@ -1,133 +1,261 @@
-# Cassava Supply Chain — B2B DApp
+# CassavaTrace: Blockchain Supply Chain Management
 
-A full-stack blockchain application for tracing cassava batches through the supply chain: from farmer to processor, distributor, and retailer.
+<p align="center">
+	<img src="ui/public/favicon.svg" alt="CassavaTrace Logo" width="92" height="92" />
+</p>
 
-## What's included
+<p align="center">
+	Track cassava batches from creation to delivery with on-chain smart contracts,
+	off-chain data processing, and a stakeholder-ready UI.
+</p>
 
-| Layer                | Stack                                        |
-| -------------------- | -------------------------------------------- |
-| Smart contract       | Solidity 0.8.20, Hardhat 3 Beta              |
-| Deploy script        | Node.js + ethers.js v6                       |
-| Frontend             | React 18, Vite, thirdweb v5                  |
-| Off-chain data layer | Node.js dataset pipeline + local dataset API |
-| Local blockchain     | Ganache (chainId 1337)                       |
+<p align="center">
+	<img src="https://img.shields.io/badge/Solidity-0.8.20-1f2937?logo=solidity" alt="Solidity" />
+	<img src="https://img.shields.io/badge/Hardhat-3.x-f7df1e?logo=ethereum" alt="Hardhat" />
+	<img src="https://img.shields.io/badge/React-18-0ea5e9?logo=react" alt="React" />
+	<img src="https://img.shields.io/badge/Vite-5-6366f1?logo=vite" alt="Vite" />
+	<img src="https://img.shields.io/badge/thirdweb-v5-111827" alt="thirdweb" />
+	<img src="https://img.shields.io/badge/Ganache-1337-8b5e3c" alt="Ganache" />
+</p>
 
-### Contract: `CassavaSupplyChain.sol`
+## Table of Contents
 
-- Role-based access control (Admin, Farmer, Processor, Distributor, Retailer)
-- Create batches with origin location and quantity
-- Transfer batch ownership between participants
-- Update batch status (CREATED → PROCESSED → IN_TRANSIT → DELIVERED)
-- On-chain event history
+- [Project Overview](#project-overview)
+- [Core Features](#core-features)
+- [Architecture](#architecture)
+- [Prerequisites](#prerequisites)
+- [Quick Start](#quick-start)
+- [MetaMask Setup](#metamask-setup)
+- [Environment Variables](#environment-variables)
+- [API Endpoints](#api-endpoints)
+- [Objectives Mapping](#objectives-mapping)
+- [Project Structure](#project-structure)
+- [Guides](#guides)
+- [Troubleshooting](#troubleshooting)
 
----
+## Project Overview
+
+CassavaTrace is a full-stack blockchain application for cassava supply-chain traceability.
+
+It combines:
+
+- On-chain transaction integrity through Ethereum smart contracts.
+- Role-aware stakeholder operations (create, transfer, status progression).
+- Off-chain dataset preprocessing for simulation, analytics, and evaluation.
+- A practical UI for operational input and decision-focused reports.
+
+## Core Features
+
+### On-chain
+
+- Create cassava batches with ID, quantity, and origin.
+- Transfer ownership between supply-chain actors.
+- Update lifecycle status from CREATED to DELIVERED.
+- Query complete batch state and event history.
+
+### Off-chain
+
+- Pull live cassava datasets from verified online sources.
+- Preprocess and normalize raw records into app-ready JSON.
+- Serve dataset insights through local API endpoints.
+- Auto-fallback to safe sample data when online sources are unavailable.
+
+### UI
+
+- Dashboard for transaction input and recent on-chain records.
+- Traceability screen for per-batch journey reconstruction.
+- Reports for integrity, efficiency, status distribution, and dataset insights.
+
+## Architecture
+
+| Layer | Responsibility | Tech |
+| --- | --- | --- |
+| Smart Contract | Batch state transitions and ownership history | Solidity, Hardhat |
+| Deployment | Contract deployment and UI ABI/address sync | Node.js, ethers |
+| Dataset Pipeline | Fetch, parse, normalize cassava data | Node.js script |
+| Dataset API | Read-only dataset endpoints for UI | Node.js HTTP server |
+| Frontend | Forms, wallet actions, traceability, reports | React, Vite, thirdweb |
+| Local Chain | Transaction execution and event source | Ganache |
 
 ## Prerequisites
 
-- **Node.js** ≥ 18
-- **Ganache** running locally on `http://127.0.0.1:7545` (chainId 1337)
-- A free **ThirdWeb** Client ID — [get one here](https://thirdweb.com/dashboard)
+- Node.js 18 or later
+- Ganache running at http://127.0.0.1:7545
+- Chain ID 1337
+- Thirdweb client ID from https://thirdweb.com/dashboard
 
----
+## Quick Start
 
-## Getting started
-
-### 1. Install root dependencies
+### 1. Install dependencies
 
 ```bash
 npm install
+cd ui
+npm install
+cd ..
 ```
 
-### 2. Compile the contract
+### 2. Compile and deploy contract
 
 ```bash
 npx hardhat compile
 ```
 
-### 3. Deploy to Ganache
+PowerShell:
 
-Export a Ganache account private key, then run the deploy script:
-
-```bash
-export GANACHE_PRIVATE_KEY=0xYourGanachePrivateKey
+```powershell
+$env:GANACHE_PRIVATE_KEY="0xYOUR_GANACHE_PRIVATE_KEY"
 node scripts/deploy.js
 ```
 
-This writes `ui/src/contract-address.json` and `ui/src/abi.json` automatically.
-
-### 4. Set up the frontend
+Bash:
 
 ```bash
-cd ui
-cp .env.example .env          # then edit .env and add your ThirdWeb Client ID
-npm install
-npm run dev                   # starts Vite dev server at http://localhost:5173
+export GANACHE_PRIVATE_KEY=0xYOUR_GANACHE_PRIVATE_KEY
+node scripts/deploy.js
 ```
 
-### 5. Build off-chain dataset (Objective iv)
+Deployment writes:
+
+- ui/src/abi.json
+- ui/src/contract-address.json
+
+### 3. Build dataset
 
 ```bash
 npm run dataset:build
 ```
 
-This generates:
+Expected output includes source URL, source ID, and record count.
 
-- `data/raw/cassava-dataset.csv`
-- `data/processed/cassava-dataset.json`
-
-### 6. Start dataset API
+### 4. Start dataset API
 
 ```bash
 npm run api:dataset
 ```
 
-API endpoints:
+Behavior:
 
-- `GET /health`
-- `GET /api/dataset/summary`
-- `GET /api/dataset/records?limit=20`
-- `GET /api/dataset/challenges`
+- Starts on port 3030 by default.
+- If already running, exits successfully.
+- If occupied by another app, auto-selects next free port.
+- Automatically syncs ui/.env VITE_DATASET_API_URL to the active API port.
 
-The Reports page merges this dataset API output with on-chain metrics.
+### 5. Run UI
 
----
-
-## Project structure
-
+```bash
+cd ui
+npm run dev
 ```
+
+Open the local Vite URL shown in terminal.
+
+## MetaMask Setup
+
+1. Add custom network:
+	 - RPC URL: http://127.0.0.1:7545
+	 - Chain ID: 1337
+	 - Currency Symbol: ETH
+2. Import a Ganache private key into MetaMask.
+3. Connect wallet in the app using the Connect Wallet button.
+
+## Environment Variables
+
+Create ui/.env from ui/.env.example and configure:
+
+| Variable | Required | Description |
+| --- | --- | --- |
+| VITE_THIRDWEB_CLIENT_ID | Yes | Thirdweb Client ID |
+| VITE_CONTRACT_ADDRESS | Optional | Manual contract address override |
+| VITE_DATASET_API_URL | Optional | Dataset API URL (auto-synced by API startup) |
+
+## API Endpoints
+
+- GET /health
+- GET /api/dataset/summary
+- GET /api/dataset/records?limit=20
+- GET /api/dataset/challenges
+
+Example:
+
+```bash
+curl http://127.0.0.1:3030/api/dataset/summary
+```
+
+## Objectives Mapping
+
+1. Smart contract design and implementation: contracts/CassavaSupplyChain.sol
+2. Local blockchain deployment and simulation: Hardhat + Ganache + scripts/deploy.js
+3. Interactive stakeholder UI: ui/src/App.jsx with thirdweb + MetaMask
+4. Dataset sourcing and preprocessing: scripts/dataset-pipeline.mjs + server/dataset-api.mjs
+5. Evaluation of traceability, integrity, efficiency: Reports section in UI
+6. Supply-chain challenge analysis: data-informed reporting + event-driven analytics
+
+## Project Structure
+
+```text
 .
-├── contracts/
-│   └── CassavaSupplyChain.sol   # Solidity smart contract
-├── scripts/
-│   └── deploy.js                # Deploys contract & writes UI config files
-│   └── dataset-pipeline.mjs     # Fetches/preprocesses cassava dataset
-├── server/
-│   └── dataset-api.mjs          # Serves processed dataset endpoints
-├── data/
-│   ├── raw/
-│   │   └── cassava-dataset.csv
-│   └── processed/
-│       └── cassava-dataset.json
-├── hardhat.config.ts            # Hardhat configuration
-├── ui/
-│   ├── src/
-│   │   ├── App.jsx              # Main React application
-│   │   ├── thirdwebClient.js    # thirdweb client + Ganache chain config
-│   │   ├── abi.json             # Auto-generated by deploy script
-│   │   └── contract-address.json # Auto-generated by deploy script
-│   ├── .env.example             # Environment variable template
-│   └── index.html
-└── package.json
+|-- contracts/
+|   `-- CassavaSupplyChain.sol
+|-- scripts/
+|   |-- deploy.js
+|   `-- dataset-pipeline.mjs
+|-- server/
+|   `-- dataset-api.mjs
+|-- data/
+|   |-- raw/
+|   `-- processed/
+|-- ui/
+|   |-- public/
+|   |   `-- favicon.svg
+|   |-- src/
+|   |   |-- App.jsx
+|   |   |-- abi.json
+|   |   |-- contract-address.json
+|   |   `-- thirdwebClient.js
+|   `-- .env.example
+|-- docs/
+|   |-- UI_WORKFLOW_GUIDE.md
+|   `-- LIVE_DEMO_SCRIPT.md
+`-- package.json
 ```
 
----
+## Guides
 
-## Environment variables (`ui/.env`)
+- Detailed UI behavior guide: docs/UI_WORKFLOW_GUIDE.md
+- Step-by-step live demo script: docs/LIVE_DEMO_SCRIPT.md
 
-| Variable                  | Required | Description                                             |
-| ------------------------- | -------- | ------------------------------------------------------- |
-| `VITE_THIRDWEB_CLIENT_ID` | Yes      | ThirdWeb Client ID for wallet connectivity              |
-| `VITE_CONTRACT_ADDRESS`   | No       | Overrides the address from `contract-address.json`      |
-| `VITE_DATASET_API_URL`    | No       | Dataset API base URL (default: `http://127.0.0.1:3030`) |
+## Troubleshooting
 
-> **Never commit your `.env` file.** It is listed in `.gitignore`. Use `.env.example` as a template.
+### API already running
+
+If npm run api:dataset reports already running, this is expected and successful.
+
+### Dataset falls back to local sample
+
+If online source is unavailable, fallback mode is used automatically.
+Check source in:
+
+- data/processed/cassava-dataset.json
+- GET /api/dataset/summary
+
+### UI not picking new API port
+
+Restart Vite after API restart:
+
+```bash
+cd ui
+npm run dev
+```
+
+### Contract not ready message
+
+Re-run deployment and refresh the UI:
+
+```bash
+node scripts/deploy.js
+```
+
+## License
+
+For academic and project demonstration use. Add your preferred open-source license if needed.
