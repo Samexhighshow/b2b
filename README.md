@@ -128,6 +128,6 @@ The Reports page merges this dataset API output with on-chain metrics.
 | ------------------------- | -------- | ------------------------------------------------------- |
 | `VITE_THIRDWEB_CLIENT_ID` | Yes      | ThirdWeb Client ID for wallet connectivity              |
 | `VITE_CONTRACT_ADDRESS`   | No       | Overrides the address from `contract-address.json`      |
-| `VITE_DATASET_API_URL`    | No       | Dataset API base URL (default: `http://127.0.0.1:8080`) |
+| `VITE_DATASET_API_URL`    | No       | Dataset API base URL (default: `http://127.0.0.1:3030`) |
 
 > **Never commit your `.env` file.** It is listed in `.gitignore`. Use `.env.example` as a template.

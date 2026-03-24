@@ -14,7 +14,7 @@ const datasetPath = path.join(
 );
 
 const host = process.env.DATASET_API_HOST || "127.0.0.1";
-const port = Number(process.env.DATASET_API_PORT || 8080);
+const port = Number(process.env.DATASET_API_PORT || 3030);
 
 async function loadDataset() {
   const fileText = await readFile(datasetPath, "utf8");

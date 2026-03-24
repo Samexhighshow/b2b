@@ -38,7 +38,7 @@ const NAV_ITEMS = [
   { key: "analytics", label: "Reports" },
 ];
 
-const DATASET_API_BASE = import.meta.env.VITE_DATASET_API_URL || "http://127.0.0.1:8080";
+const DATASET_API_BASE = import.meta.env.VITE_DATASET_API_URL || "http://127.0.0.1:3030";
 
 const PROJECT_OBJECTIVES = [
   "Design and implement Ethereum smart contracts for secure cassava supply chain transactions.",
