@@ -68,14 +68,14 @@ It combines:
 
 ## Architecture
 
-| Layer | Responsibility | Tech |
-| --- | --- | --- |
-| Smart Contract | Batch state transitions and ownership history | Solidity, Hardhat |
-| Deployment | Contract deployment and UI ABI/address sync | Node.js, ethers |
-| Dataset Pipeline | Fetch, parse, normalize cassava data | Node.js script |
-| Dataset API | Read-only dataset endpoints for UI | Node.js HTTP server |
-| Frontend | Forms, wallet actions, traceability, reports | React, Vite, thirdweb |
-| Local Chain | Transaction execution and event source | Ganache |
+| Layer            | Responsibility                                | Tech                  |
+| ---------------- | --------------------------------------------- | --------------------- |
+| Smart Contract   | Batch state transitions and ownership history | Solidity, Hardhat     |
+| Deployment       | Contract deployment and UI ABI/address sync   | Node.js, ethers       |
+| Dataset Pipeline | Fetch, parse, normalize cassava data          | Node.js script        |
+| Dataset API      | Read-only dataset endpoints for UI            | Node.js HTTP server   |
+| Frontend         | Forms, wallet actions, traceability, reports  | React, Vite, thirdweb |
+| Local Chain      | Transaction execution and event source        | Ganache               |
 
 ## Prerequisites
 
@@ -153,9 +153,9 @@ Open the local Vite URL shown in terminal.
 ## MetaMask Setup
 
 1. Add custom network:
-	 - RPC URL: http://127.0.0.1:7545
-	 - Chain ID: 1337
-	 - Currency Symbol: ETH
+   - RPC URL: http://127.0.0.1:7545
+   - Chain ID: 1337
+   - Currency Symbol: ETH
 2. Import a Ganache private key into MetaMask.
 3. Connect wallet in the app using the Connect Wallet button.
 
@@ -163,11 +163,11 @@ Open the local Vite URL shown in terminal.
 
 Create ui/.env from ui/.env.example and configure:
 
-| Variable | Required | Description |
-| --- | --- | --- |
-| VITE_THIRDWEB_CLIENT_ID | Yes | Thirdweb Client ID |
-| VITE_CONTRACT_ADDRESS | Optional | Manual contract address override |
-| VITE_DATASET_API_URL | Optional | Dataset API URL (auto-synced by API startup) |
+| Variable                | Required | Description                                  |
+| ----------------------- | -------- | -------------------------------------------- |
+| VITE_THIRDWEB_CLIENT_ID | Yes      | Thirdweb Client ID                           |
+| VITE_CONTRACT_ADDRESS   | Optional | Manual contract address override             |
+| VITE_DATASET_API_URL    | Optional | Dataset API URL (auto-synced by API startup) |
 
 ## API Endpoints
 
