@@ -363,6 +363,9 @@ th {
   padding: 12px;
 }
 
+.details p {
+  margin: 0;
+}
 .sub-card p {
   margin: 8px 0;
   color: #2c3b31;
