@@ -10,8 +10,16 @@ const rawDir = path.join(repoRoot, "data", "raw");
 const processedDir = path.join(repoRoot, "data", "processed");
 
 const SOURCE_URLS = [
-  "https://raw.githubusercontent.com/owid/owid-datasets/master/datasets/Cassava%20production%20%28FAOSTAT%2C%202024%29/Cassava%20production%20%28FAOSTAT%2C%202024%29.csv",
-  "https://raw.githubusercontent.com/datasets/country-list/master/data.csv",
+  {
+    id: "owid-cassava-production",
+    url: "https://ourworldindata.org/grapher/cassava-production.csv",
+    metricType: "production",
+  },
+  {
+    id: "owid-cassava-yield",
+    url: "https://ourworldindata.org/grapher/cassava-yields.csv",
+    metricType: "yield",
+  },
 ];
 
 const FALLBACK_ROWS = [
@@ -82,7 +90,13 @@ function parseCsv(csvText) {
   return rows;
 }
 
-function normalizeRows(rows) {
+function findHeaderKey(headerMap, matchers) {
+  const keys = Object.keys(headerMap);
+  const matched = keys.find((key) => matchers.every((matcher) => key.includes(matcher)));
+  return matched ? headerMap[matched] : null;
+}
+
+function normalizeRows(rows, sourceMeta) {
   const normalized = [];
 
   rows.forEach((row, index) => {
@@ -101,9 +115,15 @@ function normalizeRows(rows) {
     const yearRaw = row[headerMap.year] || row[headerMap.date] || null;
     const year = Number.parseInt(String(yearRaw || ""), 10);
 
+    const productionKey = findHeaderKey(headerMap, ["cassava", "production"]);
+    const yieldKey = findHeaderKey(headerMap, ["cassava", "yield"]);
+
     const valueRaw =
-      row[headerMap["cassava production"]] ||
-      row[headerMap.production] ||
+      (sourceMeta.metricType === "production"
+        ? row[productionKey || ""]
+        : row[yieldKey || ""]) ||
+      row[productionKey || ""] ||
+      row[yieldKey || ""] ||
       row[headerMap.value] ||
       row[headerMap.quantity] ||
       null;
@@ -128,13 +148,17 @@ function normalizeRows(rows) {
       batchId: `${year}${String((index % 90) + 10).padStart(2, "0")}`,
       region,
       year,
-      productType: "Cassava Roots",
+      productType:
+        sourceMeta.metricType === "yield"
+          ? "Cassava Yield"
+          : "Cassava Roots",
       quantityTonnes,
       quantityKg,
       qualityGrade,
       lossPct,
       transportHours,
-      sourceType: "online",
+      sourceType: `online-${sourceMeta.id}`,
+      metricType: sourceMeta.metricType,
     });
   });
 
@@ -209,9 +233,11 @@ function summarize(records) {
 }
 
 async function fetchOnlineRows() {
-  for (const url of SOURCE_URLS) {
+  let bestNonProductionCandidate = null;
+
+  for (const sourceMeta of SOURCE_URLS) {
     try {
-      const response = await fetch(url, {
+      const response = await fetch(sourceMeta.url, {
         headers: {
           "User-Agent": "cassava-b2b-pipeline/1.0",
         },
@@ -223,19 +249,32 @@ async function fetchOnlineRows() {
 
       const text = await response.text();
       const parsed = parseCsv(text);
-      const normalized = normalizeRows(parsed);
+      const normalized = normalizeRows(parsed, sourceMeta);
 
       if (normalized.length > 0) {
-        return {
+        const candidate = {
           records: normalized,
           rawCsv: text,
-          sourceUrl: url,
+          sourceUrl: sourceMeta.url,
+          sourceId: sourceMeta.id,
           usedFallback: false,
         };
+
+        if (sourceMeta.metricType === "production") {
+          return candidate;
+        }
+
+        if (!bestNonProductionCandidate) {
+          bestNonProductionCandidate = candidate;
+        }
       }
     } catch {
       // Try next source URL.
     }
+  }
+
+  if (bestNonProductionCandidate) {
+    return bestNonProductionCandidate;
   }
 
   const fallbackRecords = normalizeFallbackRows(FALLBACK_ROWS);
@@ -250,6 +289,7 @@ async function fetchOnlineRows() {
     records: fallbackRecords,
     rawCsv: fallbackCsv,
     sourceUrl: "fallback-local-sample",
+    sourceId: "fallback-local-sample",
     usedFallback: true,
   };
 }
@@ -265,6 +305,7 @@ async function run() {
     generatedAt: new Date().toISOString(),
     source: {
       url: fetched.sourceUrl,
+      id: fetched.sourceId,
       usedFallback: fetched.usedFallback,
     },
     summary,
@@ -284,6 +325,7 @@ async function run() {
 
   console.log(`[dataset-pipeline] records: ${payload.summary.totalRecords}`);
   console.log(`[dataset-pipeline] source: ${payload.source.url}`);
+  console.log(`[dataset-pipeline] sourceId: ${fetched.sourceId}`);
   console.log(`[dataset-pipeline] wrote: data/processed/cassava-dataset.json`);
 }
 
