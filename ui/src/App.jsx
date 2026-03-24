@@ -40,15 +40,6 @@ const NAV_ITEMS = [
 
 const DATASET_API_BASE = import.meta.env.VITE_DATASET_API_URL || "http://127.0.0.1:3030";
 
-const PROJECT_OBJECTIVES = [
-  "Design and implement Ethereum smart contracts for secure cassava supply chain transactions.",
-  "Deploy and simulate contracts on a local blockchain environment (Ganache).",
-  "Develop an interactive stakeholder interface using Thirdweb and MetaMask.",
-  "Source cassava datasets and preprocess for simulation/testing.",
-  "Evaluate traceability, data integrity and transaction efficiency.",
-  "Analyze cassava supply chain challenges and how blockchain addresses them.",
-];
-
 const formatAddress = (address) => (address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "");
 
 const parseNumericInput = (value, fieldLabel) => {
@@ -584,14 +575,25 @@ export default function App() {
     ? Math.round((batchDetails.statusIndex / (STATUS_LABELS.length - 1)) * 100)
     : 0;
 
-  const objectiveStatus = [
-    !IS_PLACEHOLDER,
-    !IS_PLACEHOLDER,
-    hasClientId,
-    Boolean(datasetSummary),
-    networkMetrics.recentRows.length > 0,
-    true,
-  ];
+  const completedBatches = networkMetrics.statusCounts[3] || 0;
+  const traceabilityCoverage = networkMetrics.totalBatches
+    ? Math.round((completedBatches / networkMetrics.totalBatches) * 100)
+    : 0;
+
+  const verifiedRows = networkMetrics.recentRows.filter((row) => row.status === "Verified").length;
+  const integrityScore = networkMetrics.recentRows.length
+    ? Math.round((verifiedRows / networkMetrics.recentRows.length) * 100)
+    : 0;
+
+  const avgActivity =
+    networkMetrics.speedSeries.reduce((acc, value) => acc + value, 0) /
+    Math.max(1, networkMetrics.speedSeries.length);
+  const avgCost =
+    networkMetrics.costSeries.reduce((acc, value) => acc + value, 0) /
+    Math.max(1, networkMetrics.costSeries.length);
+  const efficiencyScore = avgActivity
+    ? Math.max(0, Math.min(100, Math.round((avgActivity / (avgActivity + avgCost)) * 100)))
+    : 0;
 
   return (
     <div className="app-root">
@@ -954,10 +956,34 @@ export default function App() {
             </section>
 
             <section className="card top-gap">
+              <h3>System Evaluation</h3>
+              <div className="evaluation-grid">
+                <article className="sub-card">
+                  <h4>Traceability Coverage</h4>
+                  <p className="kpi-value">{traceabilityCoverage}%</p>
+                  <small>{completedBatches} of {networkMetrics.totalBatches} batches reached DELIVERED</small>
+                </article>
+                <article className="sub-card">
+                  <h4>Data Integrity Score</h4>
+                  <p className="kpi-value">{integrityScore}%</p>
+                  <small>Based on recent on-chain event verification checks</small>
+                </article>
+                <article className="sub-card">
+                  <h4>Transaction Efficiency</h4>
+                  <p className="kpi-value">{efficiencyScore}%</p>
+                  <small>Computed from activity versus status/transfer overhead</small>
+                </article>
+              </div>
+              <p className="dataset-note">
+                This section evaluates traceability, data integrity, and transaction efficiency directly from blockchain activity.
+              </p>
+            </section>
+
+            <section className="card top-gap">
               <div className="section-head">
-                <h3>Off-chain Dataset Insights (Objective iv)</h3>
+                <h3>Dataset Insights</h3>
                 <button className="btn ghost" type="button" onClick={loadDatasetApiData} disabled={isWorking}>
-                  Reload Dataset API
+                  Reload Data
                 </button>
               </div>
 
@@ -977,7 +1003,7 @@ export default function App() {
                   </article>
                 </div>
               ) : (
-                <p className="objective-note">{datasetApiError}</p>
+                <p className="dataset-note">{datasetApiError}</p>
               )}
 
               <div className="table-wrap top-gap">
@@ -1012,25 +1038,6 @@ export default function App() {
                   </tbody>
                 </table>
               </div>
-            </section>
-
-            <section className="card top-gap">
-              <h3>Project Outline Alignment (1.3 Objectives)</h3>
-              <ul className="objective-list">
-                {PROJECT_OBJECTIVES.map((objective, index) => (
-                  <li key={objective}>
-                    <span className={`objective-badge ${objectiveStatus[index] ? "done" : "pending"}`}>
-                      {objectiveStatus[index] ? "Implemented" : "Pending"}
-                    </span>
-                    <p>
-                      <strong>{`${index + 1}.`}</strong> {objective}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-              <p className="objective-note">
-                Objective 4 is complete when dataset API is reachable and serving preprocessed cassava records.
-              </p>
             </section>
           </>
         ) : null}

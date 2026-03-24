@@ -539,51 +539,18 @@ th {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.evaluation-grid {
+  margin-top: 10px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .dataset-summary-grid .sub-card .kpi-value {
   margin-top: 6px;
   margin-bottom: 0;
 }
-
-.objective-list {
-  list-style: none;
-  margin: 10px 0 0;
-  padding: 0;
-  display: grid;
-  gap: 8px;
-}
-
-.objective-list li {
-  border: 1px solid #dbe4dc;
-  border-radius: 10px;
-  background: #fff;
-  padding: 9px 10px;
-  display: grid;
-  gap: 6px;
-}
-
-.objective-badge {
-  justify-self: start;
-  padding: 3px 8px;
-  border-radius: 999px;
-  font-size: 0.72rem;
-  font-weight: 700;
-}
-
-.objective-badge.done {
-  color: #0d6a32;
-  background: #daf2e3;
-}
-
-.objective-badge.pending {
-  color: #84590d;
-  background: #f8e7c9;
-}
-
-.objective-list p {
-  margin: 0;
-}
-
-.objective-note {
+.dataset-note {
   margin: 10px 0 0;
   color: var(--ink-subtle);
   font-size: 0.84rem;
@@ -623,6 +590,7 @@ th {
 
   .kpi-grid,
   .grid-two,
+  .evaluation-grid,
   .dataset-summary-grid,
   .trace-details,
   .data-form.two-col {

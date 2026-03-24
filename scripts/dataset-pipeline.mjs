@@ -92,7 +92,9 @@ function parseCsv(csvText) {
 
 function findHeaderKey(headerMap, matchers) {
   const keys = Object.keys(headerMap);
-  const matched = keys.find((key) => matchers.every((matcher) => key.includes(matcher)));
+  const matched = keys.find((key) =>
+    matchers.every((matcher) => key.includes(matcher)),
+  );
   return matched ? headerMap[matched] : null;
 }
 
@@ -149,9 +151,7 @@ function normalizeRows(rows, sourceMeta) {
       region,
       year,
       productType:
-        sourceMeta.metricType === "yield"
-          ? "Cassava Yield"
-          : "Cassava Roots",
+        sourceMeta.metricType === "yield" ? "Cassava Yield" : "Cassava Roots",
       quantityTonnes,
       quantityKg,
       qualityGrade,
