@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Manrope:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap");
 
 :root {
   --bg-main: #e5ebe3;
@@ -29,7 +29,7 @@ body,
 }
 
 body {
-  font-family: Manrope, "Segoe UI", sans-serif;
+  font-family: Inter, "Segoe UI", sans-serif;
   color: var(--ink-main);
   background:
     radial-gradient(
@@ -50,7 +50,7 @@ h2,
 h3,
 h4,
 strong {
-  font-family: "Space Grotesk", Manrope, sans-serif;
+  font-family: Sora, Inter, sans-serif;
 }
 
 .app-root {
@@ -79,20 +79,16 @@ strong {
   gap: 10px;
 }
 
-.brand-icon {
+.brand-logo {
   width: 34px;
   height: 34px;
-  border-radius: 10px;
-  display: grid;
-  place-items: center;
-  font-weight: 800;
-  color: #103320;
-  background: linear-gradient(140deg, #8be0ae, #47bc79);
+  flex-shrink: 0;
 }
 
 .nav-brand strong {
   display: block;
   line-height: 1.1;
+  letter-spacing: -0.01em;
 }
 
 .nav-brand small {
@@ -534,6 +530,51 @@ th {
 .tag.pending {
   color: #7a4f0b;
   background: #f8e3bc;
+}
+
+.objective-list {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.objective-list li {
+  border: 1px solid #dbe4dc;
+  border-radius: 10px;
+  background: #fff;
+  padding: 9px 10px;
+  display: grid;
+  gap: 6px;
+}
+
+.objective-badge {
+  justify-self: start;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.objective-badge.done {
+  color: #0d6a32;
+  background: #daf2e3;
+}
+
+.objective-badge.pending {
+  color: #84590d;
+  background: #f8e7c9;
+}
+
+.objective-list p {
+  margin: 0;
+}
+
+.objective-note {
+  margin: 10px 0 0;
+  color: var(--ink-subtle);
+  font-size: 0.84rem;
 }
 
 .toast {

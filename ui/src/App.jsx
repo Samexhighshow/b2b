@@ -38,6 +38,15 @@ const NAV_ITEMS = [
   { key: "analytics", label: "Reports" },
 ];
 
+const PROJECT_OBJECTIVES = [
+  "Design and implement Ethereum smart contracts for secure cassava supply chain transactions.",
+  "Deploy and simulate contracts on a local blockchain environment (Ganache).",
+  "Develop an interactive stakeholder interface using Thirdweb and MetaMask.",
+  "Source cassava datasets and preprocess for simulation/testing.",
+  "Evaluate traceability, data integrity and transaction efficiency.",
+  "Analyze cassava supply chain challenges and how blockchain addresses them.",
+];
+
 const formatAddress = (address) => (address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "");
 
 const parseNumericInput = (value, fieldLabel) => {
@@ -105,6 +114,30 @@ const toSvgPoints = (values, height = 190, widthStep = 56, multiplier = 2.2) =>
       return `${x},${y}`;
     })
     .join(" ");
+
+const BrandMark = ({ className = "brand-logo", size = 34 }) => (
+  <svg
+    className={className}
+    width={size}
+    height={size}
+    viewBox="0 0 34 34"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <rect x="1" y="1" width="32" height="32" rx="9" fill="url(#markBg)" />
+    <rect x="1" y="1" width="32" height="32" rx="9" stroke="rgba(186,255,220,0.42)" strokeWidth="1.2" />
+    <path d="M11 11.8h8.2a3.1 3.1 0 0 1 0 6.2h-4.4a3.1 3.1 0 0 0 0 6.2H23" stroke="#E8FFF3" strokeWidth="2.3" strokeLinecap="round" />
+    <circle cx="10.5" cy="11.8" r="1.55" fill="#9CFFD1" />
+    <circle cx="23.5" cy="24.2" r="1.55" fill="#9CFFD1" />
+    <defs>
+      <linearGradient id="markBg" x1="3" y1="2" x2="29" y2="31" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#31C575" />
+        <stop offset="1" stopColor="#0D6A3E" />
+      </linearGradient>
+    </defs>
+  </svg>
+);
 
 export default function App() {
   const [activePage, setActivePage] = useState("dashboard");
@@ -518,13 +551,22 @@ export default function App() {
     ? Math.round((batchDetails.statusIndex / (STATUS_LABELS.length - 1)) * 100)
     : 0;
 
+  const objectiveStatus = [
+    !IS_PLACEHOLDER,
+    !IS_PLACEHOLDER,
+    hasClientId,
+    false,
+    networkMetrics.recentRows.length > 0,
+    true,
+  ];
+
   return (
     <div className="app-root">
       <header className="main-navbar">
         <div className="nav-brand">
-          <span className="brand-icon">C</span>
+          <BrandMark />
           <div>
-            <strong>CassavaChain</strong>
+            <strong>CassavaTrace</strong>
             <small>Blockchain Supply Chain Management</small>
           </div>
         </div>
@@ -876,6 +918,25 @@ export default function App() {
                   </tbody>
                 </table>
               </div>
+            </section>
+
+            <section className="card top-gap">
+              <h3>Project Outline Alignment (1.3 Objectives)</h3>
+              <ul className="objective-list">
+                {PROJECT_OBJECTIVES.map((objective, index) => (
+                  <li key={objective}>
+                    <span className={`objective-badge ${objectiveStatus[index] ? "done" : "pending"}`}>
+                      {objectiveStatus[index] ? "Implemented" : "Pending"}
+                    </span>
+                    <p>
+                      <strong>{`${index + 1}.`}</strong> {objective}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+              <p className="objective-note">
+                Objective 4 needs an off-chain dataset ingestion/preprocessing module to be fully complete.
+              </p>
             </section>
           </>
         ) : null}
