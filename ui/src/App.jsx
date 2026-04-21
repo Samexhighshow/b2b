@@ -52,6 +52,10 @@ const parseNumericInput = (value, fieldLabel) => {
 const parseAppError = (error) => {
   const base = error?.reason || error?.shortMessage || error?.message || "Transaction failed.";
 
+  if (base.includes("Cannot read properties of undefined") && base.includes("id")) {
+    return "Wallet session is not fully initialized. Reconnect MetaMask and switch to Ganache (Chain ID 1337), then try again.";
+  }
+
   if (base.includes("Invalid role")) {
     return "Wallet role is not FARMER. Assign FARMER role to this wallet first.";
   }
@@ -196,6 +200,25 @@ export default function App() {
     if (message) {
       setTimeout(() => setStatusMessage(""), 6200);
     }
+  };
+
+  const ensureWalletReady = () => {
+    if (!activeAccount) {
+      setMessage("Connect MetaMask before submitting a transaction.");
+      return false;
+    }
+
+    if (!activeChain?.id) {
+      setMessage("Wallet network not detected yet. Reconnect wallet and try again.");
+      return false;
+    }
+
+    if (Number(activeChain.id) !== Number(ganacheChain.id)) {
+      setMessage(`Wrong network. Switch MetaMask to ${ganacheChain.name} (${ganacheChain.id}).`);
+      return false;
+    }
+
+    return true;
   };
 
   const loadDatasetApiData = async () => {
@@ -493,6 +516,10 @@ export default function App() {
       return;
     }
 
+    if (!ensureWalletReady()) {
+      return;
+    }
+
     try {
       setIsBusy(true);
       const batchId = parseNumericInput(createBatchId, "Batch ID");
@@ -503,7 +530,7 @@ export default function App() {
         params: [batchId, createOrigin.trim(), quantity],
       });
 
-      await sendTransaction({ transaction });
+      await sendTransaction(transaction);
       setCreateBatchId("");
       setCreateOrigin("");
       setCreateQuantity("");
@@ -525,6 +552,10 @@ export default function App() {
       return;
     }
 
+    if (!ensureWalletReady()) {
+      return;
+    }
+
     try {
       setIsBusy(true);
       const batchId = parseNumericInput(transferBatchId, "Batch ID");
@@ -534,7 +565,7 @@ export default function App() {
         params: [batchId, transferOwner.trim()],
       });
 
-      await sendTransaction({ transaction });
+      await sendTransaction(transaction);
       setTransferBatchId("");
       setTransferOwner("");
       setMessage("Ownership transferred.");
@@ -552,6 +583,10 @@ export default function App() {
       return;
     }
 
+    if (!ensureWalletReady()) {
+      return;
+    }
+
     try {
       setIsBusy(true);
       const batchId = parseNumericInput(statusBatchId, "Batch ID");
@@ -561,7 +596,7 @@ export default function App() {
         params: [batchId, statusIndex],
       });
 
-      await sendTransaction({ transaction });
+      await sendTransaction(transaction);
       setMessage(`Status changed to ${STATUS_LABELS[statusIndex].replace("_", " ")}.`);
       await refreshNetworkData();
     } catch (error) {
