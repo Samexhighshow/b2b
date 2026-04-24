@@ -1,0 +1,747 @@
+[     598ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SM3OW2QE.js?v=e62ae6ed:21550
+[    1068ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[    1068ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[    1068ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[   45821ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SM3OW2QE.js?v=e62ae6ed:21550
+[   46180ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[   46181ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[   46181ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  100749ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SM3OW2QE.js?v=e62ae6ed:21550
+[  101328ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  101329ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  101329ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  235992ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SM3OW2QE.js?v=e62ae6ed:21550
+[  236396ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  236397ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  236398ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  505463ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SM3OW2QE.js?v=e62ae6ed:21550
+[  506337ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  506339ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  506339ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  523977ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44)
+    at async handleCreateBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:548:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  523978ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44)
+    at async handleCreateBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:548:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  523979ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44)
+    at async handleCreateBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:548:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  707017ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SM3OW2QE.js?v=e62ae6ed:21550
+[  707644ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  707645ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  707646ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  801383ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44)
+    at async handleCreateBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:548:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  801384ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44)
+    at async handleCreateBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:548:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  801385ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44)
+    at async handleCreateBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:548:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  804024ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SM3OW2QE.js?v=e62ae6ed:21550
+[  804899ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  804899ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  804900ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  819652ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  819652ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  819653ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  868353ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SM3OW2QE.js?v=e62ae6ed:21550
+[  868699ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  868700ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  868700ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  921992ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44)
+    at async handleCreateBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:548:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  921993ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44)
+    at async handleCreateBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:548:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  921994ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44)
+    at async handleCreateBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:548:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  938565ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44)
+    at async handleTransferOwnership (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:576:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  938566ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44)
+    at async handleTransferOwnership (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:576:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  938567ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44)
+    at async handleTransferOwnership (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:576:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  995335ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async loadBatchEvents (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:321:42)
+    at async handleSearchBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:514:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  995337ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async loadBatchEvents (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:321:42)
+    at async handleSearchBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:514:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[  995338ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async loadBatchEvents (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:321:42)
+    at async handleSearchBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:514:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1031896ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SM3OW2QE.js?v=e62ae6ed:21550
+[ 1032358ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1032359ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1032359ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1071308ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async loadBatchEvents (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:321:42)
+    at async handleSearchBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:514:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1071309ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async loadBatchEvents (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:321:42)
+    at async handleSearchBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:514:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1071309ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async loadBatchEvents (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:321:42)
+    at async handleSearchBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:514:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1109690ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SM3OW2QE.js?v=e62ae6ed:21550
+[ 1110031ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1110031ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1110032ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1152395ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async loadBatchEvents (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:321:42)
+    at async handleSearchBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:514:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1152395ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async loadBatchEvents (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:321:42)
+    at async handleSearchBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:514:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1152396ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async loadBatchEvents (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:321:42)
+    at async handleSearchBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:514:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1186481ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SM3OW2QE.js?v=e62ae6ed:21550
+[ 1186861ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1186862ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1186862ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1204976ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44)
+    at async handleCreateBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:548:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1204976ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44)
+    at async handleCreateBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:548:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1204977ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44)
+    at async handleCreateBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:548:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1219125ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44)
+    at async handleUpdateStatus (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:601:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1219126ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44)
+    at async handleUpdateStatus (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:601:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1219127ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44)
+    at async handleUpdateStatus (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:601:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1231598ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44)
+    at async handleTransferOwnership (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:576:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1231599ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44)
+    at async handleTransferOwnership (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:576:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1231600ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44)
+    at async handleTransferOwnership (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:576:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1231845ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async loadBatchEvents (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:321:42)
+    at async handleSearchBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:514:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1231846ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async loadBatchEvents (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:321:42)
+    at async handleSearchBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:514:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1231846ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async loadBatchEvents (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:321:42)
+    at async handleSearchBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:514:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1292724ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SM3OW2QE.js?v=e62ae6ed:21550
+[ 1293243ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1293243ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1293244ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1293430ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async loadBatchEvents (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:321:42)
+    at async handleSearchBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:514:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1293430ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async loadBatchEvents (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:321:42)
+    at async handleSearchBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:514:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1293431ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async loadBatchEvents (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:321:42)
+    at async handleSearchBatch (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:514:7) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 2031603ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777034912151:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 2031604ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777034912151:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 2031605ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777034912151:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 2053750ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SM3OW2QE.js?v=e62ae6ed:21550
+[ 2054061ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777034912151:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 2054062ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777034912151:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 2054062ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777034912151:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 2302165ms] [ERROR] Failed to load resource: net::ERR_SSL_BAD_RECORD_MAC_ALERT @ https://c.thirdweb.com/event:0
+[ 2304909ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777034912151:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 2304910ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777034912151:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 2304910ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777034912151:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 2305642ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777034912151:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 2305642ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777034912151:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 2305643ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777034912151:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 2571007ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:5173/@vite/client:559

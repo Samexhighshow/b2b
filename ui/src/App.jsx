@@ -31,8 +31,9 @@ const CONTRACT_ADDRESS =
 
 const IS_PLACEHOLDER = CONTRACT_ADDRESS === "0xYourContractAddress";
 const STATUS_LABELS = ["CREATED", "PROCESSED", "IN_TRANSIT", "DELIVERED"];
+const ROLE_LABELS = ["NONE", "FARMER", "PROCESSOR", "DISTRIBUTOR", "RETAILER", "ADMIN"];
 
-const NAV_ITEMS = [
+const BASE_NAV_ITEMS = [
   { key: "dashboard", label: "Dashboard" },
   { key: "trace", label: "Traceability" },
   { key: "analytics", label: "Reports" },
@@ -103,11 +104,11 @@ const buildChartSeries = (events) => {
   return { speed, cost };
 };
 
-const toSvgPoints = (values, height = 190, widthStep = 56, multiplier = 2.2) =>
+const toSvgPoints = (values, height = 190, widthStep = 56, maxValue = 1) =>
   values
     .map((value, index) => {
       const x = index * widthStep;
-      const y = Math.max(10, height - value * multiplier);
+      const y = Math.max(10, height - (value / Math.max(1, maxValue)) * (height - 12));
       return `${x},${y}`;
     })
     .join(" ");
@@ -167,6 +168,10 @@ export default function App() {
     costSeries: [0, 0, 0, 0, 0, 0, 0, 0],
     lastUpdated: null,
   });
+
+  const [contractAdmin, setContractAdmin] = useState("");
+  const [assignRoleUser, setAssignRoleUser] = useState("");
+  const [assignRoleId, setAssignRoleId] = useState(1); // Default to Farmer
 
   const walletMenuRef = useRef(null);
 
@@ -480,6 +485,13 @@ export default function App() {
 
       const series = buildChartSeries(allEvents);
 
+      try {
+        const adminAddr = await readContract({ contract, method: "admin" });
+        setContractAdmin(adminAddr);
+      } catch {
+        /* ignore */
+      }
+
       setAllBatches(fetchedBatches.sort((left, right) => Number(right.batchId) - Number(left.batchId)));
       setNetworkMetrics({
         totalBatches: fetchedBatches.length,
@@ -642,6 +654,37 @@ export default function App() {
     }
   };
 
+  const handleAssignRole = async (event) => {
+    event.preventDefault();
+
+    if (!contract) {
+      setMessage("Deploy contract first: node scripts/deploy.js");
+      return;
+    }
+
+    if (!ensureWalletReady()) {
+      return;
+    }
+
+    try {
+      setIsBusy(true);
+      const transaction = prepareContractCall({
+        contract,
+        method: "assignRole",
+        params: [assignRoleUser.trim(), assignRoleId],
+      });
+
+      await sendTransaction(transaction);
+      setAssignRoleUser("");
+      setMessage(`Role ${ROLE_LABELS[assignRoleId]} assigned to ${formatAddress(assignRoleUser)}.`);
+      await refreshNetworkData();
+    } catch (error) {
+      setMessage(parseAppError(error));
+    } finally {
+      setIsBusy(false);
+    }
+  };
+
   const statusPercent = batchDetails
     ? Math.round((batchDetails.statusIndex / (STATUS_LABELS.length - 1)) * 100)
     : 0;
@@ -666,6 +709,17 @@ export default function App() {
     ? Math.max(0, Math.min(100, Math.round((avgActivity / (avgActivity + avgCost)) * 100)))
     : 0;
 
+  const chartMaxValue = Math.max(1, ...networkMetrics.speedSeries, ...networkMetrics.costSeries);
+  const yAxisTicks = [
+    chartMaxValue,
+    Math.max(1, Math.round(chartMaxValue * 0.66)),
+    Math.max(1, Math.round(chartMaxValue * 0.33)),
+    0,
+  ];
+  const xAxisLabels = networkMetrics.speedSeries.map((_, index) =>
+    index === networkMetrics.speedSeries.length - 1 ? "Now" : `T-${networkMetrics.speedSeries.length - 1 - index}`
+  );
+
   return (
     <div className="app-root">
       <header className="main-navbar">
@@ -678,7 +732,7 @@ export default function App() {
         </div>
 
         <nav className="main-nav-links">
-          {NAV_ITEMS.map((item) => (
+          {BASE_NAV_ITEMS.map((item) => (
             <button
               key={item.key}
               type="button"
@@ -688,6 +742,24 @@ export default function App() {
               {item.label}
             </button>
           ))}
+          {activeAccount?.address?.toLowerCase() === contractAdmin?.toLowerCase() ? (
+            <>
+              <button
+                type="button"
+                className={activePage === "admin" ? "active" : ""}
+                onClick={() => setActivePage("admin")}
+              >
+                Admin Platform
+              </button>
+              <button
+                type="button"
+                className={activePage === "academic" ? "active" : ""}
+                onClick={() => setActivePage("academic")}
+              >
+                Academic View
+              </button>
+            </>
+          ) : null}
         </nav>
 
         <div className="wallet-shell" ref={walletMenuRef}>
@@ -839,6 +911,40 @@ export default function App() {
                     ))}
                   </div>
                 </form>
+
+                {activeAccount?.address?.toLowerCase() === contractAdmin?.toLowerCase() ? (
+                  <form className="data-form top-gap border-top" onSubmit={handleAssignRole}>
+                    <h4>Admin: Assign User Role</h4>
+                    <label>
+                      User Address
+                      <input
+                        value={assignRoleUser}
+                        onChange={(event) => setAssignRoleUser(event.target.value)}
+                        placeholder="0x..."
+                        required
+                      />
+                    </label>
+                    <label>
+                      Select Role
+                      <select
+                        className="custom-select"
+                        value={assignRoleId}
+                        onChange={(event) => setAssignRoleId(Number(event.target.value))}
+                      >
+                        {ROLE_LABELS.map((label, index) =>
+                          index === 0 || index === 5 ? null : (
+                            <option key={label} value={index}>
+                              {label}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </label>
+                    <button className="btn primary" type="submit" disabled={isWorking || IS_PLACEHOLDER}>
+                      Assign Role
+                    </button>
+                  </form>
+                ) : null}
               </article>
             </section>
 
@@ -953,11 +1059,32 @@ export default function App() {
             <section className="grid-two">
               <article className="card">
                 <h3>Transaction Efficiency (From Blockchain Events)</h3>
-                <div className="line-chart">
-                  <svg viewBox="0 0 392 190" preserveAspectRatio="none" role="img" aria-label="Efficiency chart">
-                    <polyline points={toSvgPoints(networkMetrics.speedSeries)} className="line speed" />
-                    <polyline points={toSvgPoints(networkMetrics.costSeries, 190, 56, 2.6)} className="line cost" />
-                  </svg>
+                <div className="line-chart-shell">
+                  <div className="chart-y-axis">
+                    {yAxisTicks.map((tick) => (
+                      <span key={tick}>{tick}</span>
+                    ))}
+                  </div>
+                  <div className="line-chart">
+                    <svg viewBox="0 0 392 190" preserveAspectRatio="none" role="img" aria-label="Efficiency chart">
+                      {[40, 90, 140].map((y) => (
+                        <line key={y} x1="0" y1={y} x2="392" y2={y} className="grid-line" />
+                      ))}
+                      <polyline
+                        points={toSvgPoints(networkMetrics.speedSeries, 190, 56, chartMaxValue)}
+                        className="line speed"
+                      />
+                      <polyline
+                        points={toSvgPoints(networkMetrics.costSeries, 190, 56, chartMaxValue)}
+                        className="line cost"
+                      />
+                    </svg>
+                    <div className="chart-x-axis">
+                      {xAxisLabels.map((label) => (
+                        <span key={label}>{label}</span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
                 <div className="legend-row">
                   <span><i className="dot speed" />Activity</span>
@@ -1111,6 +1238,121 @@ export default function App() {
               </div>
             </section>
           </>
+        ) : null}
+
+        {activePage === "admin" ? (
+          <section className="admin-platform">
+            <div className="grid-two">
+              <article className="card">
+                <h3>System Role Management</h3>
+                <p className="dataset-note">As the System Admin, you can authorize stakeholders by assigning roles to their wallets.</p>
+                <form className="data-form top-gap" onSubmit={handleAssignRole}>
+                  <label>
+                    Target Wallet Address
+                    <input
+                      value={assignRoleUser}
+                      onChange={(event) => setAssignRoleUser(event.target.value)}
+                      placeholder="0x..."
+                      required
+                    />
+                  </label>
+                  <label>
+                    Stakeholder Role
+                    <select
+                      className="custom-select"
+                      value={assignRoleId}
+                      onChange={(event) => setAssignRoleId(Number(event.target.value))}
+                    >
+                      {ROLE_LABELS.map((label, index) =>
+                        index === 0 || index === 5 ? null : (
+                          <option key={label} value={index}>
+                            {label}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </label>
+                  <button className="btn primary" type="submit" disabled={isWorking || IS_PLACEHOLDER}>
+                    Authorize Stakeholder
+                  </button>
+                </form>
+              </article>
+
+              <article className="card">
+                <h3>Blockchain Simulation Controls</h3>
+                <p className="dataset-note">Use these controls to simulate supply chain activity for demonstration.</p>
+                <div className="status-grid top-gap">
+                   <button className="btn ghost" onClick={refreshNetworkData} disabled={isWorking}>
+                     Sync Network State
+                   </button>
+                   <button className="btn ghost" onClick={() => setMessage("Simulation mode active.")}>
+                     Export Ledger (JSON)
+                   </button>
+                </div>
+                <div className="info-box top-gap">
+                   <strong>Admin Address:</strong>
+                   <code>{contractAdmin}</code>
+                </div>
+              </article>
+            </div>
+          </section>
+        ) : null}
+
+        {activePage === "academic" ? (
+          <section className="academic-evaluation">
+            <div className="card academic-hero">
+              <h2>Academic Objectives Evaluation</h2>
+              <p>Mapping the system features to the Master's project requirements.</p>
+            </div>
+
+            <div className="objective-grid top-gap">
+              <article className="card objective-card">
+                <div className="obj-num">Obj (i) & (ii)</div>
+                <h4>Blockchain & Smart Contracts</h4>
+                <p>Ethereum smart contracts implemented in Solidity and simulated on Ganache ({ganacheChain.name}).</p>
+                <span className="tag ok">Verified On-Chain</span>
+              </article>
+
+              <article className="card objective-card">
+                <div className="obj-num">Obj (iii)</div>
+                <h4>Stakeholder Interaction</h4>
+                <p>Interactive dApp developed using React, Thirdweb, and MetaMask for secure identity management.</p>
+                <span className="tag ok">UI Operational</span>
+              </article>
+
+              <article className="card objective-card">
+                <div className="obj-num">Obj (iv)</div>
+                <h4>Dataset Processing</h4>
+                <p>Sourced cassava datasets preprocessed for system simulation. Total records: {datasetSummary?.totalRecords || 0}.</p>
+                <span className="tag ok">Data Integrated</span>
+              </article>
+
+              <article className="card objective-card">
+                <div className="obj-num">Obj (v)</div>
+                <h4>Performance Evaluation</h4>
+                <p>Traceability: {traceabilityCoverage}% | Integrity: {integrityScore}% | Efficiency: {efficiencyScore}%.</p>
+                <span className="tag ok">Metrics Calculated</span>
+              </article>
+            </div>
+
+            <article className="card top-gap">
+               <h3>Objective (vi): Addressing Supply Chain Challenges</h3>
+               <div className="challenges-grid">
+                  <div className="challenge-item">
+                    <strong>Transparency</strong>
+                    <p>Blockchain provides a shared, immutable ledger that removes information silos between stakeholders.</p>
+                  </div>
+                  <div className="challenge-item">
+                    <strong>Traceability</strong>
+                    <p>Every cassava batch has a verifiable history (Blockchain Journey) accessible via Batch ID search.</p>
+                  </div>
+                  <div className="challenge-item">
+                    <strong>Security</strong>
+                    <p>Cryptographic wallet signatures (MetaMask) ensure only authorized owners can modify data.</p>
+                  </div>
+               </div>
+            </article>
+          </section>
         ) : null}
       </main>
 

@@ -59,3 +59,82 @@
 [ 1047892ms] [ERROR] WebSocket connection to 'wss://relay.walletconnect.org/?auth=eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtoMmo2VnJqbW1xVjdiVXVVUWlkWjZNUDRuWnRaSk5QcVozeW5IM0pKSEc5RiIsInN1YiI6ImVjZDdiNTcxNmYyNGZmNDAxZjMyYTFmMTdjN2VlODRiYmJmY2IxMmFhYjhjNjllNmZlYTg0OGNiNjMyN2Y1YWIiLCJhdWQiOiJ3c3M6Ly9yZWxheS53YWxsZXRjb25uZWN0Lm9yZyIsImlhdCI6MTc3NzAzMjYyMiwiZXhwIjoxNzc3MTE5MDIyfQ.YOTe_Yuu-WjNkeMePnoAHPlc0GDuvb2oq9Mjprb8VLBQqTjophkKC-PAEjKeei8Lj9uU2GTu9UhSODCUyfJ1Cw&projectId=08c4b07e3ad25f1a27c14a4e8cecb6f0&ua=wc-2%2Fjs-2.21.8%2Fwindows10-chrome-147.0.0%2Fbrowser%3Alocalhost%3A5173&useOnCloseEvent=true' failed:  @ http://localhost:5173/node_modules/.vite/deps/chunk-QG4JZAGC.js?v=e62ae6ed:12157
 [ 1065163ms] [ERROR] WebSocket connection to 'wss://relay.walletconnect.org/?auth=eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtoMmo2VnJqbW1xVjdiVXVVUWlkWjZNUDRuWnRaSk5QcVozeW5IM0pKSEc5RiIsInN1YiI6ImVjZDdiNTcxNmYyNGZmNDAxZjMyYTFmMTdjN2VlODRiYmJmY2IxMmFhYjhjNjllNmZlYTg0OGNiNjMyN2Y1YWIiLCJhdWQiOiJ3c3M6Ly9yZWxheS53YWxsZXRjb25uZWN0Lm9yZyIsImlhdCI6MTc3NzAzMjYzOSwiZXhwIjoxNzc3MTE5MDM5fQ.qjSHokMyZ1-e1mwyRYhLcO5iSKQ0matz-mVZDbHdHlGvUCS7gJ_CFfE6exj0hDQEs9wN-WgLvVaQ0kH__KbLBg&projectId=08c4b07e3ad25f1a27c14a4e8cecb6f0&ua=wc-2%2Fjs-2.21.8%2Fwindows10-chrome-147.0.0%2Fbrowser%3Alocalhost%3A5173&useOnCloseEvent=true' failed:  @ http://localhost:5173/node_modules/.vite/deps/chunk-QG4JZAGC.js?v=e62ae6ed:12157
 [ 1083826ms] [ERROR] WebSocket connection to 'wss://relay.walletconnect.org/?auth=eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtoMmo2VnJqbW1xVjdiVXVVUWlkWjZNUDRuWnRaSk5QcVozeW5IM0pKSEc5RiIsInN1YiI6ImVjZDdiNTcxNmYyNGZmNDAxZjMyYTFmMTdjN2VlODRiYmJmY2IxMmFhYjhjNjllNmZlYTg0OGNiNjMyN2Y1YWIiLCJhdWQiOiJ3c3M6Ly9yZWxheS53YWxsZXRjb25uZWN0Lm9yZyIsImlhdCI6MTc3NzAzMjY1OCwiZXhwIjoxNzc3MTE5MDU4fQ.T8wupwF5ERfQKEN274r93OKYJUjw13LsZnVcbGoUFzghH80MpaPHUbeAVK4N0OFLpQKBpH80YZNwTZIhykCcAw&projectId=08c4b07e3ad25f1a27c14a4e8cecb6f0&ua=wc-2%2Fjs-2.21.8%2Fwindows10-chrome-147.0.0%2Fbrowser%3Alocalhost%3A5173&useOnCloseEvent=true' failed:  @ http://localhost:5173/node_modules/.vite/deps/chunk-QG4JZAGC.js?v=e62ae6ed:12157
+[ 1104014ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032689421:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1104016ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032689421:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1104016ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032689421:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1106794ms] [ERROR] WebSocket connection to 'wss://relay.walletconnect.org/?auth=eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtoMmo2VnJqbW1xVjdiVXVVUWlkWjZNUDRuWnRaSk5QcVozeW5IM0pKSEc5RiIsInN1YiI6ImVjZDdiNTcxNmYyNGZmNDAxZjMyYTFmMTdjN2VlODRiYmJmY2IxMmFhYjhjNjllNmZlYTg0OGNiNjMyN2Y1YWIiLCJhdWQiOiJ3c3M6Ly9yZWxheS53YWxsZXRjb25uZWN0Lm9yZyIsImlhdCI6MTc3NzAzMjY4MSwiZXhwIjoxNzc3MTE5MDgxfQ.uRznRCtVl1PN6vr1LvdnD1z2-Z2i2DbwV7txlVXtkM59iibaiDO-1g9WawBWX2xQbvBOREzvxA59NZss7uAIDA&projectId=08c4b07e3ad25f1a27c14a4e8cecb6f0&ua=wc-2%2Fjs-2.21.8%2Fwindows10-chrome-147.0.0%2Fbrowser%3Alocalhost%3A5173&useOnCloseEvent=true' failed:  @ http://localhost:5173/node_modules/.vite/deps/chunk-QG4JZAGC.js?v=e62ae6ed:12157
+[ 1121952ms] [ERROR] WebSocket connection to 'wss://relay.walletconnect.org/?auth=eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtoMmo2VnJqbW1xVjdiVXVVUWlkWjZNUDRuWnRaSk5QcVozeW5IM0pKSEc5RiIsInN1YiI6ImVjZDdiNTcxNmYyNGZmNDAxZjMyYTFmMTdjN2VlODRiYmJmY2IxMmFhYjhjNjllNmZlYTg0OGNiNjMyN2Y1YWIiLCJhdWQiOiJ3c3M6Ly9yZWxheS53YWxsZXRjb25uZWN0Lm9yZyIsImlhdCI6MTc3NzAzMjY5NiwiZXhwIjoxNzc3MTE5MDk2fQ.25iN63t2o_FSFuzmlkULlmu1BqamscnR7JJrylmKmc2Qdalm7QgK9_o-SW4Fds1dJkLHCZzCOyz7NvNrQF0MCg&projectId=08c4b07e3ad25f1a27c14a4e8cecb6f0&ua=wc-2%2Fjs-2.21.8%2Fwindows10-chrome-147.0.0%2Fbrowser%3Alocalhost%3A5173&useOnCloseEvent=true' failed:  @ http://localhost:5173/node_modules/.vite/deps/chunk-QG4JZAGC.js?v=e62ae6ed:12157
+[ 1138138ms] [ERROR] WebSocket connection to 'wss://relay.walletconnect.org/?auth=eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtoMmo2VnJqbW1xVjdiVXVVUWlkWjZNUDRuWnRaSk5QcVozeW5IM0pKSEc5RiIsInN1YiI6ImVjZDdiNTcxNmYyNGZmNDAxZjMyYTFmMTdjN2VlODRiYmJmY2IxMmFhYjhjNjllNmZlYTg0OGNiNjMyN2Y1YWIiLCJhdWQiOiJ3c3M6Ly9yZWxheS53YWxsZXRjb25uZWN0Lm9yZyIsImlhdCI6MTc3NzAzMjcxMiwiZXhwIjoxNzc3MTE5MTEyfQ.kTssi36BWRNA7qN6SyxHvet-sQ4zE1og_l3fNYFnqHQR-9Jm9fPIu86JjnK0k3-kRyUa5QU2unvqZlA8xAKkCw&projectId=08c4b07e3ad25f1a27c14a4e8cecb6f0&ua=wc-2%2Fjs-2.21.8%2Fwindows10-chrome-147.0.0%2Fbrowser%3Alocalhost%3A5173&useOnCloseEvent=true' failed:  @ http://localhost:5173/node_modules/.vite/deps/chunk-QG4JZAGC.js?v=e62ae6ed:12157
+[ 1155322ms] [ERROR] WebSocket connection to 'wss://relay.walletconnect.org/?auth=eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtoMmo2VnJqbW1xVjdiVXVVUWlkWjZNUDRuWnRaSk5QcVozeW5IM0pKSEc5RiIsInN1YiI6ImVjZDdiNTcxNmYyNGZmNDAxZjMyYTFmMTdjN2VlODRiYmJmY2IxMmFhYjhjNjllNmZlYTg0OGNiNjMyN2Y1YWIiLCJhdWQiOiJ3c3M6Ly9yZWxheS53YWxsZXRjb25uZWN0Lm9yZyIsImlhdCI6MTc3NzAzMjcyOSwiZXhwIjoxNzc3MTE5MTI5fQ.4uMfAiuJYeO3DtsWLArpyk7vHa0Umr8L7i3g4_FXxlbCt_IQfItneLJPz5sAKn0mbGNWl3rhXLiLKLtB2uMzAA&projectId=08c4b07e3ad25f1a27c14a4e8cecb6f0&ua=wc-2%2Fjs-2.21.8%2Fwindows10-chrome-147.0.0%2Fbrowser%3Alocalhost%3A5173&useOnCloseEvent=true' failed:  @ http://localhost:5173/node_modules/.vite/deps/chunk-QG4JZAGC.js?v=e62ae6ed:12157
+[ 1173523ms] [ERROR] WebSocket connection to 'wss://relay.walletconnect.org/?auth=eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtoMmo2VnJqbW1xVjdiVXVVUWlkWjZNUDRuWnRaSk5QcVozeW5IM0pKSEc5RiIsInN1YiI6ImVjZDdiNTcxNmYyNGZmNDAxZjMyYTFmMTdjN2VlODRiYmJmY2IxMmFhYjhjNjllNmZlYTg0OGNiNjMyN2Y1YWIiLCJhdWQiOiJ3c3M6Ly9yZWxheS53YWxsZXRjb25uZWN0Lm9yZyIsImlhdCI6MTc3NzAzMjc0OCwiZXhwIjoxNzc3MTE5MTQ4fQ.UV2ys44ywbMFQuJYqoQmwzmRhKDuOjzeb3I7rHe2iYiG7zuHjRrOjs8Ka4H7AqjnWDb4RoXzPqhZGcUFBHiVDA&projectId=08c4b07e3ad25f1a27c14a4e8cecb6f0&ua=wc-2%2Fjs-2.21.8%2Fwindows10-chrome-147.0.0%2Fbrowser%3Alocalhost%3A5173&useOnCloseEvent=true' failed:  @ http://localhost:5173/node_modules/.vite/deps/chunk-QG4JZAGC.js?v=e62ae6ed:12157
+[ 1192495ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780402:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1192496ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780402:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1192497ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780402:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1196351ms] [ERROR] WebSocket connection to 'wss://relay.walletconnect.org/?auth=eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtoMmo2VnJqbW1xVjdiVXVVUWlkWjZNUDRuWnRaSk5QcVozeW5IM0pKSEc5RiIsInN1YiI6ImVjZDdiNTcxNmYyNGZmNDAxZjMyYTFmMTdjN2VlODRiYmJmY2IxMmFhYjhjNjllNmZlYTg0OGNiNjMyN2Y1YWIiLCJhdWQiOiJ3c3M6Ly9yZWxheS53YWxsZXRjb25uZWN0Lm9yZyIsImlhdCI6MTc3NzAzMjc3MSwiZXhwIjoxNzc3MTE5MTcxfQ.OrzqTKhpJgxRIuBz1FzW9_E4pCcb1TT3opRT_F1xVME6p41ZOAS4gP72kN6rnEqbXSJ3CX3zknqdPGjtOwhzDw&projectId=08c4b07e3ad25f1a27c14a4e8cecb6f0&ua=wc-2%2Fjs-2.21.8%2Fwindows10-chrome-147.0.0%2Fbrowser%3Alocalhost%3A5173&useOnCloseEvent=true' failed:  @ http://localhost:5173/node_modules/.vite/deps/chunk-QG4JZAGC.js?v=e62ae6ed:12157
+[ 1201207ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SM3OW2QE.js?v=e62ae6ed:21550
+[ 1201885ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 1)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1201886ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 0)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368
+[ 1201886ms] [WARNING] Error fetching from insight, falling back to rpc Error: Insight is not available for chains 1337
+    at assertInsightEnabled (http://localhost:5173/node_modules/.vite/deps/common-76L7RAND.js?v=e62ae6ed:16:11)
+    at async getContractEvents (http://localhost:5173/node_modules/.vite/deps/chunk-VSWNI2IF.js?v=e62ae6ed:35:3)
+    at async getLogsFromInsight (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:386:13)
+    at async Promise.all (index 0)
+    at async getContractEvents2 (http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:364:14)
+    at async Promise.all (index 2)
+    at async refreshNetworkData (http://localhost:5173/@fs/C:/Users/Owner/Documents/b2b/ui/src/App.jsx?t=1777032780414:384:44) @ http://localhost:5173/node_modules/.vite/deps/chunk-X7SRSBUE.js?v=e62ae6ed:368

@@ -9,12 +9,48 @@ const chainId = 1337;
 // Put your UI folder name here (change if yours is different)
 const UI_OUT_DIR = "ui/src";
 
-const privateKey = process.env.GANACHE_PRIVATE_KEY;
-if (!privateKey) {
-  throw new Error("Set GANACHE_PRIVATE_KEY in your environment (Ganache account private key).");
-}
-
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const parseEnvContent = (raw) => {
+  const out = {};
+  for (const line of raw.split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const index = trimmed.indexOf("=");
+    if (index === -1) continue;
+    const key = trimmed.slice(0, index).trim();
+    let value = trimmed.slice(index + 1).trim();
+    if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+      value = value.slice(1, -1);
+    }
+    out[key] = value;
+  }
+  return out;
+};
+
+const loadLocalEnv = async () => {
+  const candidates = [
+    path.join(__dirname, "..", ".env.local"),
+    path.join(__dirname, "..", ".env"),
+  ];
+  const merged = {};
+  for (const file of candidates) {
+    try {
+      const raw = await readFile(file, "utf8");
+      Object.assign(merged, parseEnvContent(raw));
+    } catch {
+      // Ignore missing env files.
+    }
+  }
+  return merged;
+};
+
+const localEnv = await loadLocalEnv();
+
+const privateKey = process.env.GANACHE_PRIVATE_KEY || localEnv.GANACHE_PRIVATE_KEY;
+if (!privateKey) {
+  throw new Error("Set GANACHE_PRIVATE_KEY in your environment or .env.local (Ganache account private key).");
+}
 const artifactPath = path.join(
   __dirname,
   "..",

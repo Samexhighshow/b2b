@@ -1,0 +1,12 @@
+[     673ms] [WARNING] Removing intrinsics.%MapPrototype%.getOrInsert @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[     675ms] [WARNING] Removing intrinsics.%MapPrototype%.getOrInsertComputed @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[     677ms] [WARNING] Removing intrinsics.%WeakMapPrototype%.getOrInsert @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[     683ms] [WARNING] Removing intrinsics.%WeakMapPrototype%.getOrInsertComputed @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[     685ms] [WARNING] Removing intrinsics.%DatePrototype%.toTemporalInstant @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[     687ms] [WARNING] Removing intrinsics.%FunctionPrototype%.apply.prototype @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[     689ms] [WARNING] Tolerating undeletable intrinsics.%FunctionPrototype%.apply.prototype === undefined @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[     691ms] [WARNING] Removing intrinsics.%FunctionPrototype%.bind.prototype @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[     693ms] [WARNING] Tolerating undeletable intrinsics.%FunctionPrototype%.bind.prototype === undefined @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[     762ms] [LOG] Snow detected a new realm creation attempt in MetaMask. Performing scuttling on new realm. Window @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/use-snow.js:22
+[     789ms] [LOG] Snow detected a new realm creation attempt in MetaMask. Performing scuttling on new realm. Window @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/use-snow.js:22
+[     810ms] [WARNING] Property eval will not be hardened because it is scuttled by LavaMoat protection. Visit https://github.com/LavaMoat/LavaMoat/pull/360 to learn more. @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0

@@ -23,3 +23,7 @@
 /ui/dist
 /ui/.env
 /ui/.env.local
+
+# Local secrets
+/.env
+/.env.local

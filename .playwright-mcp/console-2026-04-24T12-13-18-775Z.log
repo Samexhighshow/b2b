@@ -1,0 +1,51 @@
+[    1234ms] [INFO] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/fonts/Geist/Geist-Regular.woff2 @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/notification.html:0
+[    1775ms] [WARNING] Removing intrinsics.%MapPrototype%.getOrInsert @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    1777ms] [WARNING] Removing intrinsics.%MapPrototype%.getOrInsertComputed @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    1779ms] [WARNING] Removing intrinsics.%WeakMapPrototype%.getOrInsert @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    1781ms] [WARNING] Removing intrinsics.%WeakMapPrototype%.getOrInsertComputed @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    1783ms] [WARNING] Removing intrinsics.%DatePrototype%.toTemporalInstant @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    1785ms] [WARNING] Removing intrinsics.%FunctionPrototype%.apply.prototype @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    1787ms] [WARNING] Tolerating undeletable intrinsics.%FunctionPrototype%.apply.prototype === undefined @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    1789ms] [WARNING] Removing intrinsics.%FunctionPrototype%.bind.prototype @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    1791ms] [WARNING] Tolerating undeletable intrinsics.%FunctionPrototype%.bind.prototype === undefined @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    1857ms] [LOG] Snow detected a new realm creation attempt in MetaMask. Performing scuttling on new realm. Window @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/use-snow.js:22
+[    1885ms] [LOG] Snow detected a new realm creation attempt in MetaMask. Performing scuttling on new realm. Window @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/use-snow.js:22
+[    1912ms] [WARNING] Property eval will not be hardened because it is scuttled by LavaMoat protection. Visit https://github.com/LavaMoat/LavaMoat/pull/360 to learn more. @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    4667ms] [INFO] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/fonts/Geist/Geist-SemiBold.woff2 @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/notification.html#/connect/hzfLJSxP98SZbL1eu1WeI:0
+[    4668ms] [INFO] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/fonts/Geist/Geist-Medium.woff2 @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/notification.html#/connect/hzfLJSxP98SZbL1eu1WeI:0
+[    4758ms] [LOG] Snow detected a new realm creation attempt in MetaMask. Performing scuttling on new realm. Window @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/use-snow.js:22
+[    5902ms] [WARNING] Removing intrinsics.Promise.try @ https://metamask.github.io/phishing-warning/v5.1.0/lockdown-install.js:0
+[    5903ms] [WARNING] Removing intrinsics.Uint8Array.fromBase64 @ https://metamask.github.io/phishing-warning/v5.1.0/lockdown-install.js:0
+[    5903ms] [WARNING] Removing intrinsics.Uint8Array.fromHex @ https://metamask.github.io/phishing-warning/v5.1.0/lockdown-install.js:0
+[    5903ms] [WARNING] Removing intrinsics.Iterator.concat @ https://metamask.github.io/phishing-warning/v5.1.0/lockdown-install.js:0
+[    5904ms] [WARNING] Removing intrinsics.%InitialMath%.f16round @ https://metamask.github.io/phishing-warning/v5.1.0/lockdown-install.js:0
+[    5904ms] [WARNING] Removing intrinsics.%InitialMath%.sumPrecise @ https://metamask.github.io/phishing-warning/v5.1.0/lockdown-install.js:0
+[    5905ms] [WARNING] Removing intrinsics.%SharedMath%.f16round @ https://metamask.github.io/phishing-warning/v5.1.0/lockdown-install.js:0
+[    5905ms] [WARNING] Removing intrinsics.%SharedMath%.sumPrecise @ https://metamask.github.io/phishing-warning/v5.1.0/lockdown-install.js:0
+[    5905ms] [WARNING] Removing intrinsics.%AsyncIteratorPrototype%.@@asyncDispose @ https://metamask.github.io/phishing-warning/v5.1.0/lockdown-install.js:0
+[    5905ms] [WARNING] Removing intrinsics.%IteratorPrototype%.@@dispose @ https://metamask.github.io/phishing-warning/v5.1.0/lockdown-install.js:0
+[    5906ms] [WARNING] Removing intrinsics.%DataViewPrototype%.getFloat16 @ https://metamask.github.io/phishing-warning/v5.1.0/lockdown-install.js:0
+[    5906ms] [WARNING] Removing intrinsics.%DataViewPrototype%.setFloat16 @ https://metamask.github.io/phishing-warning/v5.1.0/lockdown-install.js:0
+[    5907ms] [WARNING] Removing intrinsics.%MapPrototype%.getOrInsert @ https://metamask.github.io/phishing-warning/v5.1.0/lockdown-install.js:0
+[    5907ms] [WARNING] Removing intrinsics.%MapPrototype%.getOrInsertComputed @ https://metamask.github.io/phishing-warning/v5.1.0/lockdown-install.js:0
+[    5907ms] [WARNING] Removing intrinsics.%Uint8ArrayPrototype%.toBase64 @ https://metamask.github.io/phishing-warning/v5.1.0/lockdown-install.js:0
+[    5908ms] [WARNING] Removing intrinsics.%Uint8ArrayPrototype%.setFromBase64 @ https://metamask.github.io/phishing-warning/v5.1.0/lockdown-install.js:0
+[    5908ms] [WARNING] Removing intrinsics.%Uint8ArrayPrototype%.toHex @ https://metamask.github.io/phishing-warning/v5.1.0/lockdown-install.js:0
+[    5908ms] [WARNING] Removing intrinsics.%Uint8ArrayPrototype%.setFromHex @ https://metamask.github.io/phishing-warning/v5.1.0/lockdown-install.js:0
+[    5908ms] [WARNING] Removing intrinsics.%WeakMapPrototype%.getOrInsert @ https://metamask.github.io/phishing-warning/v5.1.0/lockdown-install.js:0
+[    5908ms] [WARNING] Removing intrinsics.%WeakMapPrototype%.getOrInsertComputed @ https://metamask.github.io/phishing-warning/v5.1.0/lockdown-install.js:0
+[    5909ms] [WARNING] Removing intrinsics.%DatePrototype%.toTemporalInstant @ https://metamask.github.io/phishing-warning/v5.1.0/lockdown-install.js:0
+[    5962ms] [INFO] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://metamask.github.io/phishing-warning/v5.1.0/fonts/CentraNo1-Bold.woff2 @ https://metamask.github.io/phishing-warning/v5.1.0/#extensionStartup:0
+[    5962ms] [INFO] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://metamask.github.io/phishing-warning/v5.1.0/fonts/CentraNo1-Book.woff2 @ https://metamask.github.io/phishing-warning/v5.1.0/#extensionStartup:0
+[    6884ms] [WARNING] Phishing warning page timeout; page not guaranteed to work offline. @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[   10564ms] [ERROR] Failed to fetch survey: 0x38d9a79d254f0b8f6529893fc99248e05b9055ffb73ba956b1dc4dbd45332acf (TypeError#1) @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[   10567ms] [ERROR] TypeError#1: Failed to fetch @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[   10569ms] [ERROR]   at e.<computed> (chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:1:760)
+  at chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:25:430276
+  at e.<computed> (chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:1:760)
+  at chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:25:430276
+  at Object.fetch (chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/runtime-lavamoat.js:14887:22)
+  at chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/common-18.js:1:106647
+  at r.default (chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/common-18.js:1:105495)
+  at async chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/ui-10.js:1:280812
+ @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
