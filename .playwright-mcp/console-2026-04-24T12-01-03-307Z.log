@@ -1,0 +1,18 @@
+[    3617ms] [WARNING] Removing intrinsics.%MapPrototype%.getOrInsert @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    3619ms] [WARNING] Removing intrinsics.%MapPrototype%.getOrInsertComputed @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    3624ms] [WARNING] Removing intrinsics.%WeakMapPrototype%.getOrInsert @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    3626ms] [WARNING] Removing intrinsics.%WeakMapPrototype%.getOrInsertComputed @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    3628ms] [WARNING] Removing intrinsics.%DatePrototype%.toTemporalInstant @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    3631ms] [WARNING] Removing intrinsics.%FunctionPrototype%.apply.prototype @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    3633ms] [WARNING] Tolerating undeletable intrinsics.%FunctionPrototype%.apply.prototype === undefined @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    3635ms] [WARNING] Removing intrinsics.%FunctionPrototype%.bind.prototype @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    3637ms] [WARNING] Tolerating undeletable intrinsics.%FunctionPrototype%.bind.prototype === undefined @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    3710ms] [LOG] Snow detected a new realm creation attempt in MetaMask. Performing scuttling on new realm. Window @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/use-snow.js:22
+[    3740ms] [LOG] Snow detected a new realm creation attempt in MetaMask. Performing scuttling on new realm. Window @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/use-snow.js:22
+[    3837ms] [WARNING] Property eval will not be hardened because it is scuttled by LavaMoat protection. Visit https://github.com/LavaMoat/LavaMoat/pull/360 to learn more. @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    6926ms] [LOG] Snow detected a new realm creation attempt in MetaMask. Performing scuttling on new realm. Window @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/use-snow.js:22
+[    6997ms] [WARNING] Rive source file or data buffer required @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    7164ms] [TIMEEND] [ExtensionStore]: Reading from local store: 67.449951171875 ms @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/runtime-lavamoat.js:9328
+[    7970ms] [WARNING] Phishing warning page timeout; page not guaranteed to work offline. @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[    8322ms] [WARNING] Rive source file or data buffer required @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0
+[   86355ms] [WARNING] Rive source file or data buffer required @ chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/scripts/sentry-install.js:0

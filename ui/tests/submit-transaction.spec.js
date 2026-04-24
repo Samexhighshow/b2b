@@ -14,12 +14,14 @@ test("submit transaction does not crash with undefined chain id", async ({ page 
     }
   });
 
-  await page.goto("/");
+  await page.goto("http://localhost:5173/");
   await expect(page.getByText("CassavaTrace")).toBeVisible();
 
-  await page.getByLabel("Batch ID", { exact: false }).fill("20240002");
-  await page.getByLabel("Quantity (kg)", { exact: false }).fill("2500");
-  await page.getByLabel("Origin", { exact: false }).fill("Ibadan, Nigeria");
+  const createBatchForm = page.getByRole("heading", { name: "Log New Batch" }).locator("..");
+
+  await createBatchForm.getByLabel("Batch ID").fill("20240002");
+  await createBatchForm.getByLabel("Quantity (kg)").fill("2500");
+  await createBatchForm.getByLabel("Origin").fill("Ibadan, Nigeria");
 
   await page.getByRole("button", { name: "Submit Transaction" }).click();
 

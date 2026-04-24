@@ -1,0 +1,4 @@
+[   14735ms] [LOG] %c%s color: red; background: yellow; font-size: 24px; WARNING! @ https://www.gstatic.com/_/mss/boq-chrome-webstore/_/js/k=boq-chrome-webstore.ChromeWebStoreConsumerFeUi.en.cx-iyCEtSkY.2018.O/am=gIEBAAAAsw/d=1/excm=_b,_tp,itemdetailview/ed=1/dg=0/wt=2/ujg=1/rs=AEP720J2waD8w1y_WNv4q8HgSyjmKxrTRw/dti=1/m=_b,_tp:338
+[   14736ms] [LOG] %c%s font-size: 18px; Using this console may allow attackers to impersonate you and steal your information using an attack called Self-XSS.
+Do not enter or paste code that you do not understand. @ https://www.gstatic.com/_/mss/boq-chrome-webstore/_/js/k=boq-chrome-webstore.ChromeWebStoreConsumerFeUi.en.cx-iyCEtSkY.2018.O/am=gIEBAAAAsw/d=1/excm=_b,_tp,itemdetailview/ed=1/dg=0/wt=2/ujg=1/rs=AEP720J2waD8w1y_WNv4q8HgSyjmKxrTRw/dti=1/m=_b,_tp:338
+[   49942ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_CLOSED @ https://play.google.com/log?hasfast=true&authuser=0&format=json:0

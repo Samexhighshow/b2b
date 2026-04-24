@@ -141,6 +141,7 @@ export default function App() {
   const [statusMessage, setStatusMessage] = useState("");
   const [isBusy, setIsBusy] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isGanacheReady, setIsGanacheReady] = useState(false);
   const [isWalletMenuOpen, setIsWalletMenuOpen] = useState(false);
 
   const [createBatchId, setCreateBatchId] = useState("");
@@ -202,9 +203,40 @@ export default function App() {
     }
   };
 
+  const probeGanache = async () => {
+    try {
+      const response = await fetch(ganacheChain.rpc, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          jsonrpc: "2.0",
+          id: 1,
+          method: "eth_chainId",
+          params: [],
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Ganache RPC unavailable");
+      }
+
+      const payload = await response.json();
+      setIsGanacheReady(Boolean(payload?.result));
+      return Boolean(payload?.result);
+    } catch {
+      setIsGanacheReady(false);
+      return false;
+    }
+  };
+
   const ensureWalletReady = () => {
     if (!activeAccount) {
       setMessage("Connect MetaMask before submitting a transaction.");
+      return false;
+    }
+
+    if (!isGanacheReady) {
+      setMessage("Ganache RPC is not reachable yet. Start Ganache on 7545 and try again.");
       return false;
     }
 
@@ -244,6 +276,10 @@ export default function App() {
       setDatasetApiError("Dataset API not reachable. Run npm run dataset:build and npm run api:dataset.");
     }
   };
+
+  useEffect(() => {
+    probeGanache();
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -344,7 +380,7 @@ export default function App() {
   };
 
   const refreshNetworkData = async () => {
-    if (!contract) return;
+    if (!contract || !isGanacheReady) return;
 
     try {
       setIsRefreshing(true);
@@ -462,9 +498,9 @@ export default function App() {
   };
 
   useEffect(() => {
-    if (!contract) return;
+    if (!contract || !isGanacheReady) return;
     refreshNetworkData();
-  }, [contract]);
+  }, [contract, isGanacheReady]);
 
   useEffect(() => {
     loadDatasetApiData();

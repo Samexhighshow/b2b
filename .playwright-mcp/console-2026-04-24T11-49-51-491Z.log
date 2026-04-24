@@ -1,0 +1,11 @@
+[    1548ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SM3OW2QE.js?v=bc35d143:21550
+[    4577ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3030/api/dataset/summary:0
+[    4606ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7545/:0
+[    4621ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3030/api/dataset/records?limit=8:0
+[    4853ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3030/api/dataset/summary:0
+[    6614ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:3030/api/dataset/records?limit=8:0
+[   74882ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:5173/@vite/client:559
+[   78665ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SM3OW2QE.js?v=e62ae6ed:21550
+[   81184ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7545/:0
+[  132568ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7545/:0
+[  132568ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:7545/:0
