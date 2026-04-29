@@ -14,6 +14,13 @@ import {
   useSendTransaction,
 } from "thirdweb/react";
 import { createWallet } from "thirdweb/wallets";
+import AcademicPage from "./components/AcademicPage.jsx";
+import AdminPage from "./components/AdminPage.jsx";
+import DashboardPage from "./components/DashboardPage.jsx";
+import Footer from "./components/Footer.jsx";
+import Header from "./components/Header.jsx";
+import ReportsPage from "./components/ReportsPage.jsx";
+import TraceabilityPage from "./components/TraceabilityPage.jsx";
 import deploymentAbi from "./abi.json";
 import contractAddressData from "./contract-address.json";
 import { client, ganacheChain } from "./thirdwebClient.js";
@@ -39,14 +46,60 @@ const BASE_NAV_ITEMS = [
   { key: "analytics", label: "Reports" },
 ];
 
+const STATUS_ROLE_REQUIREMENTS = {
+  1: 2,
+  2: 3,
+  3: 4,
+};
+
+const RESOURCE_CONTENT = {
+  "Privacy Policy": {
+    title: "Privacy Policy",
+    body: [
+      "CassavaTrace stores live supply chain state on your local blockchain and reads simulation analytics from the local dataset API.",
+      "Wallet addresses are displayed in the interface only for transaction and ownership verification.",
+      "No private keys are stored by the app. Signing remains inside MetaMask.",
+    ],
+  },
+  "Terms of Service": {
+    title: "Terms of Service",
+    body: [
+      "This interface is intended for academic demonstration and local testing of cassava supply chain workflows.",
+      "On-chain actions are irreversible on the active Ganache ledger once confirmed.",
+      "Only use stakeholder accounts that you control and have intentionally assigned for the current demo environment.",
+    ],
+  },
+  Documentation: {
+    title: "Documentation",
+    body: [
+      "Core project guide: README.md",
+      "UI behavior guide: docs/UI_WORKFLOW_GUIDE.md",
+      "Live demo steps: docs/LIVE_DEMO_SCRIPT.md",
+      "Dataset API commands: npm run dataset:build and npm run api:dataset",
+    ],
+  },
+  Support: {
+    title: "Support",
+    body: [
+      "If MetaMask hangs, reconnect the wallet, confirm Ganache is running on chain 1337, and make sure the connected wallet is the current batch owner.",
+      "If analytics are missing, rebuild the dataset and restart the dataset API.",
+      "If transactions fail, confirm the account has the required role and the batch ownership has been transferred correctly.",
+    ],
+  },
+};
+
 const DATASET_API_BASE = import.meta.env.VITE_DATASET_API_URL || "http://127.0.0.1:3030";
 
 const formatAddress = (address) => (address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "");
 
 const parseNumericInput = (value, fieldLabel) => {
   const trimmed = value.trim();
-  if (!trimmed) throw new Error(`${fieldLabel} is required.`);
-  if (!/^\d+$/.test(trimmed)) throw new Error(`${fieldLabel} must be a whole number.`);
+  if (!trimmed) {
+    throw new Error(`${fieldLabel} is required.`);
+  }
+  if (!/^\d+$/.test(trimmed)) {
+    throw new Error(`${fieldLabel} must be a whole number.`);
+  }
   return BigInt(trimmed);
 };
 
@@ -59,6 +112,42 @@ const parseAppError = (error) => {
 
   if (base.includes("Invalid role")) {
     return "Wallet role is not FARMER. Assign FARMER role to this wallet first.";
+  }
+
+  if (base.includes("Only current owner")) {
+    return "Only the current batch owner can perform this action. Transfer ownership to this wallet first.";
+  }
+
+  if (base.includes("Only admin")) {
+    return "Only the contract admin can assign stakeholder roles.";
+  }
+
+  if (base.includes("Status update role mismatch")) {
+    return "This wallet cannot perform that status update. Use the stakeholder wallet for the next supply-chain stage.";
+  }
+
+  if (base.includes("Status must advance one step")) {
+    return "Status changes must follow the supply-chain order one step at a time.";
+  }
+
+  if (base.includes("Status already final")) {
+    return "This batch is already DELIVERED and cannot move to another status.";
+  }
+
+  if (base.includes("Status cannot reset to CREATED")) {
+    return "Batches can only move forward from CREATED to DELIVERED.";
+  }
+
+  if (base.includes("Transfer requires next stakeholder role")) {
+    return "Ownership can only be transferred to the correct next stakeholder role for the current stage.";
+  }
+
+  if (base.includes("Transfer not allowed after delivery")) {
+    return "Delivered batches cannot be transferred again.";
+  }
+
+  if (base.includes("Owner role mismatch for stage")) {
+    return "The current owner does not have the correct role for this batch stage. Recheck the role assignments and ownership path.";
   }
 
   if (base.includes("Batch exists")) {
@@ -74,6 +163,7 @@ const parseAppError = (error) => {
 
 const buildChartSeries = (events) => {
   const points = 8;
+
   if (!events.length) {
     return {
       speed: [0, 0, 0, 0, 0, 0, 0, 0],
@@ -94,14 +184,14 @@ const buildChartSeries = (events) => {
 
   const normalized = chunks.slice(-points);
 
-  const speed = normalized.map((chunk) => chunk.length * 12);
-  const cost = normalized.map((chunk) => {
-    const statusUpdates = chunk.filter((eventItem) => eventItem.type === "StatusUpdated").length;
-    const transfers = chunk.filter((eventItem) => eventItem.type === "OwnershipTransferred").length;
-    return statusUpdates * 7 + transfers * 5;
-  });
-
-  return { speed, cost };
+  return {
+    speed: normalized.map((chunk) => chunk.length * 12),
+    cost: normalized.map((chunk) => {
+      const statusUpdates = chunk.filter((eventItem) => eventItem.type === "StatusUpdated").length;
+      const transfers = chunk.filter((eventItem) => eventItem.type === "OwnershipTransferred").length;
+      return statusUpdates * 7 + transfers * 5;
+    }),
+  };
 };
 
 const toSvgPoints = (values, height = 190, widthStep = 56, maxValue = 1) =>
@@ -112,30 +202,6 @@ const toSvgPoints = (values, height = 190, widthStep = 56, maxValue = 1) =>
       return `${x},${y}`;
     })
     .join(" ");
-
-const BrandMark = ({ className = "brand-logo", size = 34 }) => (
-  <svg
-    className={className}
-    width={size}
-    height={size}
-    viewBox="0 0 34 34"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-  >
-    <rect x="1" y="1" width="32" height="32" rx="9" fill="url(#markBg)" />
-    <rect x="1" y="1" width="32" height="32" rx="9" stroke="rgba(186,255,220,0.42)" strokeWidth="1.2" />
-    <path d="M11 11.8h8.2a3.1 3.1 0 0 1 0 6.2h-4.4a3.1 3.1 0 0 0 0 6.2H23" stroke="#E8FFF3" strokeWidth="2.3" strokeLinecap="round" />
-    <circle cx="10.5" cy="11.8" r="1.55" fill="#9CFFD1" />
-    <circle cx="23.5" cy="24.2" r="1.55" fill="#9CFFD1" />
-    <defs>
-      <linearGradient id="markBg" x1="3" y1="2" x2="29" y2="31" gradientUnits="userSpaceOnUse">
-        <stop stopColor="#31C575" />
-        <stop offset="1" stopColor="#0D6A3E" />
-      </linearGradient>
-    </defs>
-  </svg>
-);
 
 export default function App() {
   const [activePage, setActivePage] = useState("dashboard");
@@ -158,7 +224,9 @@ export default function App() {
   const [allBatches, setAllBatches] = useState([]);
   const [datasetSummary, setDatasetSummary] = useState(null);
   const [datasetRecords, setDatasetRecords] = useState([]);
+  const [datasetChallenges, setDatasetChallenges] = useState([]);
   const [datasetApiError, setDatasetApiError] = useState("");
+  const [resourceModal, setResourceModal] = useState(null);
   const [networkMetrics, setNetworkMetrics] = useState({
     totalBatches: 0,
     totalWeight: 0,
@@ -168,10 +236,10 @@ export default function App() {
     costSeries: [0, 0, 0, 0, 0, 0, 0, 0],
     lastUpdated: null,
   });
-
   const [contractAdmin, setContractAdmin] = useState("");
+  const [activeRoleId, setActiveRoleId] = useState(0);
   const [assignRoleUser, setAssignRoleUser] = useState("");
-  const [assignRoleId, setAssignRoleId] = useState(1); // Default to Farmer
+  const [assignRoleId, setAssignRoleId] = useState(1);
 
   const walletMenuRef = useRef(null);
 
@@ -190,9 +258,14 @@ export default function App() {
     : `${ganacheChain.name} (${ganacheChain.id})`;
 
   const isWorking = isBusy || isConnecting || isPending || isRefreshing;
+  const isAdminViewUnlocked = activeAccount?.address?.toLowerCase() === contractAdmin?.toLowerCase();
+  const activeRoleLabel = ROLE_LABELS[activeRoleId] || "UNKNOWN";
 
   const contract = useMemo(() => {
-    if (!CONTRACT_ADDRESS || IS_PLACEHOLDER) return null;
+    if (!CONTRACT_ADDRESS || IS_PLACEHOLDER) {
+      return null;
+    }
+
     return getContract({
       client,
       chain: ganacheChain,
@@ -226,8 +299,9 @@ export default function App() {
       }
 
       const payload = await response.json();
-      setIsGanacheReady(Boolean(payload?.result));
-      return Boolean(payload?.result);
+      const isReady = Boolean(payload?.result);
+      setIsGanacheReady(isReady);
+      return isReady;
     } catch {
       setIsGanacheReady(false);
       return false;
@@ -260,26 +334,35 @@ export default function App() {
 
   const loadDatasetApiData = async () => {
     try {
-      const [summaryResponse, recordsResponse] = await Promise.all([
+      const [summaryResponse, recordsResponse, challengesResponse] = await Promise.all([
         fetch(`${DATASET_API_BASE}/api/dataset/summary`),
         fetch(`${DATASET_API_BASE}/api/dataset/records?limit=8`),
+        fetch(`${DATASET_API_BASE}/api/dataset/challenges`),
       ]);
 
-      if (!summaryResponse.ok || !recordsResponse.ok) {
+      if (!summaryResponse.ok || !recordsResponse.ok || !challengesResponse.ok) {
         throw new Error("Dataset API unavailable");
       }
 
       const summaryPayload = await summaryResponse.json();
       const recordsPayload = await recordsResponse.json();
+      const challengesPayload = await challengesResponse.json();
 
       setDatasetSummary(summaryPayload.summary || null);
       setDatasetRecords(Array.isArray(recordsPayload.records) ? recordsPayload.records : []);
+      setDatasetChallenges(Array.isArray(challengesPayload.insights) ? challengesPayload.insights : []);
       setDatasetApiError("");
     } catch {
       setDatasetSummary(null);
       setDatasetRecords([]);
+      setDatasetChallenges([]);
       setDatasetApiError("Dataset API not reachable. Run npm run dataset:build and npm run api:dataset.");
     }
+  };
+
+  const reloadDatasetInsights = async () => {
+    await loadDatasetApiData();
+    setMessage("Dataset analytics refreshed.");
   };
 
   useEffect(() => {
@@ -296,6 +379,38 @@ export default function App() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    loadDatasetApiData();
+  }, []);
+
+  useEffect(() => {
+    if (!isAdminViewUnlocked && (activePage === "admin" || activePage === "academic")) {
+      setActivePage("dashboard");
+    }
+  }, [activePage, isAdminViewUnlocked]);
+
+  useEffect(() => {
+    const loadActiveRole = async () => {
+      if (!contract || !activeAccount?.address) {
+        setActiveRoleId(0);
+        return;
+      }
+
+      try {
+        const role = await readContract({
+          contract,
+          method: "roles",
+          params: [activeAccount.address],
+        });
+        setActiveRoleId(Number(role));
+      } catch {
+        setActiveRoleId(0);
+      }
+    };
+
+    loadActiveRole();
+  }, [contract, activeAccount?.address]);
 
   const connectWallet = async () => {
     try {
@@ -321,16 +436,21 @@ export default function App() {
   };
 
   const loadBatchEvents = async (batchId) => {
-    if (!contract) return;
+    if (!contract) {
+      return;
+    }
 
     const [created, status, transfers] = await Promise.all([
       getContractEvents({
         contract,
-        events: [
-          prepareEvent({
-            signature: "event BatchCreated(uint256 indexed batchId,address indexed owner)",
-          }),
-        ],
+        events: [prepareEvent({ signature: "event BatchCreated(uint256 indexed batchId,address indexed owner)" })],
+        filters: { batchId },
+        fromBlock: 0n,
+        toBlock: "latest",
+      }),
+      getContractEvents({
+        contract,
+        events: [prepareEvent({ signature: "event StatusUpdated(uint256 indexed batchId,uint8 newStatus)" })],
         filters: { batchId },
         fromBlock: 0n,
         toBlock: "latest",
@@ -339,19 +459,7 @@ export default function App() {
         contract,
         events: [
           prepareEvent({
-            signature: "event StatusUpdated(uint256 indexed batchId,uint8 newStatus)",
-          }),
-        ],
-        filters: { batchId },
-        fromBlock: 0n,
-        toBlock: "latest",
-      }),
-      getContractEvents({
-        contract,
-        events: [
-          prepareEvent({
-            signature:
-              "event OwnershipTransferred(uint256 indexed batchId,address indexed from,address indexed to)",
+            signature: "event OwnershipTransferred(uint256 indexed batchId,address indexed from,address indexed to)",
           }),
         ],
         filters: { batchId },
@@ -385,7 +493,9 @@ export default function App() {
   };
 
   const refreshNetworkData = async () => {
-    if (!contract || !isGanacheReady) return;
+    if (!contract || !isGanacheReady) {
+      return;
+    }
 
     try {
       setIsRefreshing(true);
@@ -393,11 +503,13 @@ export default function App() {
       const [created, status, transfers] = await Promise.all([
         getContractEvents({
           contract,
-          events: [
-            prepareEvent({
-              signature: "event BatchCreated(uint256 indexed batchId,address indexed owner)",
-            }),
-          ],
+          events: [prepareEvent({ signature: "event BatchCreated(uint256 indexed batchId,address indexed owner)" })],
+          fromBlock: 0n,
+          toBlock: "latest",
+        }),
+        getContractEvents({
+          contract,
+          events: [prepareEvent({ signature: "event StatusUpdated(uint256 indexed batchId,uint8 newStatus)" })],
           fromBlock: 0n,
           toBlock: "latest",
         }),
@@ -405,18 +517,7 @@ export default function App() {
           contract,
           events: [
             prepareEvent({
-              signature: "event StatusUpdated(uint256 indexed batchId,uint8 newStatus)",
-            }),
-          ],
-          fromBlock: 0n,
-          toBlock: "latest",
-        }),
-        getContractEvents({
-          contract,
-          events: [
-            prepareEvent({
-              signature:
-                "event OwnershipTransferred(uint256 indexed batchId,address indexed from,address indexed to)",
+              signature: "event OwnershipTransferred(uint256 indexed batchId,address indexed from,address indexed to)",
             }),
           ],
           fromBlock: 0n,
@@ -489,7 +590,7 @@ export default function App() {
         const adminAddr = await readContract({ contract, method: "admin" });
         setContractAdmin(adminAddr);
       } catch {
-        /* ignore */
+        setContractAdmin("");
       }
 
       setAllBatches(fetchedBatches.sort((left, right) => Number(right.batchId) - Number(left.batchId)));
@@ -510,16 +611,14 @@ export default function App() {
   };
 
   useEffect(() => {
-    if (!contract || !isGanacheReady) return;
+    if (!contract || !isGanacheReady) {
+      return;
+    }
     refreshNetworkData();
   }, [contract, isGanacheReady]);
 
-  useEffect(() => {
-    loadDatasetApiData();
-  }, []);
-
   const handleSearchBatch = async (event) => {
-    event.preventDefault();
+    event?.preventDefault();
 
     if (!contract) {
       setMessage("Deploy contract first: node scripts/deploy.js");
@@ -538,7 +637,7 @@ export default function App() {
       setBatchDetails({
         batchId: data[0].toString(),
         originLocation: data[1],
-        quantityKg: data[2].toString(),
+        quantityKg: Number(data[2]),
         createdAt: new Date(Number(data[3]) * 1000).toLocaleString(),
         currentOwner: data[4],
         status: STATUS_LABELS[Number(data[5])],
@@ -557,7 +656,7 @@ export default function App() {
   };
 
   const handleCreateBatch = async (event) => {
-    event.preventDefault();
+    event?.preventDefault();
 
     if (!contract) {
       setMessage("Deploy contract first: node scripts/deploy.js");
@@ -593,7 +692,7 @@ export default function App() {
   };
 
   const handleTransferOwnership = async (event) => {
-    event.preventDefault();
+    event?.preventDefault();
 
     if (!contract) {
       setMessage("Deploy contract first: node scripts/deploy.js");
@@ -607,6 +706,17 @@ export default function App() {
     try {
       setIsBusy(true);
       const batchId = parseNumericInput(transferBatchId, "Batch ID");
+      const batchData = await readContract({
+        contract,
+        method: "getBatch",
+        params: [batchId],
+      });
+
+      if (batchData[4]?.toLowerCase() !== activeAccount.address.toLowerCase()) {
+        setMessage("Only the current batch owner can transfer ownership. Switch to the owner wallet first.");
+        return;
+      }
+
       const transaction = prepareContractCall({
         contract,
         method: "transferOwnership",
@@ -638,6 +748,35 @@ export default function App() {
     try {
       setIsBusy(true);
       const batchId = parseNumericInput(statusBatchId, "Batch ID");
+      const batchData = await readContract({
+        contract,
+        method: "getBatch",
+        params: [batchId],
+      });
+      const currentOwner = batchData[4];
+      const currentStatusIndex = Number(batchData[5]);
+      const requiredRoleId = STATUS_ROLE_REQUIREMENTS[statusIndex];
+
+      if (currentOwner?.toLowerCase() !== activeAccount.address.toLowerCase()) {
+        setMessage("This wallet is not the current owner of the batch. Transfer the batch to the processor/distributor/retailer wallet before updating status.");
+        return;
+      }
+
+      if (requiredRoleId && activeRoleId !== requiredRoleId) {
+        setMessage(`This action requires ${ROLE_LABELS[requiredRoleId]} role. Connected wallet role is ${activeRoleLabel}.`);
+        return;
+      }
+
+      if (statusIndex < currentStatusIndex) {
+        setMessage("Status cannot move backward in this workflow.");
+        return;
+      }
+
+      if (statusIndex === currentStatusIndex) {
+        setMessage(`Batch is already marked as ${STATUS_LABELS[statusIndex].replace("_", " ")}.`);
+        return;
+      }
+
       const transaction = prepareContractCall({
         contract,
         method: "updateStatus",
@@ -655,7 +794,7 @@ export default function App() {
   };
 
   const handleAssignRole = async (event) => {
-    event.preventDefault();
+    event?.preventDefault();
 
     if (!contract) {
       setMessage("Deploy contract first: node scripts/deploy.js");
@@ -675,8 +814,9 @@ export default function App() {
       });
 
       await sendTransaction(transaction);
+      const assignedUser = assignRoleUser;
       setAssignRoleUser("");
-      setMessage(`Role ${ROLE_LABELS[assignRoleId]} assigned to ${formatAddress(assignRoleUser)}.`);
+      setMessage(`Role ${ROLE_LABELS[assignRoleId]} assigned to ${formatAddress(assignedUser)}.`);
       await refreshNetworkData();
     } catch (error) {
       setMessage(parseAppError(error));
@@ -688,17 +828,14 @@ export default function App() {
   const statusPercent = batchDetails
     ? Math.round((batchDetails.statusIndex / (STATUS_LABELS.length - 1)) * 100)
     : 0;
-
   const completedBatches = networkMetrics.statusCounts[3] || 0;
   const traceabilityCoverage = networkMetrics.totalBatches
     ? Math.round((completedBatches / networkMetrics.totalBatches) * 100)
     : 0;
-
   const verifiedRows = networkMetrics.recentRows.filter((row) => row.status === "Verified").length;
   const integrityScore = networkMetrics.recentRows.length
     ? Math.round((verifiedRows / networkMetrics.recentRows.length) * 100)
     : 0;
-
   const avgActivity =
     networkMetrics.speedSeries.reduce((acc, value) => acc + value, 0) /
     Math.max(1, networkMetrics.speedSeries.length);
@@ -709,654 +846,196 @@ export default function App() {
     ? Math.max(0, Math.min(100, Math.round((avgActivity / (avgActivity + avgCost)) * 100)))
     : 0;
 
-  const chartMaxValue = Math.max(1, ...networkMetrics.speedSeries, ...networkMetrics.costSeries);
-  const yAxisTicks = [
-    chartMaxValue,
-    Math.max(1, Math.round(chartMaxValue * 0.66)),
-    Math.max(1, Math.round(chartMaxValue * 0.33)),
-    0,
-  ];
-  const xAxisLabels = networkMetrics.speedSeries.map((_, index) =>
-    index === networkMetrics.speedSeries.length - 1 ? "Now" : `T-${networkMetrics.speedSeries.length - 1 - index}`
-  );
+  const navItems = isAdminViewUnlocked
+    ? [
+        ...BASE_NAV_ITEMS,
+        { key: "admin", label: "Admin Platform" },
+        { key: "academic", label: "Academic View" },
+      ]
+    : BASE_NAV_ITEMS;
+
+  const renderActivePage = () => {
+    switch (activePage) {
+      case "trace":
+        return (
+          <TraceabilityPage
+            searchBatchId={searchBatchId}
+            setSearchBatchId={setSearchBatchId}
+            handleSearchBatch={handleSearchBatch}
+            batchDetails={batchDetails}
+            batchEvents={batchEvents}
+            statusPercent={statusPercent}
+            formatAddress={formatAddress}
+            isWorking={isWorking}
+            IS_PLACEHOLDER={IS_PLACEHOLDER}
+          />
+        );
+      case "analytics":
+        return (
+          <ReportsPage
+            networkMetrics={networkMetrics}
+            STATUS_LABELS={STATUS_LABELS}
+            refreshNetworkData={refreshNetworkData}
+            traceabilityCoverage={traceabilityCoverage}
+            integrityScore={integrityScore}
+            efficiencyScore={efficiencyScore}
+            completedBatches={completedBatches}
+            isWorking={isWorking}
+            IS_PLACEHOLDER={IS_PLACEHOLDER}
+            formatAddress={formatAddress}
+            datasetSummary={datasetSummary}
+            datasetRecords={datasetRecords}
+            datasetApiError={datasetApiError}
+            loadDatasetApiData={loadDatasetApiData}
+            toSvgPoints={toSvgPoints}
+          />
+        );
+      case "admin":
+        return isAdminViewUnlocked ? (
+          <AdminPage
+            isWorking={isWorking}
+            IS_PLACEHOLDER={IS_PLACEHOLDER}
+            formatAddress={formatAddress}
+            activeAccount={activeAccount}
+            assignRoleUser={assignRoleUser}
+            setAssignRoleUser={setAssignRoleUser}
+            assignRoleId={assignRoleId}
+            setAssignRoleId={setAssignRoleId}
+            handleAssignRole={handleAssignRole}
+            refreshNetworkData={refreshNetworkData}
+            contractAdmin={contractAdmin}
+            reloadDatasetInsights={reloadDatasetInsights}
+          />
+        ) : null;
+      case "academic":
+        return isAdminViewUnlocked ? (
+          <AcademicPage
+            ganacheChain={ganacheChain}
+            datasetSummary={datasetSummary}
+            datasetChallenges={datasetChallenges}
+            traceabilityCoverage={traceabilityCoverage}
+            integrityScore={integrityScore}
+            efficiencyScore={efficiencyScore}
+          />
+        ) : null;
+      default:
+        return (
+          <DashboardPage
+            networkMetrics={networkMetrics}
+            integrityScore={integrityScore}
+            createBatchId={createBatchId}
+            setCreateBatchId={setCreateBatchId}
+            createQuantity={createQuantity}
+            setCreateQuantity={setCreateQuantity}
+            createOrigin={createOrigin}
+            setCreateOrigin={setCreateOrigin}
+            handleCreateBatch={handleCreateBatch}
+            transferBatchId={transferBatchId}
+            setTransferBatchId={setTransferBatchId}
+            transferOwner={transferOwner}
+            setTransferOwner={setTransferOwner}
+            handleTransferOwnership={handleTransferOwnership}
+            statusBatchId={statusBatchId}
+            setStatusBatchId={setStatusBatchId}
+            handleUpdateStatus={handleUpdateStatus}
+            allBatches={allBatches}
+            formatAddress={formatAddress}
+            refreshNetworkData={refreshNetworkData}
+            isWorking={isWorking}
+            IS_PLACEHOLDER={IS_PLACEHOLDER}
+            STATUS_LABELS={STATUS_LABELS}
+            lastUpdated={networkMetrics.lastUpdated}
+          />
+        );
+    }
+  };
+
+  const openResource = (resourceName) => {
+    const resource = RESOURCE_CONTENT[resourceName];
+    if (resource) {
+      setResourceModal(resource);
+    }
+  };
+
+  const openNotifications = () => {
+    const ownerHint =
+      batchDetails?.currentOwner && activeAccount?.address
+        ? batchDetails.currentOwner.toLowerCase() === activeAccount.address.toLowerCase()
+          ? "You currently own the loaded batch."
+          : "Loaded batch is owned by another wallet."
+        : "Load a batch in Traceability to inspect ownership.";
+
+    setMessage(`Wallet: ${activeRoleLabel}. Network: ${chainLabel}. ${ownerHint}`);
+  };
 
   return (
-    <div className="app-root">
-      <header className="main-navbar">
-        <div className="nav-brand">
-          <BrandMark />
-          <div>
-            <strong>CassavaTrace</strong>
-            <small>Blockchain Supply Chain Management</small>
+    <div className="app-root bg-surface text-on-surface">
+      <Header
+        activePage={activePage}
+        setActivePage={setActivePage}
+        navItems={navItems}
+        activeAccount={activeAccount}
+        formatAddress={formatAddress}
+        isConnecting={isConnecting}
+        onConnectWallet={connectWallet}
+        onDisconnect={() => {
+          disconnect();
+          setIsWalletMenuOpen(false);
+          setMessage("Wallet disconnected.");
+        }}
+        isWorking={isWorking}
+        isWalletMenuOpen={isWalletMenuOpen}
+        setIsWalletMenuOpen={setIsWalletMenuOpen}
+        walletMenuRef={walletMenuRef}
+        chainLabel={chainLabel}
+        onOpenNotifications={openNotifications}
+        activeRoleLabel={activeRoleLabel}
+      />
+
+      {IS_PLACEHOLDER ? (
+        <div className="px-6 pt-24">
+          <div className="mx-auto max-w-7xl rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-amber-900 shadow-[0_4px_20px_rgba(13,40,29,0.05)]">
+            Contract is not ready. Deploy with <code>node scripts/deploy.js</code>, then refresh.
           </div>
         </div>
+      ) : null}
 
-        <nav className="main-nav-links">
-          {BASE_NAV_ITEMS.map((item) => (
-            <button
-              key={item.key}
-              type="button"
-              className={activePage === item.key ? "active" : ""}
-              onClick={() => setActivePage(item.key)}
-            >
-              {item.label}
-            </button>
-          ))}
-          {activeAccount?.address?.toLowerCase() === contractAdmin?.toLowerCase() ? (
-            <>
+      {renderActivePage()}
+      <Footer onOpenResource={openResource} />
+
+      {resourceModal ? (
+        <div className="fixed inset-0 z-[70] bg-primary/25 backdrop-blur-sm px-4 py-10">
+          <div className="mx-auto max-w-2xl rounded-[28px] border border-emerald-100 bg-white p-6 shadow-[0_24px_50px_rgba(13,40,29,0.18)]">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <h2 className="font-h3 text-h3 text-primary">{resourceModal.title}</h2>
+                <p className="mt-2 text-body-sm text-on-surface-variant">CassavaTrace reference information</p>
+              </div>
               <button
                 type="button"
-                className={activePage === "admin" ? "active" : ""}
-                onClick={() => setActivePage("admin")}
+                onClick={() => setResourceModal(null)}
+                className="rounded-full p-2 text-on-surface-variant transition-all hover:bg-emerald-50 hover:text-secondary"
               >
-                Admin Platform
+                <span className="material-symbols-outlined">close</span>
               </button>
-              <button
-                type="button"
-                className={activePage === "academic" ? "active" : ""}
-                onClick={() => setActivePage("academic")}
-              >
-                Academic View
-              </button>
-            </>
-          ) : null}
-        </nav>
+            </div>
 
-        <div className="wallet-shell" ref={walletMenuRef}>
-          <button
-            className="wallet-trigger"
-            type="button"
-            onClick={() => setIsWalletMenuOpen((current) => !current)}
-          >
-            <span className="wallet-led" />
-            {activeAccount ? formatAddress(activeAccount.address) : "Connect Wallet"}
-          </button>
-
-          <div className={`wallet-menu ${isWalletMenuOpen ? "open" : ""}`}>
-            <p className="menu-title">
-              {activeAccount ? `Connected: ${formatAddress(activeAccount.address)}` : "Wallet not connected"}
-            </p>
-            <p className="menu-subtitle">Network: {chainLabel}</p>
-            <button className="btn primary" type="button" onClick={connectWallet} disabled={isWorking}>
-              {activeAccount ? "Switch / Reconnect" : "Connect MetaMask"}
-            </button>
-            {activeAccount ? (
-              <button
-                className="btn ghost"
-                type="button"
-                disabled={isWorking}
-                onClick={() => {
-                  disconnect();
-                  setIsWalletMenuOpen(false);
-                  setMessage("Wallet disconnected.");
-                }}
-              >
-                Disconnect
-              </button>
-            ) : null}
+            <div className="mt-5 space-y-3">
+              {resourceModal.body.map((paragraph) => (
+                <p key={paragraph} className="text-body-md text-on-surface-variant">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
           </div>
         </div>
-      </header>
+      ) : null}
 
-      <main className="page-wrap">
-        {IS_PLACEHOLDER ? (
-          <section className="notice-card">
-            Contract is not ready. Deploy with node scripts/deploy.js, then refresh.
-          </section>
-        ) : null}
-
-        {activePage === "dashboard" ? (
-          <>
-            <section className="kpi-grid">
-              <article className="card">
-                <h3>Active Batches</h3>
-                <p className="kpi-value">{networkMetrics.totalBatches}</p>
-                <small>On-chain records tracked</small>
-              </article>
-
-              <article className="card">
-                <h3>Total Cassava Weight</h3>
-                <p className="kpi-value">{networkMetrics.totalWeight.toLocaleString()} kg</p>
-                <small>Aggregated from blockchain batch records</small>
-              </article>
-
-              <article className="card">
-                <h3>Data Integrity</h3>
-                <p className="kpi-value">{networkMetrics.recentRows.length ? "Verified" : "Waiting"}</p>
-                <small>{networkMetrics.lastUpdated ? `Updated ${networkMetrics.lastUpdated}` : "No updates yet"}</small>
-              </article>
-            </section>
-
-            <section className="grid-two">
-              <article className="card">
-                <h3>Log New Batch</h3>
-                <form className="data-form two-col" onSubmit={handleCreateBatch}>
-                  <label>
-                    Batch ID
-                    <input
-                      value={createBatchId}
-                      onChange={(event) => setCreateBatchId(event.target.value)}
-                      placeholder="20240001"
-                      required
-                    />
-                  </label>
-                  <label>
-                    Quantity (kg)
-                    <input
-                      value={createQuantity}
-                      onChange={(event) => setCreateQuantity(event.target.value)}
-                      placeholder="2500"
-                      required
-                    />
-                  </label>
-                  <label className="span-2">
-                    Origin
-                    <input
-                      value={createOrigin}
-                      onChange={(event) => setCreateOrigin(event.target.value)}
-                      placeholder="Ibadan, Nigeria"
-                      required
-                    />
-                  </label>
-                  <button className="btn primary span-2" type="submit" disabled={isWorking || IS_PLACEHOLDER}>
-                    Submit Transaction
-                  </button>
-                </form>
-              </article>
-
-              <article className="card">
-                <h3>Ownership & Status</h3>
-                <form className="data-form" onSubmit={handleTransferOwnership}>
-                  <label>
-                    Batch ID (transfer)
-                    <input
-                      value={transferBatchId}
-                      onChange={(event) => setTransferBatchId(event.target.value)}
-                      required
-                    />
-                  </label>
-                  <label>
-                    New Owner Address
-                    <input
-                      value={transferOwner}
-                      onChange={(event) => setTransferOwner(event.target.value)}
-                      required
-                    />
-                  </label>
-                  <button className="btn primary" type="submit" disabled={isWorking || IS_PLACEHOLDER}>
-                    Transfer Ownership
-                  </button>
-                </form>
-
-                <form className="data-form top-gap" onSubmit={(event) => event.preventDefault()}>
-                  <label>
-                    Batch ID (status)
-                    <input
-                      value={statusBatchId}
-                      onChange={(event) => setStatusBatchId(event.target.value)}
-                      required
-                    />
-                  </label>
-                  <div className="status-grid">
-                    {STATUS_LABELS.map((label, index) => (
-                      <button
-                        key={label}
-                        className="btn ghost"
-                        type="button"
-                        onClick={() => handleUpdateStatus(index)}
-                        disabled={isWorking || !statusBatchId || IS_PLACEHOLDER}
-                      >
-                        {label.replace("_", " ")}
-                      </button>
-                    ))}
-                  </div>
-                </form>
-
-                {activeAccount?.address?.toLowerCase() === contractAdmin?.toLowerCase() ? (
-                  <form className="data-form top-gap border-top" onSubmit={handleAssignRole}>
-                    <h4>Admin: Assign User Role</h4>
-                    <label>
-                      User Address
-                      <input
-                        value={assignRoleUser}
-                        onChange={(event) => setAssignRoleUser(event.target.value)}
-                        placeholder="0x..."
-                        required
-                      />
-                    </label>
-                    <label>
-                      Select Role
-                      <select
-                        className="custom-select"
-                        value={assignRoleId}
-                        onChange={(event) => setAssignRoleId(Number(event.target.value))}
-                      >
-                        {ROLE_LABELS.map((label, index) =>
-                          index === 0 || index === 5 ? null : (
-                            <option key={label} value={index}>
-                              {label}
-                            </option>
-                          )
-                        )}
-                      </select>
-                    </label>
-                    <button className="btn primary" type="submit" disabled={isWorking || IS_PLACEHOLDER}>
-                      Assign Role
-                    </button>
-                  </form>
-                ) : null}
-              </article>
-            </section>
-
-            <section className="card top-gap">
-              <div className="section-head">
-                <h3>Recent Batches (On-chain)</h3>
-                <button className="btn ghost" type="button" onClick={refreshNetworkData} disabled={isWorking || IS_PLACEHOLDER}>
-                  Refresh Data
-                </button>
-              </div>
-
-              <div className="table-wrap">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Batch ID</th>
-                      <th>Origin</th>
-                      <th>Weight</th>
-                      <th>Status</th>
-                      <th>Owner</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {allBatches.length ? (
-                      allBatches.slice(0, 8).map((batchItem) => (
-                        <tr key={batchItem.batchId}>
-                          <td>{batchItem.batchId}</td>
-                          <td>{batchItem.originLocation}</td>
-                          <td>{batchItem.quantityKg.toLocaleString()} kg</td>
-                          <td>{batchItem.status.replace("_", " ")}</td>
-                          <td>{formatAddress(batchItem.currentOwner)}</td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan="5">No batches available on-chain yet.</td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </section>
-          </>
-        ) : null}
-
-        {activePage === "trace" ? (
-          <>
-            <section className="card">
-              <div className="section-head">
-                <h3>Supply Chain Traceability View</h3>
-                <form className="inline-form" onSubmit={handleSearchBatch}>
-                  <input
-                    value={searchBatchId}
-                    onChange={(event) => setSearchBatchId(event.target.value)}
-                    placeholder="Enter batch ID"
-                    required
-                  />
-                  <button className="btn primary" type="submit" disabled={isWorking || IS_PLACEHOLDER}>
-                    Search
-                  </button>
-                </form>
-              </div>
-
-              {batchDetails ? (
-                <div className="trace-details">
-                  <article className="sub-card">
-                    <h4>Batch Overview</h4>
-                    <p><strong>Batch ID:</strong> {batchDetails.batchId}</p>
-                    <p><strong>Origin:</strong> {batchDetails.originLocation}</p>
-                    <p><strong>Quantity:</strong> {batchDetails.quantityKg} kg</p>
-                    <p><strong>Owner:</strong> {formatAddress(batchDetails.currentOwner)}</p>
-                    <p><strong>Status:</strong> {batchDetails.status.replace("_", " ")}</p>
-                    <p><strong>Created:</strong> {batchDetails.createdAt}</p>
-                    <div className="progress-wrap">
-                      <span>Traceability Progress</span>
-                      <div className="progress-bar">
-                        <div style={{ width: `${statusPercent}%` }} />
-                      </div>
-                    </div>
-                  </article>
-
-                  <article className="sub-card">
-                    <h4>Blockchain Journey</h4>
-                    <ul className="timeline-list">
-                      {batchEvents.length ? (
-                        batchEvents.map((eventItem) => (
-                          <li key={`${eventItem.txHash}-${eventItem.type}`}>
-                            <span className="event-pill">{eventItem.type}</span>
-                            <p>{eventItem.detail}</p>
-                            <small>
-                              Block {eventItem.blockNumber.toString()} · {formatAddress(eventItem.txHash)}
-                            </small>
-                          </li>
-                        ))
-                      ) : (
-                        <li>
-                          <p>No events found for this batch yet.</p>
-                        </li>
-                      )}
-                    </ul>
-                  </article>
-                </div>
-              ) : (
-                <p className="empty-state">Search for a batch to view traceability details from blockchain records.</p>
-              )}
-            </section>
-          </>
-        ) : null}
-
-        {activePage === "analytics" ? (
-          <>
-            <section className="grid-two">
-              <article className="card">
-                <h3>Transaction Efficiency (From Blockchain Events)</h3>
-                <div className="line-chart-shell">
-                  <div className="chart-y-axis">
-                    {yAxisTicks.map((tick) => (
-                      <span key={tick}>{tick}</span>
-                    ))}
-                  </div>
-                  <div className="line-chart">
-                    <svg viewBox="0 0 392 190" preserveAspectRatio="none" role="img" aria-label="Efficiency chart">
-                      {[40, 90, 140].map((y) => (
-                        <line key={y} x1="0" y1={y} x2="392" y2={y} className="grid-line" />
-                      ))}
-                      <polyline
-                        points={toSvgPoints(networkMetrics.speedSeries, 190, 56, chartMaxValue)}
-                        className="line speed"
-                      />
-                      <polyline
-                        points={toSvgPoints(networkMetrics.costSeries, 190, 56, chartMaxValue)}
-                        className="line cost"
-                      />
-                    </svg>
-                    <div className="chart-x-axis">
-                      {xAxisLabels.map((label) => (
-                        <span key={label}>{label}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className="legend-row">
-                  <span><i className="dot speed" />Activity</span>
-                  <span><i className="dot cost" />Status/Transfer Weight</span>
-                </div>
-              </article>
-
-              <article className="card">
-                <h3>Tracked Batches by Status</h3>
-                <div className="bar-grid">
-                  {STATUS_LABELS.map((label, index) => (
-                    <div key={label} className="bar-card">
-                      <div className="bar-label">{label.replace("_", " ")}</div>
-                      <div className="bar-track">
-                        <div
-                          className="bar-fill"
-                          style={{
-                            width: `${
-                              networkMetrics.totalBatches
-                                ? Math.round((networkMetrics.statusCounts[index] / networkMetrics.totalBatches) * 100)
-                                : 0
-                            }%`,
-                          }}
-                        />
-                      </div>
-                      <strong>{networkMetrics.statusCounts[index]}</strong>
-                    </div>
-                  ))}
-                </div>
-              </article>
-            </section>
-
-            <section className="card top-gap">
-              <h3>Data Integrity - Recent Blocks</h3>
-              <div className="table-wrap">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Block ID</th>
-                      <th>Block Number</th>
-                      <th>Event Type</th>
-                      <th>Status</th>
-                      <th>Transaction</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {networkMetrics.recentRows.length ? (
-                      networkMetrics.recentRows.map((row) => (
-                        <tr key={`${row.block}-${row.txHash}`}>
-                          <td>{row.block}</td>
-                          <td>{row.blockNumber}</td>
-                          <td>{row.event}</td>
-                          <td>
-                            <span className={`tag ${row.status === "Verified" ? "ok" : "pending"}`}>{row.status}</span>
-                          </td>
-                          <td>{formatAddress(row.txHash)}</td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan="5">No blockchain events yet.</td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </section>
-
-            <section className="card top-gap">
-              <h3>System Evaluation</h3>
-              <div className="evaluation-grid">
-                <article className="sub-card">
-                  <h4>Traceability Coverage</h4>
-                  <p className="kpi-value">{traceabilityCoverage}%</p>
-                  <small>{completedBatches} of {networkMetrics.totalBatches} batches reached DELIVERED</small>
-                </article>
-                <article className="sub-card">
-                  <h4>Data Integrity Score</h4>
-                  <p className="kpi-value">{integrityScore}%</p>
-                  <small>Based on recent on-chain event verification checks</small>
-                </article>
-                <article className="sub-card">
-                  <h4>Transaction Efficiency</h4>
-                  <p className="kpi-value">{efficiencyScore}%</p>
-                  <small>Computed from activity versus status/transfer overhead</small>
-                </article>
-              </div>
-              <p className="dataset-note">
-                This section evaluates traceability, data integrity, and transaction efficiency directly from blockchain activity.
-              </p>
-            </section>
-
-            <section className="card top-gap">
-              <div className="section-head">
-                <h3>Dataset Insights</h3>
-                <button className="btn ghost" type="button" onClick={loadDatasetApiData} disabled={isWorking}>
-                  Reload Data
-                </button>
-              </div>
-
-              {datasetSummary ? (
-                <div className="dataset-summary-grid">
-                  <article className="sub-card">
-                    <h4>Total Dataset Records</h4>
-                    <p className="kpi-value">{datasetSummary.totalRecords}</p>
-                  </article>
-                  <article className="sub-card">
-                    <h4>Average Loss</h4>
-                    <p className="kpi-value">{datasetSummary.avgLossPct}%</p>
-                  </article>
-                  <article className="sub-card">
-                    <h4>Average Transport Time</h4>
-                    <p className="kpi-value">{datasetSummary.avgTransportHours} hrs</p>
-                  </article>
-                </div>
-              ) : (
-                <p className="dataset-note">{datasetApiError}</p>
-              )}
-
-              <div className="table-wrap top-gap">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Record ID</th>
-                      <th>Region</th>
-                      <th>Year</th>
-                      <th>Qty (kg)</th>
-                      <th>Quality</th>
-                      <th>Loss %</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {datasetRecords.length ? (
-                      datasetRecords.map((record) => (
-                        <tr key={record.recordId}>
-                          <td>{record.recordId}</td>
-                          <td>{record.region}</td>
-                          <td>{record.year}</td>
-                          <td>{Number(record.quantityKg || 0).toLocaleString()}</td>
-                          <td>{record.qualityGrade}</td>
-                          <td>{record.lossPct}</td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan="6">No dataset records loaded yet.</td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </section>
-          </>
-        ) : null}
-
-        {activePage === "admin" ? (
-          <section className="admin-platform">
-            <div className="grid-two">
-              <article className="card">
-                <h3>System Role Management</h3>
-                <p className="dataset-note">As the System Admin, you can authorize stakeholders by assigning roles to their wallets.</p>
-                <form className="data-form top-gap" onSubmit={handleAssignRole}>
-                  <label>
-                    Target Wallet Address
-                    <input
-                      value={assignRoleUser}
-                      onChange={(event) => setAssignRoleUser(event.target.value)}
-                      placeholder="0x..."
-                      required
-                    />
-                  </label>
-                  <label>
-                    Stakeholder Role
-                    <select
-                      className="custom-select"
-                      value={assignRoleId}
-                      onChange={(event) => setAssignRoleId(Number(event.target.value))}
-                    >
-                      {ROLE_LABELS.map((label, index) =>
-                        index === 0 || index === 5 ? null : (
-                          <option key={label} value={index}>
-                            {label}
-                          </option>
-                        )
-                      )}
-                    </select>
-                  </label>
-                  <button className="btn primary" type="submit" disabled={isWorking || IS_PLACEHOLDER}>
-                    Authorize Stakeholder
-                  </button>
-                </form>
-              </article>
-
-              <article className="card">
-                <h3>Blockchain Simulation Controls</h3>
-                <p className="dataset-note">Use these controls to simulate supply chain activity for demonstration.</p>
-                <div className="status-grid top-gap">
-                   <button className="btn ghost" onClick={refreshNetworkData} disabled={isWorking}>
-                     Sync Network State
-                   </button>
-                   <button className="btn ghost" onClick={() => setMessage("Simulation mode active.")}>
-                     Export Ledger (JSON)
-                   </button>
-                </div>
-                <div className="info-box top-gap">
-                   <strong>Admin Address:</strong>
-                   <code>{contractAdmin}</code>
-                </div>
-              </article>
-            </div>
-          </section>
-        ) : null}
-
-        {activePage === "academic" ? (
-          <section className="academic-evaluation">
-            <div className="card academic-hero">
-              <h2>Academic Objectives Evaluation</h2>
-              <p>Mapping the system features to the Master's project requirements.</p>
-            </div>
-
-            <div className="objective-grid top-gap">
-              <article className="card objective-card">
-                <div className="obj-num">Obj (i) & (ii)</div>
-                <h4>Blockchain & Smart Contracts</h4>
-                <p>Ethereum smart contracts implemented in Solidity and simulated on Ganache ({ganacheChain.name}).</p>
-                <span className="tag ok">Verified On-Chain</span>
-              </article>
-
-              <article className="card objective-card">
-                <div className="obj-num">Obj (iii)</div>
-                <h4>Stakeholder Interaction</h4>
-                <p>Interactive dApp developed using React, Thirdweb, and MetaMask for secure identity management.</p>
-                <span className="tag ok">UI Operational</span>
-              </article>
-
-              <article className="card objective-card">
-                <div className="obj-num">Obj (iv)</div>
-                <h4>Dataset Processing</h4>
-                <p>Sourced cassava datasets preprocessed for system simulation. Total records: {datasetSummary?.totalRecords || 0}.</p>
-                <span className="tag ok">Data Integrated</span>
-              </article>
-
-              <article className="card objective-card">
-                <div className="obj-num">Obj (v)</div>
-                <h4>Performance Evaluation</h4>
-                <p>Traceability: {traceabilityCoverage}% | Integrity: {integrityScore}% | Efficiency: {efficiencyScore}%.</p>
-                <span className="tag ok">Metrics Calculated</span>
-              </article>
-            </div>
-
-            <article className="card top-gap">
-               <h3>Objective (vi): Addressing Supply Chain Challenges</h3>
-               <div className="challenges-grid">
-                  <div className="challenge-item">
-                    <strong>Transparency</strong>
-                    <p>Blockchain provides a shared, immutable ledger that removes information silos between stakeholders.</p>
-                  </div>
-                  <div className="challenge-item">
-                    <strong>Traceability</strong>
-                    <p>Every cassava batch has a verifiable history (Blockchain Journey) accessible via Batch ID search.</p>
-                  </div>
-                  <div className="challenge-item">
-                    <strong>Security</strong>
-                    <p>Cryptographic wallet signatures (MetaMask) ensure only authorized owners can modify data.</p>
-                  </div>
-               </div>
-            </article>
-          </section>
-        ) : null}
-      </main>
-
-      {statusMessage ? <div className="toast">{statusMessage}</div> : null}
+      {statusMessage ? (
+        <div className="fixed bottom-4 right-4 z-[60] max-w-sm rounded-xl bg-primary-container px-4 py-3 text-sm text-white shadow-[0_16px_40px_rgba(13,40,29,0.28)]">
+          {statusMessage}
+        </div>
+      ) : null}
     </div>
   );
 }

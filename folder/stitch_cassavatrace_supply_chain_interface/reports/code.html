@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reports | CassavaTrace Blockchain Solutions</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Sora:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#d5e7d8",
+                    "surface-tint": "#496457",
+                    "primary-container": "#0d281d",
+                    "tertiary": "#000b2c",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#003ea7",
+                    "inverse-on-surface": "#e3f5e6",
+                    "on-secondary-container": "#007437",
+                    "surface-container-high": "#dbedde",
+                    "surface-dim": "#ccdfd0",
+                    "primary-fixed-dim": "#afcdbd",
+                    "on-tertiary-container": "#5784fc",
+                    "tertiary-fixed-dim": "#b4c5ff",
+                    "surface": "#ecfeef",
+                    "on-background": "#101f16",
+                    "primary": "#001109",
+                    "on-tertiary-fixed": "#00174b",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#dbe1ff",
+                    "surface-bright": "#ecfeef",
+                    "on-surface": "#101f16",
+                    "on-surface-variant": "#424844",
+                    "tertiary-container": "#001e5b",
+                    "secondary-container": "#8ff9a7",
+                    "on-secondary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "outline": "#727974",
+                    "secondary-fixed-dim": "#73dc8d",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#cbead8",
+                    "on-primary-container": "#749182",
+                    "secondary": "#006d33",
+                    "on-secondary-fixed": "#00210b",
+                    "on-primary-fixed-variant": "#324c40",
+                    "outline-variant": "#c2c8c2",
+                    "surface-container-low": "#e6f8e9",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container": "#e0f2e4",
+                    "background": "#ecfeef",
+                    "inverse-surface": "#24342a",
+                    "surface-container-highest": "#d5e7d8",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed": "#052016",
+                    "secondary-fixed": "#8ff9a7",
+                    "inverse-primary": "#afcdbd",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed-variant": "#005225"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xs": "8px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "grid-gutter": "20px",
+                    "container-margin": "40px",
+                    "base": "4px",
+                    "sm": "12px",
+                    "xl": "32px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "h2": ["Sora"],
+                    "h3": ["Sora"],
+                    "label-caps": ["Inter"],
+                    "status-tag": ["Inter"],
+                    "h1": ["Sora"],
+                    "body-md": ["Inter"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "h2": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "h3": ["24px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "status-tag": ["13px", {"lineHeight": "1", "fontWeight": "500"}],
+                    "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .chart-container {
+            background-image: linear-gradient(to bottom, transparent 95%, #d9efe0 95%);
+            background-size: 100% 40px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased">
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 left-0 w-full z-50 bg-white/90 dark:bg-emerald-950/90 backdrop-blur-md border-b border-emerald-100 dark:border-emerald-800 shadow-[0_4_20px_rgba(13,40,29,0.05)]">
+<div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+<div class="flex items-center gap-2 text-xl font-black text-emerald-900 dark:text-emerald-50">
+<span class="material-symbols-outlined text-secondary" data-icon="hub">hub</span>
+<span class="font-h2 text-[20px]">CassavaTrace</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-emerald-800/70 dark:text-emerald-200/70 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-body-sm" href="#">Dashboard</a>
+<a class="text-emerald-800/70 dark:text-emerald-200/70 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-body-sm" href="#">Traceability</a>
+<a class="text-emerald-600 dark:text-emerald-400 font-semibold border-b-2 border-emerald-600 pb-1 font-body-sm" href="#">Reports</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-emerald-50 dark:hover:bg-emerald-900/50 rounded-full transition-all" data-icon="account_balance_wallet">account_balance_wallet</button>
+<button class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-emerald-50 dark:hover:bg-emerald-900/50 rounded-full transition-all" data-icon="notifications">notifications</button>
+<button class="bg-primary-container text-on-primary px-4 py-2 rounded-lg font-body-sm font-semibold active:scale-95 transition-transform">Connect Wallet</button>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-20 max-w-7xl mx-auto px-6">
+<!-- Header Section -->
+<div class="mb-lg">
+<h1 class="font-h1 text-h1 text-on-surface">Analytics &amp; Insights</h1>
+<p class="font-body-md text-on-surface-variant mt-2">Comprehensive data performance and blockchain traceability audit logs.</p>
+</div>
+<!-- Section 1: Visual Analytics Bento -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-grid-gutter mb-lg">
+<!-- Left Card: Transaction Efficiency Chart -->
+<div class="lg:col-span-8 bg-surface-container-lowest p-lg rounded-xl shadow-[0_4_20px_rgba(13,40,29,0.05)] border border-outline-variant/30">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-h3 text-h3 text-on-surface">Transaction Efficiency</h3>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-on-tertiary-container"></span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Event Volume</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-on-tertiary-fixed-variant"></span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Transition Score</span>
+</div>
+</div>
+</div>
+<div class="relative h-[300px] chart-container flex items-end">
+<!-- Fake Chart Lines using SVG -->
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none" viewbox="0 0 1000 300">
+<!-- Transition Score Orange Line -->
+<path d="M0,250 L100,220 L200,240 L300,180 L400,190 L500,120 L600,140 L700,90 L800,100 L900,50 L1000,60" fill="none" stroke="#d3781f" stroke-linecap="round" stroke-width="3"></path>
+<!-- Event Volume Blue Line -->
+<path d="M0,280 L100,260 L200,200 L300,220 L400,150 L500,170 L600,110 L700,130 L800,70 L900,90 L1000,20" fill="none" stroke="#2f61d8" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<!-- Y-Axis Ticks -->
+<div class="absolute left-0 h-full flex flex-col justify-between text-[10px] text-outline py-2 -translate-x-full pr-2">
+<span>100%</span>
+<span>75%</span>
+<span>50%</span>
+<span>25%</span>
+<span>0%</span>
+</div>
+</div>
+<!-- X-Axis Labels -->
+<div class="flex justify-between mt-4 font-label-caps text-label-caps text-outline">
+<span>00:00</span>
+<span>04:00</span>
+<span>08:00</span>
+<span>12:00</span>
+<span>16:00</span>
+<span>20:00</span>
+<span>23:59</span>
+</div>
+</div>
+<!-- Right Card: Tracked Batches Status -->
+<div class="lg:col-span-4 bg-surface-container-lowest p-lg rounded-xl shadow-[0_4_20px_rgba(13,40,29,0.05)] border border-outline-variant/30">
+<h3 class="font-h3 text-h3 text-on-surface mb-lg">Batches by Status</h3>
+<div class="space-y-6">
+<!-- CREATED -->
+<div>
+<div class="flex justify-between mb-2">
+<span class="font-label-caps text-label-caps text-on-surface">CREATED</span>
+<span class="font-body-sm font-semibold">1,240</span>
+</div>
+<div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-on-secondary-container rounded-full" style="width: 85%"></div>
+</div>
+</div>
+<!-- PROCESSED -->
+<div>
+<div class="flex justify-between mb-2">
+<span class="font-label-caps text-label-caps text-on-surface">PROCESSED</span>
+<span class="font-body-sm font-semibold">982</span>
+</div>
+<div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-on-secondary-container rounded-full" style="width: 62%"></div>
+</div>
+</div>
+<!-- IN_TRANSIT -->
+<div>
+<div class="flex justify-between mb-2">
+<span class="font-label-caps text-label-caps text-on-surface">IN_TRANSIT</span>
+<span class="font-body-sm font-semibold">415</span>
+</div>
+<div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-on-tertiary-container rounded-full" style="width: 35%"></div>
+</div>
+</div>
+<!-- DELIVERED -->
+<div>
+<div class="flex justify-between mb-2">
+<span class="font-label-caps text-label-caps text-on-surface">DELIVERED</span>
+<span class="font-body-sm font-semibold">2,841</span>
+</div>
+<div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-on-secondary-container rounded-full" style="width: 92%"></div>
+</div>
+</div>
+</div>
+<div class="mt-lg pt-lg border-t border-surface-variant flex items-center justify-center">
+<button class="text-secondary font-body-sm font-semibold flex items-center gap-1 hover:underline">
+                        Download Full PDF Report
+                        <span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Section 3: Metric Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-grid-gutter mb-lg">
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0_4_20px_rgba(13,40,29,0.05)] border border-outline-variant/30 flex items-center gap-md">
+<div class="w-12 h-12 rounded-lg bg-secondary-container/30 flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="distance">distance</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">Traceability Coverage</p>
+<p class="font-h2 text-h3 text-on-surface">98.4%</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0_4_20px_rgba(13,40,29,0.05)] border border-outline-variant/30 flex items-center gap-md">
+<div class="w-12 h-12 rounded-lg bg-on-tertiary-container/10 flex items-center justify-center text-on-tertiary-container">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">Data Integrity Score</p>
+<p class="font-h2 text-h3 text-on-surface">99.9%</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0_4_20px_rgba(13,40,29,0.05)] border border-outline-variant/30 flex items-center gap-md">
+<div class="w-12 h-12 rounded-lg bg-surface-variant/30 flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" data-icon="speed">speed</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">Transaction Efficiency</p>
+<p class="font-h2 text-h3 text-on-surface">4.2s <span class="text-body-sm font-normal text-on-secondary-container">avg</span></p>
+</div>
+</div>
+</div>
+<!-- Section 2: Recent Blocks Table -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_4_20px_rgba(13,40,29,0.05)] border border-outline-variant/30 overflow-hidden">
+<div class="p-lg border-b border-outline-variant/30 flex justify-between items-center">
+<h3 class="font-h3 text-h3 text-on-surface">Data Integrity - Recent Blocks</h3>
+<div class="flex items-center gap-2 px-3 py-1 bg-surface-container rounded-lg border border-outline-variant/30">
+<span class="material-symbols-outlined text-sm text-outline" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm p-0 w-32" placeholder="Search hash..." type="text"/>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full border-collapse">
+<thead class="bg-surface-container text-on-surface-variant font-label-caps text-label-caps text-left">
+<tr>
+<th class="px-lg py-md">Block ID</th>
+<th class="px-lg py-md">Number</th>
+<th class="px-lg py-md">Event Type</th>
+<th class="px-lg py-md">Status</th>
+<th class="px-lg py-md">Transaction Hash</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20 font-body-sm text-on-surface">
+<tr class="hover:bg-emerald-50/30 transition-colors">
+<td class="px-lg py-md font-mono text-xs">#9B-4A2D</td>
+<td class="px-lg py-md">12,408,231</td>
+<td class="px-lg py-md">Batch Harvest Verified</td>
+<td class="px-lg py-md">
+<span class="bg-secondary-container text-on-secondary-container px-2 py-1 rounded-full font-status-tag text-status-tag flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle" data-weight="fill">check_circle</span>
+                                    Verified
+                                </span>
+</td>
+<td class="px-lg py-md">
+<div class="flex items-center gap-2 bg-surface-container px-2 py-1 rounded w-fit font-mono text-xs text-on-surface-variant">
+                                    0x72a...8f9c
+                                    <span class="material-symbols-outlined text-sm cursor-pointer hover:text-secondary" data-icon="content_copy">content_copy</span>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-emerald-50/30 transition-colors">
+<td class="px-lg py-md font-mono text-xs">#9B-4A2C</td>
+<td class="px-lg py-md">12,408,230</td>
+<td class="px-lg py-md">Transit Checkpoint</td>
+<td class="px-lg py-md">
+<span class="bg-surface-container text-on-secondary-container px-2 py-1 rounded-full font-status-tag text-status-tag flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle" data-weight="fill">check_circle</span>
+                                    Verified
+                                </span>
+</td>
+<td class="px-lg py-md">
+<div class="flex items-center gap-2 bg-surface-container px-2 py-1 rounded w-fit font-mono text-xs text-on-surface-variant">
+                                    0x41b...22d1
+                                    <span class="material-symbols-outlined text-sm cursor-pointer hover:text-secondary" data-icon="content_copy">content_copy</span>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-emerald-50/30 transition-colors">
+<td class="px-lg py-md font-mono text-xs">#9B-4A2B</td>
+<td class="px-lg py-md">12,408,229</td>
+<td class="px-lg py-md">Quality Inspection</td>
+<td class="px-lg py-md">
+<span class="bg-on-tertiary-fixed text-on-tertiary-container px-2 py-1 rounded-full font-status-tag text-status-tag flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]" data-icon="schedule" data-weight="fill">schedule</span>
+                                    Pending
+                                </span>
+</td>
+<td class="px-lg py-md">
+<div class="flex items-center gap-2 bg-surface-container px-2 py-1 rounded w-fit font-mono text-xs text-on-surface-variant">
+                                    0x9f1...cc33
+                                    <span class="material-symbols-outlined text-sm cursor-pointer hover:text-secondary" data-icon="content_copy">content_copy</span>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-emerald-50/30 transition-colors">
+<td class="px-lg py-md font-mono text-xs">#9B-4A2A</td>
+<td class="px-lg py-md">12,408,228</td>
+<td class="px-lg py-md">Package Sealing</td>
+<td class="px-lg py-md">
+<span class="bg-secondary-container text-on-secondary-container px-2 py-1 rounded-full font-status-tag text-status-tag flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle" data-weight="fill">check_circle</span>
+                                    Verified
+                                </span>
+</td>
+<td class="px-lg py-md">
+<div class="flex items-center gap-2 bg-surface-container px-2 py-1 rounded w-fit font-mono text-xs text-on-surface-variant">
+                                    0xde2...bb45
+                                    <span class="material-symbols-outlined text-sm cursor-pointer hover:text-secondary" data-icon="content_copy">content_copy</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-md bg-surface-container-low flex justify-center">
+<button class="font-body-sm font-semibold text-secondary hover:underline flex items-center gap-2">
+                    View All Blocks
+                    <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Footer Shell -->
+<footer class="w-full mt-auto bg-stone-50 dark:bg-emerald-950 border-t border-emerald-100 dark:border-emerald-800">
+<div class="max-w-7xl mx-auto py-12 px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex flex-col items-center md:items-start gap-2">
+<div class="text-lg font-bold text-emerald-900 dark:text-emerald-50 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="hub">hub</span>
+                    CassavaTrace
+                </div>
+<p class="text-sm font-normal text-emerald-800/60 dark:text-emerald-200/60 text-center md:text-left max-w-xs">
+                    Blockchain-powered supply chain visibility for sustainable cassava agriculture.
+                </p>
+</div>
+<div class="flex gap-8">
+<a class="text-sm font-normal text-emerald-800/60 dark:text-emerald-200/60 hover:text-emerald-600 dark:hover:text-emerald-400 underline decoration-2 underline-offset-4 transition-all" href="#">Privacy Policy</a>
+<a class="text-sm font-normal text-emerald-800/60 dark:text-emerald-200/60 hover:text-emerald-600 dark:hover:text-emerald-400 underline decoration-2 underline-offset-4 transition-all" href="#">Terms of Service</a>
+<a class="text-sm font-normal text-emerald-800/60 dark:text-emerald-200/60 hover:text-emerald-600 dark:hover:text-emerald-400 underline decoration-2 underline-offset-4 transition-all" href="#">Documentation</a>
+<a class="text-sm font-normal text-emerald-800/60 dark:text-emerald-200/60 hover:text-emerald-600 dark:hover:text-emerald-400 underline decoration-2 underline-offset-4 transition-all" href="#">Support</a>
+</div>
+<p class="text-sm font-normal text-emerald-800/60 dark:text-emerald-200/60">
+                © 2024 CassavaTrace Blockchain Solutions. All rights reserved.
+            </p>
+</div>
+</footer>
+</body></html>

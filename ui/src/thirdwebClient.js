@@ -10,7 +10,7 @@ export const ganacheChain = defineChain({
 const clientId = import.meta.env.VITE_THIRDWEB_CLIENT_ID;
 
 if (!clientId || clientId === "YOUR_THIRDWEB_CLIENT_ID") {
-  console.warn("⚠️ VITE_THIRDWEB_CLIENT_ID is not set. Get one from https://thirdweb.com/dashboard");
+  console.warn("VITE_THIRDWEB_CLIENT_ID is not set. Get one from https://thirdweb.com/dashboard");
 }
 
 export const client = createThirdwebClient({

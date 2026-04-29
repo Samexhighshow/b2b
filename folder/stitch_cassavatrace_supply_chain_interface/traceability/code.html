@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Sora:wght@500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#d5e7d8",
+                    "surface-tint": "#496457",
+                    "primary-container": "#0d281d",
+                    "tertiary": "#000b2c",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#003ea7",
+                    "inverse-on-surface": "#e3f5e6",
+                    "on-secondary-container": "#007437",
+                    "surface-container-high": "#dbedde",
+                    "surface-dim": "#ccdfd0",
+                    "primary-fixed-dim": "#afcdbd",
+                    "on-tertiary-container": "#5784fc",
+                    "tertiary-fixed-dim": "#b4c5ff",
+                    "surface": "#ecfeef",
+                    "on-background": "#101f16",
+                    "primary": "#001109",
+                    "on-tertiary-fixed": "#00174b",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#dbe1ff",
+                    "surface-bright": "#ecfeef",
+                    "on-surface": "#101f16",
+                    "on-surface-variant": "#424844",
+                    "tertiary-container": "#001e5b",
+                    "secondary-container": "#8ff9a7",
+                    "on-secondary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "outline": "#727974",
+                    "secondary-fixed-dim": "#73dc8d",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#cbead8",
+                    "on-primary-container": "#749182",
+                    "secondary": "#006d33",
+                    "on-secondary-fixed": "#00210b",
+                    "on-primary-fixed-variant": "#324c40",
+                    "outline-variant": "#c2c8c2",
+                    "surface-container-low": "#e6f8e9",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container": "#e0f2e4",
+                    "background": "#ecfeef",
+                    "inverse-surface": "#24342a",
+                    "surface-container-highest": "#d5e7d8",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed": "#052016",
+                    "secondary-fixed": "#8ff9a7",
+                    "inverse-primary": "#afcdbd",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed-variant": "#005225"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xs": "8px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "grid-gutter": "20px",
+                    "container-margin": "40px",
+                    "base": "4px",
+                    "sm": "12px",
+                    "xl": "32px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "h2": ["Sora"],
+                    "h3": ["Sora"],
+                    "label-caps": ["Inter"],
+                    "status-tag": ["Inter"],
+                    "h1": ["Sora"],
+                    "body-md": ["Inter"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "h2": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "h3": ["24px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "status-tag": ["13px", {"lineHeight": "1", "fontWeight": "500"}],
+                    "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .blockchain-hash {
+            font-family: 'Inter', monospace;
+            letter-spacing: -0.02em;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-surface-variant shadow-[0_4_20px_rgba(13,40,29,0.05)]">
+<div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+<div class="flex items-center gap-2 text-xl font-black text-on-surface">
+<span class="material-symbols-outlined text-secondary" data-icon="hub">hub</span>
+<span class="font-h3 text-on-surface">CassavaTrace</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">Dashboard</a>
+<a class="text-secondary font-semibold border-b-2 border-secondary pb-1 font-body-md" href="#">Traceability</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">Reports</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-all" data-icon="notifications">notifications</button>
+<button class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-all" data-icon="account_balance_wallet">account_balance_wallet</button>
+<button class="bg-primary-container text-on-primary px-lg py-xs rounded-lg font-body-sm active:scale-95 transition-transform">
+                    Connect Wallet
+                </button>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-12 max-w-7xl mx-auto px-6">
+<!-- Search Section -->
+<section class="mb-lg">
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0_4px_20px_rgba(13,40,29,0.05)] border border-surface-variant">
+<div class="flex flex-col md:flex-row gap-md items-center">
+<div class="relative flex-grow w-full">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline" data-icon="qr_code_scanner">qr_code_scanner</span>
+<input class="w-full pl-12 pr-4 py-3 bg-white border-1.5 border-surface-variant rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary outline-none transition-all font-body-md" placeholder="Enter batch ID (e.g. CAS-2024-0812)" type="text"/>
+</div>
+<button class="w-full md:w-auto px-xl py-3 bg-secondary text-white rounded-lg font-body-md font-semibold hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+                        Search Trace
+                    </button>
+</div>
+</div>
+</section>
+<!-- Batch Details Section -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-grid-gutter">
+<!-- Left Sub-card: Batch Overview -->
+<div class="lg:col-span-5 flex flex-col gap-grid-gutter">
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0_4px_20px_rgba(13,40,29,0.05)] border border-surface-variant">
+<div class="flex justify-between items-start mb-lg">
+<div>
+<h2 class="font-h3 text-on-surface">Batch Overview</h2>
+<p class="text-on-surface-variant text-body-sm">Detailed crop telemetry data</p>
+</div>
+<span class="bg-[#d9efe0] text-[#2f9b54] px-3 py-1 rounded-full text-status-tag flex items-center gap-1 font-status-tag">
+<span class="material-symbols-outlined text-[16px]" data-icon="verified" data-weight="fill" style="font-variation-settings: 'FILL' 1;">verified</span>
+                            Verified
+                        </span>
+</div>
+<div class="space-y-md">
+<div class="flex justify-between items-center py-2 border-b border-surface-variant">
+<span class="text-on-surface-variant text-body-sm font-medium">Batch ID</span>
+<span class="text-on-surface font-semibold blockchain-hash">CAS-2024-0812</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-surface-variant">
+<span class="text-on-surface-variant text-body-sm font-medium">Origin</span>
+<span class="text-on-surface text-body-sm">Ibadan Green Farms, NG</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-surface-variant">
+<span class="text-on-surface-variant text-body-sm font-medium">Quantity</span>
+<span class="text-on-surface text-body-sm">2,500 KG</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-surface-variant">
+<span class="text-on-surface-variant text-body-sm font-medium">Current Owner</span>
+<span class="text-on-surface text-body-sm">Logistics Partner A</span>
+</div>
+<div class="flex justify-between items-center py-2">
+<span class="text-on-surface-variant text-body-sm font-medium">Created Date</span>
+<span class="text-on-surface text-body-sm">Aug 12, 2024</span>
+</div>
+</div>
+<div class="mt-xl">
+<div class="flex justify-between items-end mb-xs">
+<span class="font-label-caps text-on-surface-variant text-label-caps">TRACEABILITY PROGRESS</span>
+<span class="font-h3 text-secondary text-body-md">60%</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-2">
+<div class="bg-secondary h-2 rounded-full" style="width: 60%"></div>
+</div>
+<p class="mt-xs text-body-sm text-on-surface-variant italic">Currently in distribution transit.</p>
+</div>
+</div>
+<!-- Featured Image -->
+<div class="rounded-xl overflow-hidden h-48 relative group border border-surface-variant">
+<img alt="Cassava field" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Close-up of vibrant green cassava plants in a sunny field with rich brown soil and soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPAr35bigA9CkpD15RIuR6ah1j4vBO9-p36_rpj_CjEhQSkkEYkDSp9Gn_Av9D6uCcswuIcGdSajHHDr-s5pI9gfmMri96Tl_kW--1kbur4u5I_PHr4a1c5P9-NhZLOcset9hKI0U5YDUnIWwUEVKIRDB4T6h_0RkmYQg3blxVnMgr5dJwLzg9YjkCeXUVqpqE5pDiKFb39uTFgYx_OHEdmjp7Trcos9iS1FnPnbLroikWQQdxjiN1xeEPZOi0QHGgzLGM7gnXZrtK"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/80 to-transparent flex items-end p-md">
+<div class="text-white">
+<p class="font-h3 text-body-md">Harvest Site Alpha</p>
+<p class="text-body-sm opacity-80">Certified Organic Soil</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Sub-card: Blockchain Journey -->
+<div class="lg:col-span-7">
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0_4px_20px_rgba(13,40,29,0.05)] border border-surface-variant h-full">
+<div class="flex justify-between items-center mb-lg">
+<h2 class="font-h3 text-on-surface">Blockchain Journey</h2>
+<button class="text-secondary hover:underline flex items-center gap-1 text-body-sm font-medium">
+                            View on Explorer
+                            <span class="material-symbols-outlined text-[18px]" data-icon="open_in_new">open_in_new</span>
+</button>
+</div>
+<div class="relative pl-8 space-y-xl">
+<!-- Timeline Line -->
+<div class="absolute left-[11px] top-2 bottom-2 w-[2px] bg-surface-variant"></div>
+<!-- Event 1: Ownership Transferred -->
+<div class="relative">
+<div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-secondary ring-4 ring-surface-container"></div>
+<div class="flex flex-col gap-xs">
+<div class="flex justify-between items-start">
+<span class="text-secondary font-h3 text-body-md">OwnershipTransferred</span>
+<span class="text-on-surface-variant text-body-sm">2 hours ago</span>
+</div>
+<div class="flex gap-2 mb-2">
+<span class="bg-surface-variant text-on-surface-variant px-2 py-0.5 rounded text-status-tag font-status-tag">Block #18,429,102</span>
+<span class="bg-[#d9efe0] text-[#2f9b54] px-2 py-0.5 rounded text-status-tag font-status-tag">Finalized</span>
+</div>
+<div class="bg-surface-container-low p-md rounded-lg border border-surface-variant flex justify-between items-center">
+<div class="flex flex-col">
+<span class="text-label-caps text-on-surface-variant font-label-caps mb-1">TRANSACTION HASH</span>
+<span class="blockchain-hash text-on-surface text-body-sm truncate max-w-[250px]">0x71C765...d8976F</span>
+</div>
+<button class="material-symbols-outlined text-outline hover:text-secondary p-1" data-icon="content_copy">content_copy</button>
+</div>
+</div>
+</div>
+<!-- Event 2: Status Updated -->
+<div class="relative">
+<div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-secondary ring-4 ring-surface-container"></div>
+<div class="flex flex-col gap-xs">
+<div class="flex justify-between items-start">
+<span class="text-on-surface font-h3 text-body-md">StatusUpdated</span>
+<span class="text-on-surface-variant text-body-sm">Aug 13, 14:20</span>
+</div>
+<div class="flex gap-2 mb-2">
+<span class="bg-surface-variant text-on-surface-variant px-2 py-0.5 rounded text-status-tag font-status-tag">Block #18,428,950</span>
+<span class="bg-[#fdf3e7] text-[#d3781f] px-2 py-0.5 rounded text-status-tag font-status-tag font-status-tag">In-Transit</span>
+</div>
+<div class="bg-surface-container-low p-md rounded-lg border border-surface-variant flex justify-between items-center">
+<div class="flex flex-col">
+<span class="text-label-caps text-on-surface-variant font-label-caps mb-1">TRANSACTION HASH</span>
+<span class="blockchain-hash text-on-surface text-body-sm">0x4a8b23...e12c44</span>
+</div>
+<button class="material-symbols-outlined text-outline hover:text-secondary p-1" data-icon="content_copy">content_copy</button>
+</div>
+</div>
+</div>
+<!-- Event 3: Batch Created -->
+<div class="relative">
+<div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-secondary/50 ring-4 ring-surface-container"></div>
+<div class="flex flex-col gap-xs opacity-80">
+<div class="flex justify-between items-start">
+<span class="text-on-surface font-h3 text-body-md">BatchCreated</span>
+<span class="text-on-surface-variant text-body-sm">Aug 12, 09:00</span>
+</div>
+<div class="flex gap-2 mb-2">
+<span class="bg-surface-variant text-on-surface-variant px-2 py-0.5 rounded text-status-tag font-status-tag">Block #18,427,210</span>
+<span class="bg-[#d9efe0] text-[#2f9b54] px-2 py-0.5 rounded text-status-tag font-status-tag font-status-tag">Genesis</span>
+</div>
+<div class="bg-surface-container-low p-md rounded-lg border border-surface-variant flex justify-between items-center">
+<div class="flex flex-col">
+<span class="text-label-caps text-on-surface-variant font-label-caps mb-1">TRANSACTION HASH</span>
+<span class="blockchain-hash text-on-surface text-body-sm">0x9e3f11...f0023a</span>
+</div>
+<button class="material-symbols-outlined text-outline hover:text-secondary p-1" data-icon="content_copy">content_copy</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-auto bg-stone-50 border-t border-surface-variant">
+<div class="max-w-7xl mx-auto py-12 px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex flex-col gap-2">
+<div class="text-lg font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="eco">eco</span>
+                    CassavaTrace
+                </div>
+<p class="text-on-surface-variant text-body-sm">© 2024 CassavaTrace Blockchain Solutions. All rights reserved.</p>
+</div>
+<div class="flex gap-8">
+<a class="text-on-surface-variant hover:text-secondary text-body-sm transition-all" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-secondary text-body-sm transition-all" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-secondary text-body-sm transition-all" href="#">Documentation</a>
+<a class="text-on-surface-variant hover:text-secondary text-body-sm transition-all" href="#">Support</a>
+</div>
+</div>
+</footer>
+</body></html>

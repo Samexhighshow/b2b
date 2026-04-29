@@ -63,6 +63,24 @@ contract CassavaSupplyChain {
         _;
     }
 
+    function _roleForStatus(Status status) internal pure returns (Role) {
+        if (status == Status.PROCESSED) {
+            return Role.PROCESSOR;
+        }
+        if (status == Status.IN_TRANSIT) {
+            return Role.DISTRIBUTOR;
+        }
+        if (status == Status.DELIVERED) {
+            return Role.RETAILER;
+        }
+        return Role.FARMER;
+    }
+
+    function _nextCustodianRole(Status currentStatus) internal pure returns (Role) {
+        require(currentStatus != Status.DELIVERED, "Transfer not allowed after delivery");
+        return _roleForStatus(Status(uint8(currentStatus) + 1));
+    }
+
     function assignRole(address user, Role role) external onlyAdmin {
         require(user != address(0), "Invalid user");
         require(role != Role.NONE, "Invalid role");
@@ -98,8 +116,16 @@ contract CassavaSupplyChain {
         address newOwner
     ) external batchExists(batchId) onlyOwner(batchId) {
         require(newOwner != address(0), "Invalid new owner");
-        address previousOwner = batches[batchId].currentOwner;
-        batches[batchId].currentOwner = newOwner;
+        Batch storage batch = batches[batchId];
+        Role ownerRole = roles[msg.sender];
+        Role requiredOwnerRole = _roleForStatus(batch.status);
+        Role requiredNewOwnerRole = _nextCustodianRole(batch.status);
+
+        require(ownerRole == requiredOwnerRole, "Owner role mismatch for stage");
+        require(roles[newOwner] == requiredNewOwnerRole, "Transfer requires next stakeholder role");
+
+        address previousOwner = batch.currentOwner;
+        batch.currentOwner = newOwner;
         emit OwnershipTransferred(batchId, previousOwner, newOwner);
     }
 
@@ -107,7 +133,14 @@ contract CassavaSupplyChain {
         uint256 batchId,
         Status newStatus
     ) external batchExists(batchId) onlyOwner(batchId) {
-        batches[batchId].status = newStatus;
+        Batch storage batch = batches[batchId];
+
+        require(newStatus != Status.CREATED, "Status cannot reset to CREATED");
+        require(batch.status != Status.DELIVERED, "Status already final");
+        require(uint8(newStatus) == uint8(batch.status) + 1, "Status must advance one step");
+        require(roles[msg.sender] == _roleForStatus(newStatus), "Status update role mismatch");
+
+        batch.status = newStatus;
         emit StatusUpdated(batchId, newStatus);
     }
 

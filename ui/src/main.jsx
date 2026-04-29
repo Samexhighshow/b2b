@@ -2,7 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { ThirdwebProvider } from "thirdweb/react";
 import App from "./App.jsx";
-import "./styles.css";
+import "./index.css";
 import { client, ganacheChain } from "./thirdwebClient.js";
 
 class ErrorBoundary extends React.Component {
@@ -23,14 +23,23 @@ class ErrorBoundary extends React.Component {
     if (this.state.hasError) {
       return (
         <div style={{ padding: "40px", textAlign: "center", fontFamily: "sans-serif" }}>
-          <h2>⚠️ Error Loading App</h2>
-          <pre style={{ background: "#f0f0f0", padding: "16px", borderRadius: "8px", textAlign: "left", overflow: "auto" }}>
+          <h2>Error Loading App</h2>
+          <pre
+            style={{
+              background: "#f0f0f0",
+              padding: "16px",
+              borderRadius: "8px",
+              textAlign: "left",
+              overflow: "auto",
+            }}
+          >
             {this.state.error?.toString()}
           </pre>
           <p>Check browser console for more details.</p>
         </div>
       );
     }
+
     return this.props.children;
   }
 }
